@@ -1,0 +1,9 @@
+<page name="users" label="Beheerders" section="99">
+	<object name="user" label="Beheerder" order="firstname,lastname" format="[firstname] [lastname]">
+		<string name="firstname" label="Voornaam" length="150"/>
+		<string name="lastname" label="Achternaam" length="150"/>
+		<email name="email" label="E-mail adres" required="required" unique="unique" identifier="identifier"/>
+		<password name="password" label="Wachtwoord" length="150" required="required"/>
+		<string name="password_code" length="25" hidden="true"/>
+	</object>
+</page>

@@ -1,0 +1,752 @@
+<object name="city">
+	<string name="code" label="Postcode" length="5"/>
+	<string name="name" label="Naam" length="150"/>
+	<number name="population" length="10"/>
+	<string name="searchkey" length="150"/>
+</object>
+
+<page name="skarabee" label="Panden" section="1">
+	<object name="property" creation_disabled="true" delete_disabled="true" editing_disabled="true" label="Pand" model="skarabeeproperty">
+		
+		<number name="software_id" length="10" summary="false" hidden="true" index="index"/>
+		<number name="publication_id" length="10" summary="false" hidden="true"/>
+		<date name="create_date" hidden="true" index="index"/>
+		<date name="update_date" hidden="true" index="index"/>
+		
+		<choice name="type" hidden="true" allownull="true" index="index">
+			<option value="1">Pand</option>
+			<option value="2">Grond</option>
+			<option value="3">Project</option>
+			<option value="4">Model</option>
+		</choice>
+		<choice name="category" hidden="true" allownull="true" index="index">
+			<option value="1">Huis</option>
+			<option value="2">Appartement</option>
+			<option value="3">Grond</option>
+			<option value="4">Service flat</option>
+			<option value="5">Kamer</option>
+			<option value="6">Parking</option>
+			<option value="7">Andere</option>
+			<option value="8">Horeca</option>
+			<option value="9">Kantoor</option>
+			<option value="10">Industrie</option>
+			<option value="11">Winkel</option>
+			<option value="12">Andere (pro)</option>
+			<option value="13">Grond (pro)</option>
+		</choice>
+		<number name="subcategory_id" hidden="true"/>
+		<string name="subcategory" label="Categorie" translatable="true" length="25"/>
+		<string name="subcategory_slug" hidden="true" translatable="true" length="25" index="index"/>
+		<string name="slug" hidden="true" translatable="true" index="index" length="70"/>
+		<string name="style" hidden="true" translatable="true" length="25"/>
+		<choice name="purpose" hidden="true" index="index">
+			<option value="1">Te koop</option>
+			<option value="2">Te huur</option>
+			<option value="3">In management</option>
+		</choice>
+		<choice name="purpose_status" hidden="true" index="index">
+			<option value="1">Te koop/te huur</option>
+			<option value="2">Verkocht/verhuurd</option>
+			<option value="3">In optie</option>
+			<option value="4">Prospect</option>
+			<option value="5">In management</option>
+		</choice>
+		<choice name="rent_type" hidden="true" allownull="true">
+			<option value="1">Burgerlijk</option>
+			<option value="2">Commercieel</option>
+			<option value="3">Woonplaats</option>
+			<option value="4">Hoofdverblijf</option>
+			<option value="5">Professioneel</option>
+		</choice>
+		<choice name="rent_time" hidden="true" allownull="true">
+			<option value="1">Eén jaar</option>
+			<option value="2">Twee jaar</option>
+			<option value="3">Drie jaar</option>
+			<option value="4">Zes jaar</option>
+			<option value="5">Negen jaar</option>
+			<option value="6">Levenslang</option>
+			<option value="7">Renovatie</option>
+		</choice>
+		<bool name="rent_temporary" hidden="true" allownull="true"/>
+		<choice name="payment_period" hidden="true" allownull="true">
+			<option value="1">Maandelijks</option>
+			<option value="2">Trimestrieel</option>
+		</choice>
+		<choice name="payment_type" hidden="true" allownull="true">
+			<option value="1">Achteraf</option>
+			<option value="2">Op voorhand</option>
+		</choice>
+		<bool name="sold" hidden="true" index="index"/>
+		<bool name="to_take_over" hidden="true" allownull="true"/>
+		<bool name="investment" hidden="true" allownull="true"/>
+		<bool name="exclusive" hidden="true"/>
+		<choice name="availability" hidden="true" allownull="true">
+			<option value="1">Onmiddelijk</option>
+			<option value="2">Bij akte</option>
+			<option value="3">Overeen te komen</option>
+			<option value="4">Op datum</option>
+		</choice>
+		<date name="availability_date" hidden="true" allownull="true"/>
+		<bool name="service_charges_included" hidden="true" allownull="true"/>
+		
+		<string name="flash1_title" length="120" translatable="true" hidden="true"/>
+		<text name="flash1_content" translatable="true" hidden="true"/>
+		<string name="flash2_title" length="120" translatable="true" hidden="true"/>
+		<text name="flash2_content" translatable="true" hidden="true"/>
+		<string name="flash3_title" length="120" translatable="true" hidden="true"/>
+		<text name="flash3_content" translatable="true" hidden="true"/>
+		<string name="flash4_title" length="120" translatable="true" hidden="true"/>
+		<text name="flash4_content" translatable="true" hidden="true"/>
+		<string name="flash5_title" length="120" translatable="true" hidden="true"/>
+		<text name="flash5_content" translatable="true" hidden="true"/>
+		<number name="selected_flash" hidden="true"/>
+		
+		<bool name="show_price" hidden="true"/>
+		<price name="price" label="Prijs"/>
+		<choice name="price_type" hidden="true">
+			<option value="1">Aankoopprijs</option>
+			<option value="2">Per maand</option>
+			<option value="3">Per jaar</option>
+			<option value="4">Per m2</option>
+			<option value="5">Per m2 per maand</option>
+			<option value="6">Per m2 per jaar</option>
+		</choice>
+		<choice name="price_indication" hidden="true" allownull="true">
+			<option value="1">Vraagprijs</option>
+			<option value="2">Aankoopprijs</option>
+			<option value="3">Bespreekbaar</option>
+			<option value="4">Op aanvraag</option>
+		</choice>
+		<bool name="vat_included" hidden="true" allownull="true"/>
+		<price name="charges" label="Lasten" allownull="true" hidden="true"/>
+		<price name="communal_expenses" label="Gemeenschappelijke kosten" allownull="true" hidden="true"/>
+		<price name="heating_water_costs" label="Verwarming/water kosten" allownull="true" hidden="true"/>
+		<price name="heating_costs" label="Verwarming kosten" allownull="true" hidden="true"/>
+		<price name="garage_costs" label="Garage kosten" allownull="true" hidden="true"/>
+		
+		<bool name="show_address" hidden="true"/>
+		<bool name="show_number" hidden="true"/>
+		<string name="reference" length="75" label="Referentie"/>
+		<string name="address_name" length="120" label="Naam" hidden="true"/>
+		<string name="address" length="70" label="Adres" summary="false"/>
+		<string name="postal" length="10" label="Postcode" summary="false"/>
+		<string name="city" length="50" label="Gemeente"/>
+		<string name="country" length="2" hidden="true"/>
+		<float name="coord_lat" summary="false" hidden="true" allownull="allownull"/>
+		<float name="coord_lon" summary="false" hidden="true" allownull="allownull"/>
+		<bool name="nearby_public_transport" hidden="true" allownull="allownull"/>
+		<bool name="nearby_shops" hidden="true" allownull="allownull"/>
+		<bool name="nearby_school" hidden="true" allownull="allownull"/>
+		<bool name="nearby_highway" hidden="true" allownull="allownull"/>
+		<choice name="shop_location" hidden="true" allownull="allownull">
+			<option value="1">Shopping center</option>
+			<option value="2">Gallerij</option>
+			<option value="3">Winkelstraat</option>
+			<option value="4">Andere</option>
+		</choice>
+		
+		<number name="surface" hidden="true" allownull="true"/>
+		<number name="surface_terrain" hidden="true" allownull="true"/>
+		<float name="surface_livable" hidden="true" allownull="true"/>
+		<float name="surface_buildable" hidden="true" allownull="true"/>
+		<float name="surface_terrace" hidden="true" allownull="true"/>
+		<float name="surface_garden" hidden="true" allownull="true"/>
+		<float name="surface_balcony" hidden="true" allownull="true"/>
+		<number name="construction_year" hidden="true" allownull="true"/>
+		<number name="renovation_year" hidden="true" allownull="true"/>
+		<bool name="newly_constructed" hidden="true" allownull="true"/>
+		<bool name="under_construction" hidden="true" allownull="true"/>
+		<bool name="in_production" hidden="true" allownull="true"/>
+		<choice name="state" hidden="true" allownull="true">
+			<option value="1">Normaal</option>
+			<option value="2">Af te breken</option>
+			<option value="3">Op te frissen</option>
+			<option value="4">Te renoveren</option>
+			<option value="5">Instapklaar</option>
+			<option value="6">Luxueus afgewerkt</option>
+		</choice>
+		<float name="terrain_width" hidden="true" allownull="true"/>
+		<float name="terrain_depth" hidden="true" allownull="true"/>
+		<float name="terrain_width_front" hidden="true" allownull="true"/>
+		<number name="floor_number" hidden="true" allownull="true"/>
+		<number name="floors" hidden="true" allownull="true"/>
+		<number name="parkings" hidden="true" allownull="true"/>
+		<bool name="has_parking" hidden="true" allownull="true"/>
+		<bool name="has_garden" hidden="true" allownull="true"/>
+		<bool name="has_balcony" hidden="true" allownull="true"/>
+		<float name="garden_width" hidden="true" allownull="true"/>
+		<float name="garden_depth" hidden="true" allownull="true"/>
+		<choice name="garden_quality" hidden="true" allownull="true">
+			<option value="1">Normaal</option>
+			<option value="2">Onderhouden</option>
+			<option value="3">Verwaarloosd</option>
+			<option value="4">Aangelegd</option>
+			<option value="5">Mooi aangelegd</option>
+			<option value="6">Aan te leggen</option>
+		</choice>
+		<choice name="roof_type" hidden="true" allownull="true">
+			<option value="1">Composiet</option>
+			<option value="2">Gekruisd puntdak</option>
+			<option value="3">Koepeldak</option>
+			<option value="4">Plat betonnen dak</option>
+			<option value="5">Plat dakleer dak</option>
+			<option value="6">Plat dak</option>
+			<option value="7">Plat houten dak</option>
+			<option value="8">Hellend dak</option>
+			<option value="9">Mansardedak</option>
+			<option value="10">Zadeldak</option>
+			<option value="11">Schilddak</option>
+			<option value="12">Tentdak</option>
+		</choice>
+		<choice name="roof_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<text name="roof_comment" hidden="true"/>
+		<choice name="roof_cover" hidden="true" allownull="true">
+			<option value="1">Beton</option>
+			<option value="2">Dakterras</option>
+			<option value="3">Industriele dakpannen</option>
+			<option value="4">Andere</option>
+			<option value="5">Metaalplaten</option>
+			<option value="6">Leien</option>
+			<option value="7">Stubble?</option>
+			<option value="8">Dakpannen</option>
+			<option value="9">Terra cotta dakpannen</option>
+			<option value="10">Zink</option>
+		</choice>
+		<choice name="roof_cover_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<text name="roof_cover_comment" length="250" hidden="true"/>
+		<choice name="window_type" hidden="true" allownull="true">
+			<option value="1">Aluminium</option>
+			<option value="2">PVC</option>
+			<option value="3">Hout</option>
+			<option value="4">Andere</option>
+		</choice>
+		<choice name="window_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<text name="window_comment" length="250" hidden="true"/>
+		<choice name="glazing_type" hidden="true" allownull="true" multiple="true">
+			<option value="1">Dubbel glas</option>
+			<option value="2">Deels dubbel glas</option>
+			<option value="3">Enkel glas</option>
+			<option value="4">Voorzetramen</option>
+			<option value="5">Andere</option>
+		</choice>
+		<choice name="glazing_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<text name="glazing_comment" length="250" hidden="true"/>
+		<choice name="electricity_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<text name="electricity_comment" hidden="true"/>
+		<choice name="plumbing_type" hidden="true" allownull="true" multiple="true">
+			<option value="1">Boiler</option>
+			<option value="2">Huurboiler</option>
+			<option value="3">Centrale verwarming</option>
+			<option value="4">Elektrische boiler</option>
+			<option value="5">Elektrische huurboiler</option>
+			<option value="6">Elektrisch</option>
+			<option value="7">Geiser</option>
+			<option value="8">Huurgeiser</option>
+			<option value="9">Stookolie</option>
+			<option value="10">Aardgas</option>
+			<option value="11">Zonneboiler</option>
+			<option value="12">Zonnecollector</option>
+			<option value="13">Andere</option>
+			<option value="14">Geen</option>
+		</choice>
+		<choice name="plumbing_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<text name="plumbing_comment" hidden="true"/>
+		<choice name="sanitary_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<text name="sanitary_comment" hidden="true"/>
+		<bool name="modification_allowed" hidden="true" allownull="true"/>
+		<number name="common_walls" hidden="true" allownull="true"/>
+		<choice name="orientation" hidden="true" allownull="true">
+			<option value="1">Oost</option>
+			<option value="2">Zuid-oost</option>
+			<option value="3">Zuid</option>
+			<option value="4">Zuid-west</option>
+			<option value="5">West</option>
+			<option value="6">Noord-west</option>
+			<option value="7">Noord</option>
+			<option value="8">Noord-oost</option>
+		</choice>
+		<choice name="maintenance_inside" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Voldoende</option>
+			<option value="3">Normaal</option>
+			<option value="4">Goed</option>
+			<option value="5">Uitstekend</option>
+		</choice>
+		<choice name="maintenance_outside" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Voldoende</option>
+			<option value="3">Normaal</option>
+			<option value="4">Goed</option>
+			<option value="5">Uitstekend</option>
+		</choice>
+		<choice name="construction_type" hidden="true" allownull="true">
+			<option value="1">Betonblokken</option>
+			<option value="2">Baksteen</option>
+			<option value="3">Beton</option>
+			<option value="4">Grinding?</option>
+			<option value="5">Hone of size?</option>
+			<option value="6">Prefab</option>
+			<option value="7">Steen</option>
+			<option value="8">Traditionele bouw</option>
+			<option value="9">Hout</option>
+			<option value="10">Houtskelet</option>
+			<option value="11">Andere</option>
+		</choice>
+		<choice name="construction_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<choice name="frontage_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<choice name="frontage_type" hidden="true" allownull="true">
+			<option value="1">Baksteen</option>
+			<option value="2">Coating?</option>
+			<option value="3">Cob?</option>
+			<option value="4">Grinding?</option>
+			<option value="5">Half timbering?</option>
+			<option value="6">Hone of size?</option>
+			<option value="7">Hout</option>
+		</choice>
+		
+		<number name="rooms" label="Kamers" hidden="true" allownull="true"/>
+		<number name="bedrooms" label="Slaapkamers" hidden="true" allownull="true"/>
+		<number name="bathrooms" hidden="true" allownull="true"/>
+		<number name="offices" hidden="true" allownull="true"/>
+		<number name="garages" hidden="true" allownull="true"/>
+		<number name="garage_size" hidden="true" allownull="true"/>
+		<number name="toilets" hidden="true" allownull="true"/>
+		<bool name="has_garage" hidden="true" allownull="true"/>
+		<bool name="has_terrace" hidden="true" allownull="true"/>
+		<bool name="has_cellar" hidden="true" allownull="true"/>
+		<bool name="has_attic" hidden="true" allownull="true"/>
+		<bool name="has_showroom" hidden="true" allownull="true"/>
+		<bool name="has_office" hidden="true" allownull="true"/>
+		<bool name="has_greenhouse" hidden="true" allownull="true"/>
+		<bool name="has_profession_room" hidden="true" allownull="true"/>
+		<bool name="has_living" hidden="true" allownull="true"/>
+		<bool name="has_kitchen" hidden="true" allownull="true"/>
+		<bool name="has_utility_room" hidden="true" allownull="true"/>
+		<bool name="has_bedrooms" hidden="true" allownull="true"/>
+		<bool name="has_bathroom" hidden="true" allownull="true"/>
+		<bool name="has_toilet" hidden="true" allownull="true"/>
+		<bool name="has_storage" hidden="true" allownull="true"/>
+		<bool name="has_wash_place" hidden="true" allownull="true"/>
+		<bool name="has_dinging_room" hidden="true" allownull="true"/>
+		<float name="surface_kitchen" hidden="true" allownull="true"/>
+		<float name="surface_living" hidden="true" allownull="true"/>
+		<float name="surface_storage" hidden="true" allownull="true"/>
+		<float name="surface_utility_room" hidden="true" allownull="true"/>
+		<float name="surface_showroom" hidden="true" allownull="true"/>
+		<float name="surface_profession_room" hidden="true" allownull="true"/>
+		<float name="surface_attic" hidden="true" allownull="true"/>
+		<float name="surface_cellar" hidden="true" allownull="true"/>
+		<float name="surface_dining_room" hidden="true" allownull="true"/>
+		<float name="surface_cantine" hidden="true" allownull="true"/>
+		<float name="surface_horeca" hidden="true" allownull="true"/>
+		<float name="surface_industry" hidden="true" allownull="true"/>
+		<float name="surface_industry_land" hidden="true" allownull="true"/>
+		<float name="surface_industry_office" hidden="true" allownull="true"/>
+		<float name="surface_industry_hall" hidden="true" allownull="true"/>
+		<float name="surface_office" hidden="true" allownull="true"/>
+		<float name="surface_production" hidden="true" allownull="true"/>
+		<float name="surface_rentable" hidden="true" allownull="true"/>
+		<float name="surface_sales_room" hidden="true" allownull="true"/>
+		<float name="surface_shop" hidden="true" allownull="true"/>
+		<choice name="living_type" hidden="true" allownull="true">
+			<option value="1">L-vormig</option>
+			<option value="2">T-vormig</option>
+			<option value="3">U-vormig</option>
+			<option value="4">Z-vormig</option>
+			<option value="5">Tuinkamer</option>
+			<option value="6">Serre</option>
+			<option value="7">Zonrijk</option>
+		</choice>
+		<choice name="garage_type" hidden="true" allownull="true">
+			<option value="1">Kelder</option>
+			<option value="2">Carport</option>
+			<option value="3">Lift toegang</option>
+			<option value="4">Garage mogelijk</option>
+			<option value="5">Garagebox</option>
+			<option value="6">Gelijkvloers</option>
+			<option value="7">Ingebouwd</option>
+			<option value="8">Binnen</option>
+			<option value="9">Buiten</option>
+			<option value="10">Parkeerplaats</option>
+			<option value="11">Ondergronds</option>
+			<option value="12">Vrijstaand (steen)</option>
+			<option value="13">Vrijstaand (hout)</option>
+			<option value="14">Bijgebouw (hout)</option>
+			<option value="15">Bijgebouw (steen)</option>
+		</choice>
+		<choice name="profession_room_type" hidden="true" allownull="true">
+			<option value="1">Verbonden</option>
+			<option value="2">Vrijstaand</option>
+			<option value="3">Ingebouwd</option>
+			<option value="4">Mogelijk</option>
+		</choice>
+		<choice name="office_type" hidden="true" allownull="true">
+			<option value="1">Verbonden</option>
+			<option value="2">Vrijstaand</option>
+			<option value="3">Ingebouwd</option>
+			<option value="4">Mogelijk</option>
+		</choice>
+		<choice name="storage_type" hidden="true" allownull="true">
+			<option value="1">Box</option>
+			<option value="2">Vrijstaand (steen)</option>
+			<option value="3">Vrijstaand (hout)</option>
+			<option value="4">Binnenhuis</option>
+			<option value="5">Aangebouwd (steen)</option>
+			<option value="6">Aangebouwd (hout)</option>
+			<option value="7">Patio bungalow</option>
+			<option value="8">Semi-bungalow</option>
+		</choice>
+		<choice name="kitchen_type" hidden="true" allownull="true">
+			<option value="1">Amerikaans</option>
+			<option value="2">Uitgerust</option>
+			<option value="3">Gesloten keuken</option>
+			<option value="4">Kitchenette</option>
+			<option value="5">Grote keuken</option>
+			<option value="6">Open keuken</option>
+			<option value="7">Semi-open keuken</option>
+		</choice>
+		<choice name="cellar_type" hidden="true" allownull="true">
+			<option value="1">Kelder</option>
+			<option value="2">Kruipkelder</option>
+			<option value="3">Volledig onderkelderd</option>
+		</choice>
+		<choice name="cellar_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<text name="cellar_comment" hidden="true"/>
+		
+		<bool name="has_elevator" hidden="true" allownull="true"/>
+		<bool name="has_alarm" hidden="true" allownull="true"/>
+		<bool name="furnished" hidden="true" allownull="true"/>
+		<bool name="kitchen_equipped" hidden="true" allownull="true"/>
+		<bool name="pets_allowed" hidden="true" allownull="true"/>
+		<bool name="child_friendly" hidden="true" allownull="true"/>
+		<bool name="has_roller_blinds" hidden="true" allownull="true"/>
+		<bool name="has_heating" hidden="true" allownull="true"/>
+		<bool name="has_electricity" hidden="true" allownull="true"/>
+		<bool name="has_sanitary" hidden="true" allownull="true"/>
+		<bool name="has_external_solar_blinds" hidden="true" allownull="true"/>
+		<bool name="has_ventilation" hidden="true" allownull="true"/>
+		<bool name="garnished" hidden="true" allownull="true"/>
+		<bool name="has_cable_tv" hidden="true" allownull="true"/>
+		<bool name="has_cai_tv" hidden="true" allownull="true"/>
+		<bool name="has_pool" hidden="true" allownull="true"/>
+		<bool name="has_airco" hidden="true" allownull="true"/>
+		<bool name="has_jacuzzi" hidden="true" allownull="true"/>
+		<bool name="has_intercom" hidden="true" allownull="true"/>
+		<bool name="has_electricity_connection" hidden="true" allownull="true"/>
+		<bool name="has_gas_connection" hidden="true" allownull="true"/>
+		<bool name="has_water_connection" hidden="true" allownull="true"/>
+		<bool name="has_sewer_connection" hidden="true" allownull="true"/>
+		<bool name="has_internet_connection" hidden="true" allownull="true"/>
+		<bool name="has_fireplace" hidden="true" allownull="true"/>
+		<text name="external_solar_blinds_comment" hidden="true"/>
+		<text name="ventilation_comment" hidden="true"/>
+		<text name="cable_tv_comment" hidden="true"/>
+		<text name="pool_comment" hidden="true"/>
+		<choice name="elevator_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<text name="elevator_comment" hidden="true"/>
+		<choice name="alarm_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<text name="alarm_comment" hidden="true"/>
+		<choice name="roller_blinds_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<text name="roller_blinds_comment" hidden="true"/>
+		<choice name="isolation_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<text name="isolation_comment" hidden="true"/>
+		<choice name="isolation_type" hidden="true" allownull="true">
+			<option value="1">Vloerisolatie</option>
+			<option value="2">Volledig geïsoleerd</option>
+			<option value="3">Duurzaam gebouw</option>
+			<option value="4">Geen spouwmuur</option>
+			<option value="5">Geen isolatie</option>
+			<option value="6">Dakisolatie</option>
+			<option value="7">Muurisolatie</option>
+		</choice>
+		<number name="klevel" hidden="true" allownull="true"/>
+		<number name="elevel" hidden="true" allownull="true"/>
+		<number name="epc" hidden="true" allownull="true"/>
+		<string name="epc_certificate" hidden="true" allownull="true" length="100"/>
+		<choice name="heating_type" hidden="true" allownull="true">
+			<option value="1">Collectief</option>
+			<option value="2">Individueel</option>
+		</choice>
+		<choice name="heating_source" hidden="true" allownull="true" multiple="true">
+			<option value="1">Airco</option>
+			<option value="2">Boiler</option>
+			<option value="3">Huurboiler</option>
+			<option value="4">Centrale verwarming</option>
+			<option value="5">Kolen</option>
+			<option value="6">Combi boiler</option>
+			<option value="7">Condensatie boiler</option>
+			<option value="8">Stadsverwarming</option>
+			<option value="9">Elektrische boiler</option>
+			<option value="10">Elektrische huurboiler</option>
+			<option value="11">Elektrisch</option>
+			<option value="12">Haard</option>
+			<option value="13">Haard mogelijk</option>
+			<option value="14">Vloerverwarming</option>
+			<option value="15">Deels vloerverwarming</option>
+			<option value="16">Gashaard</option>
+			<option value="17">Gasvuur</option>
+			<option value="18">Koude-warmteopslag</option>
+			<option value="19">Geiser</option>
+			<option value="20">Huurgeiser</option>
+			<option value="21">Stookolie</option>
+			<option value="22">Warmtepomp</option>
+			<option value="23">Warme luchtverwarming</option>
+			<option value="24">Hoog rendement boiler</option>
+			<option value="25">Aardgas</option>
+			<option value="26">Zonnecollector</option>
+			<option value="27">Windmolen</option>
+			<option value="28">Andere</option>
+			<option value="29">Geen</option>
+		</choice>
+		<choice name="heating_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		<text name="heating_comment" hidden="true"/>
+		<choice name="water_heating_type" hidden="true" allownull="true">
+			<option value="1">Collectief</option>
+			<option value="2">Individueel</option>
+		</choice>
+		<choice name="water_heating_source" hidden="true" allownull="true">
+			<option value="1">Elektriciteit</option>
+			<option value="2">Gas</option>
+			<option value="3">Stookolie</option>
+			<option value="4">Zonnecollector</option>
+		</choice>
+		<choice name="water_heating_evaluation" hidden="true" allownull="true">
+			<option value="1">Slecht</option>
+			<option value="2">Gemiddeld</option>
+			<option value="3">Goed</option>
+			<option value="4">Zeer goed</option>
+		</choice>
+		
+		<string name="cadastrall_numbers" length="30" hidden="true"/>
+		<number name="cadastrall_area" hidden="true" allownull="allownull"/>
+		<price name="cadastrall_income" hidden="true" allownull="allownull"/>
+		<price name="cadastrall_income_indexed" hidden="true" allownull="allownull"/>
+		<text name="cadastrall_description" hidden="true"/>
+		<number name="percent_private_usage" hidden="true" allownull="allownull"/>
+		<number name="percent_professional_usage" hidden="true" allownull="allownull"/>
+		
+		<choice name="easement" hidden="true" allownull="true">
+			<option value="1">Recht van doorgang</option>
+			<option value="2">Recht van uitweg</option>
+			<option value="3">Recht van toegang</option>
+			<option value="4">Recht van uitzicht</option>
+			<option value="5">Recht van openbare werken</option>
+			<option value="6">Aanwezig</option>
+		</choice>
+		<text name="restriction_comment" hidden="true"/>
+		<choice name="environmental_planning_type" hidden="true" allownull="true">
+			<option value="1">Aanwezig</option>
+			<option value="2">In aanvraag</option>
+			<option value="3">In behandeling</option>
+		</choice>
+		<text name="clauses" hidden="true"/>
+		<bool name="is_monument" hidden="true" allownull="allownull"/>
+		<bool name="is_protected" hidden="true" allownull="allownull"/>
+		<bool name="has_asbestus" hidden="true" allownull="allownull"/>
+		<bool name="has_ground_pollution" hidden="true" allownull="allownull"/>
+		<bool name="planning_permission" allownull="allownull" hidden="true"/>
+		<bool name="subdivision_permit" allownull="allownull" hidden="true"/>
+		<choice name="land_use_designation" allownull="allownull" hidden="true">
+			<option value="1">Agrarisch gebied</option>
+			<option value="2">Bosgebied</option>
+			<option value="3">Dagrecreatie</option>
+			<option value="4">Verblijfrecreatie</option>
+			<option value="5">Industriegebied voor ambachtelijke bedrijven of gebieden voor kleine en middelgrote ondernemingen</option>
+			<option value="6">Industriegebied</option>
+			<option value="7">Landschappelijk waardevolle agrarisch gebied</option>
+			<option value="8">Natuurgebied</option>
+			<option value="9">Natuurreservaat</option>
+			<option value="10">Andere</option>
+			<option value="11">Landelijk parkgebied</option>
+			<option value="12">Woongebied met culturele, historische en/of esthetische waarde</option>
+			<option value="13">Woongebied</option>
+			<option value="14">Woongebied met landelijk karakter</option>
+			<option value="15">Woonpark</option>
+			<option value="16">Woonuitbreidingsgebied</option>
+		</choice>
+		<bool name="preemption_right" allownull="allownull" hidden="true"/>
+		<bool name="urbanism_citation" allownull="allownull" hidden="true"/>
+		<bool name="judicial_decision" allownull="allownull" hidden="true"/>
+		<number name="flood_risk" length="1" hidden="true"/>
+		<number name="flood_risk_type" length="1" hidden="true"/>
+		
+		<date name="as_built_certificate_date" hidden="true"/>
+		<date name="diagnostics_certificate_date" hidden="true"/>
+		<date name="electricity_certificate_date" hidden="true"/>
+		<date name="energy_consumption_certificate_date" hidden="true"/>
+		<date name="energy_performance_certificate_date" hidden="true"/>
+		<date name="gas_certificate_date" hidden="true"/>
+		<date name="polution_certificate_date" hidden="true"/>
+		<date name="accessibility_certificate_date" hidden="true"/>
+		<date name="lead_certificate_date" hidden="true"/>
+		<date name="nature_risk_certificate_date" hidden="true"/>
+		<date name="oil_tank_certificate_date" hidden="true"/>
+		<date name="planning_certificate_date" hidden="true"/>
+		<date name="private_area_certificate_date" hidden="true"/>
+		<date name="smoke_detection_certificate_date" hidden="true"/>
+		<date name="soil_certificate_date" hidden="true"/>
+		
+		<string name="youtube_code" hidden="true"/>
+		
+		<object name="open_house" hidden="true" order="fromdate">
+			<string name="comment" length="250"/>
+			<timedate name="fromdate"/>
+			<timedate name="todate"/>
+		</object>
+		
+		<object name="floor" hidden="true" order="level">
+			<number name="level" index="index"/>
+			<string name="description" length="250"/>
+			<number name="rooms" allownull="allownull"/>
+			<number name="bedrooms" allownull="allownull"/>
+			<choice name="type" hidden="true" allownull="true">
+				<option value="1">Zolder</option>
+				<option value="2">Kelder</option>
+				<option value="3">Verdieping</option>
+				<option value="4">Gelijkvloers / hoofdverdieping</option>
+				<option value="5">Vliering</option>
+			</choice>
+			<bool name="alleyway" allownull="allownull"/>
+			<bool name="attic_stair" allownull="allownull"/>
+			<bool name="attic_room_possible" allownull="allownull"/>
+			<bool name="balcony" allownull="allownull"/>
+			<bool name="dormer" allownull="allownull"/>
+			<bool name="hall" allownull="allownull"/>
+			<bool name="machine_room" allownull="allownull"/>
+			<bool name="provision_room" allownull="allownull"/>
+			<bool name="roof_terrace" allownull="allownull"/>
+			<bool name="shower" allownull="allownull"/>
+			<bool name="stair_in_living" allownull="allownull"/>
+			<bool name="storage" allownull="allownull"/>
+			<bool name="toilet" allownull="allownull"/>
+			<bool name="utility_room" allownull="allownull"/>
+			<bool name="vestibule" allownull="allownull"/>
+			<number name="kitchen_renewed_year" allownull="allownull"/>
+			<number name="kitchen_surface" allownull="allownull"/>
+			<bool name="kitchen_equipped" allownull="allownull"/>
+			<number name="living_surface" allownull="allownull"/>
+			<choice name="living_type" hidden="true" allownull="true">
+				<option value="1">L-vormig</option>
+				<option value="2">T-vormig</option>
+				<option value="3">U-vormig</option>
+				<option value="4">Z-vormig</option>
+				<option value="5">Tuinkamer</option>
+				<option value="6">Serre</option>
+				<option value="7">Zonrijk</option>
+			</choice>
+			
+			<number name="bathroom1_length" allownull="allownull"/>
+			<number name="bathroom1_width" allownull="allownull"/>
+			<bool name="bathroom1_bath"/>
+			<bool name="bathroom1_short_bath"/>
+			<bool name="bathroom1_shower"/>
+			<bool name="bathroom1_toilet"/>
+			
+			<number name="bathroom2_length" allownull="allownull"/>
+			<number name="bathroom2_width" allownull="allownull"/>
+			<bool name="bathroom2_bath"/>
+			<bool name="bathroom2_short_bath"/>
+			<bool name="bathroom2_shower"/>
+			<bool name="bathroom2_toilet"/>
+		</object>
+		
+		<object name="file" hidden="true" order="name">
+			<string name="name"/>
+			<string name="filename"/>
+			<string name="filetype" length="4" allownull="allownull"/>
+			<url name="url"/>
+		</object>
+		
+		<text name="features" hidden="true" translatable="true"/>
+				
+		<header>Functies</header>
+		<function name="refresh">Data vernieuwen</function>
+		
+		<header>Foto's</header>
+		<images name="photo" sortable="true" label="" readonly="true" translatable="true">
+			<choice name="image_type" hidden="true" allownull="true">
+				<option value="1">Buitenkant</option>
+				<option value="2">Tuin</option>
+				<option value="3">Binnenkant</option>
+				<option value="4">Map gelijkvloers</option>
+				<option value="5">Map</option>
+				<option value="6">Map bovenverdieping</option>
+			</choice>
+		</images>
+	</object>
+</page>

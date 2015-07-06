@@ -1,0 +1,202 @@
+@font-face {
+    font-family: 'Brandon';
+    src: url('../fonts/brandon_blk-webfont.eot');
+    src: url('../fonts/brandon_blk-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/brandon_blk-webfont.woff') format('woff'),
+         url('../fonts/brandon_blk-webfont.ttf') format('truetype'),
+         url('../fonts/brandon_blk-webfont.svg#brandon_grotesqueblack') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'museo_italic';
+    src: url('../fonts/museosans_500_italic-webfont.eot');
+    src: url('../fonts/museosans_500_italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/museosans_500_italic-webfont.woff') format('woff'),
+         url('../fonts/museosans_500_italic-webfont.ttf') format('truetype'),
+         url('../fonts/museosans_500_italic-webfont.svg#museo_sans500_italic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'museo';
+    src: url('../fonts/museosans_500-webfont.eot');
+    src: url('../fonts/museosans_500-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/museosans_500-webfont.woff') format('woff'),
+         url('../fonts/museosans_500-webfont.ttf') format('truetype'),
+         url('../fonts/museosans_500-webfont.svg#museo_sans500') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'museo_bold';
+    src: url('../fonts/museosans_900-webfont.eot');
+    src: url('../fonts/museosans_900-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/museosans_900-webfont.woff') format('woff'),
+         url('../fonts/museosans_900-webfont.ttf') format('truetype'),
+         url('../fonts/museosans_900-webfont.svg#museo_sans900') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html {
+	margin: 0; padding: 0;
+	height: 100%;
+}
+
+body {
+	margin: 0; padding: 0;
+	min-height: 100%;
+	background: #e6ecf5;
+	font: 1em 'museo',sans-serif;
+	color: #666;
+	
+	-webkit-font-smoothing: antialiased;
+}
+
+#content {
+	padding: 60px;
+	text-align: center;
+}
+
+h1 {
+	color: #3a3a3a;
+	font-family: "Brandon",sans-serif;
+	font-size: 2.8125em;
+	text-transform: uppercase;
+	display: block;
+	text-align: center;
+	margin: 0 0 45px; padding: 0;
+    
+    -webkit-text-fill-color: transparent;
+	background: -webkit-linear-gradient(bottom, #4c4c4c 0%, #292929 100%);
+	background: -o-linear-gradient(transparent, transparent);
+	-webkit-background-clip: text;
+}
+
+h2 {
+	font-size: 1.2em;
+	margin: 0; padding: 0;
+}
+
+form {
+	width: 340px;
+	padding: 30px;
+	margin: auto;
+	
+	border: 1px solid #b2b2b2;
+	border-radius: 10px;
+	
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	
+	background-color: #fff;
+	
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+
+form .login {
+	height: 24px;
+	background: url('../images/login.gif') no-repeat center;
+	margin-bottom: 30px;
+}
+
+form label {
+	display: block;
+	margin-top: 15px;
+	padding: 0 0 2px 9px;
+	text-align: left;
+}
+
+form input[type="text"], form input[type="email"], form input[type="password"] {
+	border: 1px solid #939393;
+	border-radius: 5px;
+	font: 1em 'museo',sans-serif;
+	padding: 5px 8px;
+	color: #1c53ae;
+	width: 322px;
+	
+	outline-color: #1c53ae;
+	
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	
+	background-color: #f9f9f9;
+	
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,.1);
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1);
+	box-shadow: 0 1px 1px rgba(0,0,0,.1);
+	
+	-webkit-font-smoothing: antialiased;
+}
+
+form input[type="submit"] {
+	border: 1px solid #002666;
+	color: #f7f9fc;
+	font: 1em/40px 'museo_bold',sans-serif;
+	height: 40px;
+	width: 170px;
+	margin: 30px auto 0;
+	display: block;
+	text-shadow: 0 -1px 0 #02075e;
+	padding: 0;
+	
+	border-radius: 10px;
+	
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	
+	background-color: #265db8;
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,.35), inset 0 1px 0 #73abff;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.35), inset 0 1px 0 #73abff;
+	box-shadow: 0 1px 1px rgba(0,0,0,.35), inset 0 1px 0 #73abff;
+	
+	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0iaGF0MCIgZ3JhZGllbnRVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giIHgxPSI1MCUiIHkxPSIxMDAlIiB4Mj0iNTAlIiB5Mj0iLTEuNDIxMDg1NDcxNTIwMmUtMTQlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFiNTNhZCIgc3RvcC1vcGFjaXR5PSIxIi8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzQxNzdkMyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgIDwvbGluZWFyR3JhZGllbnQ+Cgo8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNoYXQwKSIgLz4KPC9zdmc+); /* gradient overlay */
+	background-image: -moz-linear-gradient(bottom, #1b53ad 0%, #4177d3 100%); /* gradient overlay */
+	background-image: -o-linear-gradient(bottom, #1b53ad 0%, #4177d3 100%); /* gradient overlay */
+	background-image: -webkit-linear-gradient(bottom, #1b53ad 0%, #4177d3 100%); /* gradient overlay */
+	background-image: linear-gradient(bottom, #1b53ad 0%, #4177d3 100%); /* gradient overlay */
+	
+	-webkit-font-smoothing: antialiased;
+}
+
+form input[type="submit"]:hover {
+	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0iaGF0MCIgZ3JhZGllbnRVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giIHgxPSI1MCUiIHkxPSIxMDAlIiB4Mj0iNTAlIiB5Mj0iLTEuNDIxMDg1NDcxNTIwMmUtMTQlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzIxNjNjZCIgc3RvcC1vcGFjaXR5PSIxIi8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzRiOGJmNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgIDwvbGluZWFyR3JhZGllbnQ+Cgo8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNoYXQwKSIgLz4KPC9zdmc+); /* gradient overlay */
+	background-image: -moz-linear-gradient(bottom, #2163cd 0%, #4b8bf7 100%); /* gradient overlay */
+	background-image: -o-linear-gradient(bottom, #2163cd 0%, #4b8bf7 100%); /* gradient overlay */
+	background-image: -webkit-linear-gradient(bottom, #2163cd 0%, #4b8bf7 100%); /* gradient overlay */
+	background-image: linear-gradient(bottom, #2163cd 0%, #4b8bf7 100%); /* gradient overlay */
+}
+
+form input[type="submit"]:active {
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,.35), inset 0 1px 0 #0f3b84; /* drop shadow and inner shadow */
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.35), inset 0 1px 0 #0f3b84; /* drop shadow and inner shadow */
+	box-shadow: 0 1px 1px rgba(0,0,0,.35), inset 0 1px 0 #0f3b84; /* drop shadow and inner shadow */
+	
+	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0iaGF0MCIgZ3JhZGllbnRVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giIHgxPSI1MCUiIHkxPSIxMDAlIiB4Mj0iNTAlIiB5Mj0iLTEuNDIxMDg1NDcxNTIwMmUtMTQlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzQxNzdkMyIgc3RvcC1vcGFjaXR5PSIxIi8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzFiNTNhZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgIDwvbGluZWFyR3JhZGllbnQ+Cgo8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNoYXQwKSIgLz4KPC9zdmc+); /* gradient overlay */
+	background-image: -moz-linear-gradient(bottom, #4177d3 0%, #1b53ad 100%); /* gradient overlay */
+	background-image: -o-linear-gradient(bottom, #4177d3 0%, #1b53ad 100%); /* gradient overlay */
+	background-image: -webkit-linear-gradient(bottom, #4177d3 0%, #1b53ad 100%); /* gradient overlay */
+	background-image: linear-gradient(bottom, #4177d3 0%, #1b53ad 100%); /* gradient overlay */
+}
+
+a {
+	color: #265db8;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+
+a.forgot {
+	margin-top: 2em;
+	display: inline-block;
+	font-size: 0.95em;
+}
+
+.error { color: red; }

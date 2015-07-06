@@ -1,0 +1,60 @@
+.property a{ text-decoration: none; }
+
+.property-image{
+	position: relative;
+	img{
+		display:block;
+		min-width: 100%;
+		height: auto;
+	}
+	.video{
+		position: absolute;
+		top:0;
+		left: 0;
+		line-height: rem-calc(44);
+		color: $blue;
+		text-align: center;
+		width: 100%;
+		font-weight: 700;
+		font-size: rem-calc(19);
+		background: rgba($white, 0.8);
+		text-decoration: none;
+		@include no-select;
+	}
+	.property-sticker{
+		position: absolute;
+		right: 0;
+		bottom: 15px;
+		line-height: rem-calc(45);
+		font-size: rem-calc(20);
+		padding: 0 40px;
+		border-radius: 22px 0 0 22px;
+		pointer-events: none;
+		@include no-select;
+		&.new{
+			background: rgba($yellow, 0.83);
+			color: $blue;
+		}
+		&.option{
+			background: rgba($blue, 0.83);
+			color: $white;
+		}
+	}
+}
+
+.property-title{
+	color: $blue;
+	font-weight: 700;
+	width: 100%;
+	overflow: hidden;
+}
+
+.property-location{
+	font-weight: 700;
+	font-size: rem-calc(21);
+	.city{color: $gray;}
+	.price{color: $dark-gray;}
+}
+
+@import '_property-grid.scss';
+@import '_property-list.scss';

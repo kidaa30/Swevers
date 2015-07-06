@@ -1,0 +1,85 @@
+@import "_settings.scss";
+@import "_mixins.scss";
+@import '_slideshow.scss';
+
+#content-wrapper{
+	@extend %flexbox;
+	@include flex-direction(column);
+	@include align-items(stretch);
+	@include align-content(stretch);
+}
+
+header[role="property"]{
+	background: rgba($white, 0.9);
+	padding: 35px 0;
+	position: relative;
+	z-index: 500;
+	@include box-sizing(border-box);
+	&.open{background: $white}
+	h1{
+		margin-bottom: 20px;
+		@include clearfix;
+		span.title{
+			float: left;
+			width: 80%;
+			@include box-sizing(border-box);
+		}
+		span.price{
+
+		}
+	}
+	.property-detail{
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		color: $blue;
+		font-size: rem-calc(16);
+		line-height: rem-calc(18);
+		margin-top: 3px;
+		li{
+			float: left;
+			&:not(:first-child){margin-left: 30px}
+		}
+		span{color: $yellow;}
+	}
+}
+
+#more-info{
+	position: absolute;
+	right: 50%;
+	margin-right: -590px;
+	background: rgba($yellow, 0.9);
+	color: $blue;
+	font-size: rem-calc(21);
+	width: 165px;
+	text-align: center;
+	line-height: rem-calc(65);
+	display: inline-block;
+	text-decoration: none;
+	margin-top: $gutter;
+	font-weight: 700;
+	background-repeat: no-repeat;
+	background-position-y: center;
+	background-position-x: 145px;
+	@include background-retina('/images/icon-arrow-down-white.png', 9px, 5px); 
+	z-index: 700;
+	&:hover{
+		background-color: rgba($blue, 0.9);
+		color: $white;
+	}
+}
+
+#detail{
+	position: relative;
+	z-index: 400;
+	background: rgba($white, 0.9);
+	opacity: 0;
+	padding-bottom: 60px + $gutter;
+	@include transform(translateY(-100%));
+	@include transition(0.3s ease-in-out);
+	@include flex-grow(2);
+	&.open{
+		opacity: 1;
+		@include transform(translateY(0));
+	}
+}

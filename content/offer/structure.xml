@@ -1,0 +1,9 @@
+<page name="offer" label="Panden SEO">
+	<object name="purpose" label="Type" creation_disabled="true" delete_disabled="true">
+		<string name="title" label="Titel" />
+		<slug source="title" />
+		<header>SEO</header>
+		<string name="seo_title" label="Titel" summary="false" />
+		<string name="seo_content" label="Beschrijving" wide="true" length="155" summary="false" />
+	</object>
+</page>

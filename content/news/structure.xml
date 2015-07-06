@@ -1,0 +1,15 @@
+<page name="news" label="Nieuws" archived="archived">
+	<object name="item" label='Nieuwsitem' archived="archived">
+		<string name="title" />
+		<source source="title" />
+		<bool name="online" label="Tonen op de website" />
+		<date name="date" default_today="true" limit="future" />
+		<text name="content" />
+		<header>SEO</header>
+		<string name="seo_title" label="Titel" />
+		<string name="seo_content" label="Beschrijving" wide="true" length="155" />
+	</object>
+	<header>SEO</header>
+	<string name="seo_title" label="Titel" />
+	<string name="seo_content" label="Beschrijving" wide="true" length="155" />
+</page>

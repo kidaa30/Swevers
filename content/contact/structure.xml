@@ -1,0 +1,10 @@
+<page name="contact" label="Contact">
+	<header>Contactgegevens</header>
+	<email name="email" label="E-mail" required="true" />
+	<phone name="phone" label="Telefoonnummer" required="true" />
+	<header>Adresgegevens</header>
+	<address name="address" label="Adresgegevens" />
+	<header>SEO</header>
+	<string name="seo_title" label="Titel" />
+	<string name="seo_content" label="Beschrijving" wide="true" length="155" />
+</page>

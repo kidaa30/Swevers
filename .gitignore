@@ -1,0 +1,10 @@
+*.scssc
+sass/.sass-cache
+
+*.sublime-project
+*.sublime-workspace
+*.esproj
+
+config.codekit
+
+*files/

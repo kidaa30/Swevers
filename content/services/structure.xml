@@ -1,0 +1,15 @@
+<page name="services" label="Diensten" archived="archived">
+	<string name="title" />
+	<text name="content" />
+	<object name="service" label="Dienst" archived="archived">
+		<string name="title" />
+		<slug source="title" />
+		<text name="content" />
+		<header>SEO</header>
+		<string name="seo_title" label="Titel" />
+		<string name="seo_content" label="Beschrijving" wide="true" length="155" />
+	</object>
+	<header>SEO</header>
+	<string name="seo_title" label="Titel" />
+	<string name="seo_content" label="Beschrijving" wide="true" length="155" />
+</page>

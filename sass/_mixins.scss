@@ -1,0 +1,260 @@
+@import '_flexbox.scss';
+
+$rem-base: 16px !default;
+
+$retina: "(-webkit-min-device-pixel-ratio: 1.5), (-moz-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5),(min-resolution: 150dpi)";
+
+@function str-replace($string, $old, $new: '') {
+	
+	$index: str-index($string, $old);
+	
+	@if $index != null and $index > 0 and $new != $old {
+		$result: str-slice($string, 1, $index - 1);
+		
+		@for $i from $index through str-length($string) {
+			@if $i < $index or $i >= $index + str-length($old) {
+				$result: $result + str-slice($string, $i, $i);
+			}
+		}
+		
+		@return str-replace(str-insert($result, $new, $index), $old, $new);
+	}
+	
+	@return $string;
+}
+
+@mixin box-sizing($box-sizing) {
+	-webkit-box-sizing: $box-sizing;
+	   -moz-box-sizing: $box-sizing;
+			box-sizing: $box-sizing;
+}
+
+@mixin background-clip {
+	-webkit-background-clip: padding-box;
+	   -moz-background-clip: padding;
+			background-clip: padding-box;
+}
+
+@mixin box-shadow ($shadow...) {
+	-webkit-box-shadow: $shadow;
+	   -moz-box-shadow: $shadow;
+			box-shadow: $shadow;
+}
+
+@mixin transition($transition...) {
+	$transition: str-replace(#{$transition},'transform','xransform');
+	-webkit-transition: str-replace(#{$transition},'xransform','-webkit-transform');
+	   -moz-transition: str-replace(#{$transition},'xransform','-moz-transform');
+		-ms-transition: str-replace(#{$transition},'xransform','-ms-transform');
+		 -o-transition: str-replace(#{$transition},'xransform','-o-transform');
+			transition: str-replace(#{$transition},'xransform','transform');
+}
+
+@mixin font-smoothing($font-smoothing) {
+	-webkit-font-smoothing: $font-smoothing;
+			font-smoothing: $font-smoothing;
+}
+
+@mixin background-size($background-size...) {
+	-webkit-background-size: $background-size;
+	   -moz-background-size: $background-size;
+			background-size: $background-size;
+}
+
+@mixin mask-image($mask-image) {
+	-webkit-mask-image: $mask-image;
+	-o-mask-image: $mask-image;
+	-moz-mask-image: $mask-image;
+	mask-image: $mask-image;
+}
+@mixin mask-size($mask-size) {
+	-webkit-mask-size: $mask-size;
+	-o-mask-size: $mask-size;
+	-moz-mask-size: $mask-size;
+	mask-size: $mask-size;
+}
+@mixin mask($mask...) {
+	-webkit-mask: $mask;
+	-o-mask: $mask;
+	-moz-mask: $mask;
+	mask: $mask;
+}
+
+@mixin filter($filter...) {
+	-webkit-filter: $filter;
+		 -o-filter: $filter;
+	   -moz-filter: $filter;
+			filter: $filter;
+}
+
+@mixin placeholder() {
+	&::-webkit-input-placeholder { @content }
+	&:-moz-placeholder { opacity: 1; @content }
+	&::-moz-placeholder { opacity: 1; @content }
+	&:-ms-input-placeholder { opacity: 1; @content }
+}
+
+@mixin clearfix {
+	&:before, &:after { content: ""; display: table; }
+	&:after { clear: both; }
+	& { *zoom: 1; }
+}
+
+@mixin hide-text {
+	text-align: left;
+	text-indent: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+@mixin appearance($appearance){
+	-webkit-appearance: $appearance;
+	-moz-appearance: $appearance;
+	appearance: $appearance;
+}
+
+@mixin no-select {
+	-webkit-user-select: none;
+	-o-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+@mixin responsive($width) {
+	@if $width == screens {
+		@media only screen { @content; }
+	} @else if $width == wide-screens {
+		@media only screen and (min-width: $width-wide-screens) { @content; }
+	} @else if $width == desktop-screens {
+		@media only screen and (min-width: $width-desktop-screens) { @content; }
+	} @else if $width == tablet-screens {
+		@media only screen and (min-width: $width-tablet-screens) { @content; }
+	} @else if $width == phablet-screens {
+		@media only screen and (min-width: $width-phablet-screens) { @content; }
+	} @else if $width == wide-phone-screens {
+		@media only screen and (min-width: $width-wide-phone-screens) { @content; }
+	}
+}
+
+@mixin orientation($orientation) {
+	@media only screen and (orientation: $orientation) { @content; }
+}
+@mixin below($width) {
+	@media only screen and (max-width:$width) { @content; }
+}
+@mixin above($width) {
+	@media only screen and (min-width:$width) { @content; }
+}
+@mixin between($min, $max){
+	@media only screen and (min-width:$min) and (max-width:$max) { @content; }
+}
+@mixin outside($min, $max){
+	@media only screen and (max-width:$min),
+	only screen and (min-width:$max) { @content; }
+}
+
+@mixin background-retina($image,$width:false,$height:false) {
+	background-image: url($image);
+	@media #{$retina} {
+		$dot-pos: str-index($image,'.');
+		$before-dot-pos: $dot-pos - 1;
+		$image-url: str-slice($image,0,$before-dot-pos) + "@2x" + str-slice($image,$dot-pos);
+		background-image: url($image-url);
+		@if ($width) {
+			@include background-size(#{strip-unit($width)}px #{strip-unit($height)}px);
+		} @else { @include background-size(100% 100%); }
+	}
+}
+
+@mixin centerer($horizontal: true, $vertical: true) {
+	position: absolute;
+	@if ($horizontal and $vertical) {
+		top: 50%;
+		left: 50%;
+		@include transform(translate(-50%, -50%));
+	} @else if ($horizontal) {
+		left: 50%;
+		@include transform(translate(-50%, 0));
+	} @else if ($vertical) {
+		top: 50%;
+		@include transform(translate(0, -50));
+	}
+}
+
+@mixin keyframes($name) {
+	@-webkit-keyframes #{$name} {
+		@content; 
+	}
+	@-moz-keyframes #{$name} {
+		@content;
+	}
+	@-ms-keyframes #{$name} {
+		@content;
+	}
+	@keyframes #{$name} {
+		@content;
+	} 
+}
+
+@mixin animation($param...) {
+	-webkit-animation: $param;
+	-webkit-animation-fill-mode: forwards;
+ 
+	-moz-animation: $param;
+	-moz-animation-fill-mode: forwards;
+ 
+	-o-animation: $param;
+	-o-animation-fill-mode: forwards;
+ 
+	animation: $param;
+	animation-fill-mode: forwards;
+}
+
+@mixin transform($params) {
+	-webkit-transform: $params;
+	   -moz-transform: $params;
+			transform: $params;
+}
+@mixin transform-origin($params) {
+	-webkit-transform-origin: $params;
+	   -moz-transform-origin: $params;
+			transform-origin: $params;
+}
+
+@mixin column($size) {
+	width: #{(100 - ($gutterperc*2)) + '%'};
+	margin-left: #{$gutterperc + '%'};
+	position: relative;
+	
+	@include responsive(tablet-screens) {
+		width: #{(100 - ($gutterperc*4)) + '%'};
+		margin-left: #{$gutterperc*2 + '%'};
+	}
+	
+	@include responsive(desktop-screens) {
+		width: #{($columnperc*$size) + ($gutterperc*(($size)-1)) + '%'};
+		margin-left: $gutter;
+	}
+}
+
+@function strip-unit($num) {
+	@return $num / ($num * 0 + 1);
+}
+
+@function convert-to-rem($value, $base-value: $rem-base)  {
+	$value: strip-unit($value) / strip-unit($base-value) * 1rem;
+	@if ($value == 0rem) { $value: 0; } // Turn 0rem into 0
+	@return $value;
+}
+
+@function rem-calc($values, $base-value: $rem-base) {
+	$max: length($values);
+	
+	@if $max == 1 { @return convert-to-rem(nth($values, 1), $base-value); }
+	
+	$remValues: ();
+	@for $i from 1 through $max {
+		$remValues: append($remValues, convert-to-rem(nth($values, $i), $base-value));
+	}
+	@return $remValues;
+}

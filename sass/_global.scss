@@ -1,0 +1,178 @@
+html{
+	height: 100%;
+	position: relative;
+}
+
+body{
+	background: $white;
+	position: relative;
+	width:100%;
+	&:not(.home){min-height: 100%;}
+	&.background{
+		background-position: center center;
+		background-attachment: fixed;
+		@include background-size(cover);
+	}
+}
+
+a{
+	outline: none;
+	color: $blue;
+	@include transition(0.15s ease-in-out);
+	&:hover{color: $yellow;}
+}
+
+strong{font-weight: 700;}
+small{font-size: rem-calc(14)}
+.clear{
+	clear: both;
+	@include clearfix;
+}
+.left{float: left;}
+.right{float: right;}
+
+.container{
+	position: relative;
+	margin: 0 auto;
+	max-width: 1180px;
+	width: 100%;
+	padding: 0 $gutter;
+	@include clearfix;
+}
+
+#content-wrapper{
+	padding-top: 80px;
+	min-height: 100vh;
+	@include box-sizing(border-box);
+	body.offer &{
+		background-color: rgba($white, 0.9);
+		.container{
+			padding-top: $gutter;
+			padding-bottom: $gutter + 60px;
+		}
+	}
+}
+
+#wrapper{
+	body.home & {
+		height: 100%;
+		padding-bottom: $big-gutter;
+	}
+}
+
+header[role="banner"]{
+	height: 80px;
+	background: rgba($white, 0.9);
+	position: fixed;
+	width: 100%;
+	top:0;
+	z-index: 1000;
+	border-bottom:1px solid transparent;
+	@include transition(0.3s ease-in-out);
+	&.scrolling, &.other-page{
+		background: $blue;
+		nav[role="navigation"]{
+			a{ color: $white; }
+			li:not(:last-child){border-right-color: $white;}
+			li.selected a{color: $yellow; }
+		}
+		#phone{color: $white;}
+		#logo{
+			a .vertical{ 
+				opacity: 0; 
+				height: 50px;
+				@include transform(scale(2));
+			}
+			a .horizontal{ 
+				opacity: 1; 
+				width: 294px;
+			}
+		}
+	}
+	#logo{
+		position: absolute;
+		top: 0;
+		left: $gutter;
+		a{
+			display: block;
+			height:100%;
+			@include hide-text;
+			& .vertical, & .horizontal{
+				display: block;
+				background-repeat: no-repeat;
+				background-position: center center;
+				height:100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				@include transition(0.3s ease-in-out);
+			}
+			& .vertical{
+				background-color: $blue;
+				width: 80px;
+				height: 100px;
+				@include background-retina('/images/logo.png', 55px, 68px);
+				@include transform-origin(center 0px);
+			}
+			& .horizontal{
+				opacity: 0;
+				height: 80px;
+				width: 0;
+				background-position: left center;
+				@include background-retina('/images/logo-hor.png', 294px, 60px);
+				@include background-size(auto 75%);
+			}
+		}
+	}
+	#phone{
+		float: right;
+		margin-top: $gutter;
+		margin-left: $gutter;
+		font-weight: 700;
+		text-decoration: none;
+		padding-left: 20px;
+		background-repeat: no-repeat;
+		background-position: left center;
+		@include background-retina('/images/icon-phone.png', 17px, 17px);
+	}
+}
+
+nav[role="navigation"]{
+	float: right;
+	margin-top: $gutter;
+	ul{
+		@include clearfix;
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+		li{
+			float: left;
+			&:not(:first-child){margin-left: 17px;}
+			&:not(:last-child){
+				border-right: 1px solid $blue;
+				padding-right: 17px;
+			}
+			&.selected a{color: $yellow;}
+		}
+		a{text-decoration:none;}
+	}
+}
+
+footer{
+	background: $blue;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	color: $white;
+	z-index: 400;
+	font-weight: 700;
+	line-height: rem-calc(60);
+	z-index: 1000;
+	a{
+		color: $white;
+		text-decoration: none;
+	}
+}

@@ -1,0 +1,75 @@
+ErrorDocument 404 /404.php
+
+AddType video/mp4 .mp4 .m4v
+AddType video/ogg .ogv
+AddType video/webm .webm
+
+<IfModule mod_deflate.c>
+	AddOutputFilterByType DEFLATE text/css text/x-component application/x-javascript application/javascript text/javascript text/x-js text/html text/richtext image/svg+xml text/plain text/xsd text/xsl text/xml image/x-icon application/json
+</IfModule>
+
+# 1 YEAR
+<FilesMatch "\.(ico|pdf|flv)$">
+Header set Cache-Control "max-age=29030400, public"
+</FilesMatch>
+ 
+# 1 WEEK
+<FilesMatch "\.(jpg|jpeg|png|gif|swf|xml|txt|css|js)$">
+Header set Cache-Control "max-age=604800, public"
+</FilesMatch>
+ 
+# 1 MIN
+<FilesMatch "\.(html|htm|php)$">
+Header set Cache-Control "max-age=60, private, proxy-revalidate"
+</FilesMatch>
+
+<FilesMatch "\.(mp4|m4v)$">
+    ForceType video/mp4
+</FilesMatch>
+
+<Files .htaccess>
+	order allow,deny
+	deny from all
+</Files>
+<Files structure.xml>
+	order allow,deny
+	deny from all
+</Files>
+
+<Files .htaccess>
+	order allow,deny
+	deny from all
+</Files>
+<Files structure.xml>
+	order allow,deny
+	deny from all
+</Files>
+
+<IfModule mod_rewrite.c>	
+    RewriteEngine On
+    RewriteBase /
+
+    #Removes access to the system folder by users.
+    #Additionally this will allow you to create a System.php controller,
+    #previously this would not have been possible.
+    #'system' can be replaced if you have renamed your system folder.
+    RewriteCond %{REQUEST_URI} ^system.*
+    RewriteRule ^(.*)$ /index.php?/$1 [L]
+    
+    # this adds trailing slash
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_URI} !(.*)/$
+    RewriteCond %{REQUEST_URI} !^/image/.*
+    RewriteRule ^(.*)$ $1/ [R=301,L]
+
+    #Checks to see if the user is attempting to access a valid file,
+    #such as an image or css document, if this isn't true it sends the
+    #request to index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php?/$1 [L]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+    ErrorDocument 404 /index.php
+</IfModule> 

@@ -1,0 +1,90 @@
+<!doctype html>
+<!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+	<title>{#advlink_dlg.title}</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="stylesheet" href="../../../../css/normalize.min.css">
+    <link rel="stylesheet" href="../../../../css/popup.css">
+
+    <script src="../../../modernizr-2.6.1.min.js"></script>
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../../jquery-1.8.1.min.js"><\/script>')</script>
+    
+	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="../../utils/mctabs.js"></script>
+	<script type="text/javascript" src="../../utils/form_utils.js"></script>
+	<script type="text/javascript" src="../../utils/validate.js"></script>
+	<script type="text/javascript" src="js/advlink.js"></script>
+	
+	<script type="text/javascript" src="../../../jquery.uniform.min.js"></script>
+    <script type="text/javascript" src="../../../popup.js"></script>
+
+</head>
+
+<body id="advlink" style="display: none" role="application" aria-labelledby="app_label">
+	
+	<h2>{#advlink_dlg.title}</h2>
+	
+	<form onsubmit="insertAction();return false;" action="#">
+		
+		<fieldset>
+			<legend>{#advlink_dlg.general_props}</legend>
+
+			<table border="0" cellpadding="4" cellspacing="0" role="presentation">
+				<tr>
+					<td class="nowrap"><label id="hreflabel" for="href">{#advlink_dlg.url}</label></td>
+						<td><table border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td><input id="href" name="href" type="text" class="mceFocus" value="" onchange="selectByValue(this.form,'linklisthref',this.value);" aria-required="true" /></td>
+						<td id="hrefbrowsercontainer">&nbsp;</td>
+					</tr>
+					</table></td>
+				</tr>
+				<tr id="linklisthrefrow">
+					<td class="column1"><label for="linklisthref">{#advlink_dlg.list}</label></td>
+					<td colspan="2" id="linklisthrefcontainer"><select id="linklisthref"><option value=""></option></select></td>
+				</tr>
+				<tr id="anchorlistrow">
+					<td class="column1"><label for="anchorlist">{#advlink_dlg.anchor_names}</label></td>
+					<td colspan="2" id="anchorlistcontainer"><select id="anchorlist"><option value=""></option></select></td>
+				</tr>
+				<tr>
+					<td><label id="targetlistlabel" for="targetlist">{#advlink_dlg.target}</label></td>
+					<td id="targetlistcontainer"><select id="targetlist"><option value=""></option></select></td>
+				</tr>
+				<tr>
+					<td class="nowrap"><label id="titlelabel" for="title">{#advlink_dlg.titlefield}</label></td>
+					<td><input id="title" name="title" type="text" value="" /></td>
+				</tr>
+				<tr>
+					<td class="nowrap" colspan="2"><label id="buttonlabel" for="button"><input type="checkbox" name="button" id="button"/> Toon als knop</label></td>
+				</tr>
+				<tr>
+					<td><label id="classlabel" for="classlist">{#class_name}</label></td>
+					<td>
+						 <select id="classlist" name="classlist" onchange="changeClass();">
+							<option value="" selected="selected">{#not_set}</option>
+						 </select>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+
+		<div class="mceActionPanel">
+			<input type="submit" id="insert" name="insert" value="{#insert}" />
+			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+		</div>
+		
+	</form>
+	
+</body>
+</html>

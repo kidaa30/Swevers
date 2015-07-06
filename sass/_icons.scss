@@ -1,0 +1,41 @@
+.icon{
+	width: 31px;
+	height: 60px;
+	display: block;
+	background-position-y: center;
+	background-repeat: no-repeat;
+	&:not(:first-child){margin-left: 5px;}
+	@include hide-text;
+	@include background-retina('/images/icon-social.png', 173px, 30px);
+	&.facebook{background-position-x: 0;}
+	&.twitter{background-position-x: -36px;}
+	&.linkedin{background-position-x: -71px;}
+	&.youtube{background-position-x: -107px;}
+	&.pinterest{background-position-x: -142px;}
+}
+
+.display{
+	width: 35px;
+	height: 35px;
+	display: block;
+	background-color: $blue;
+	margin-left: 15px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	&:hover,&.selected{
+		background-color: $yellow;
+		&.grid{@include background-retina('/images/icon-grid-blue.png', 22px, 22px);}
+		&.list{@include background-retina('/images/icon-list-blue.png', 22px, 22px);}
+	}
+	@include transition(0.3s ease-in-out);
+	&.grid{@include background-retina('/images/icon-grid-white.png', 22px, 22px);}
+	&.list{@include background-retina('/images/icon-list-white.png', 22px, 22px);}
+}
+
+.icon-offer{
+	padding-left: 30px;
+	background-position: left center;
+	background-repeat: no-repeat;
+	&.rooms{@include background-retina('/images/icon-rooms.png', 23px, 16px);}
+	&.surface{@include background-retina('/images/icon-surface.png', 18px, 18px);}
+}

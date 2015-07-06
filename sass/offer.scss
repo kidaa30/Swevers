@@ -1,0 +1,104 @@
+@import "_settings.scss";
+@import "_mixins.scss";
+
+#display{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	width: 100px;
+}
+
+#search-form{
+	clear: both;
+	background: rgba($gray, 0.2);
+	padding: 8px 20px;
+	margin-top: 30px;
+	@include clearfix;
+	.input{
+		&:not(:first-child){margin-left: 45px}
+		& > label{
+			color: $black;
+			font-weight: 400;
+			float: left;
+			line-height: rem-calc(37);
+			margin-right: 15px;
+		}
+		&.select{
+			.btn-group, .selector{
+				float: left;
+			}
+		}
+	}
+	#select-types{
+		.btn-group, .selector{
+			width: 115px !important;
+		}
+	}
+
+	#select-rooms{
+		.btn-group, .selector{
+			width: 75px !important;
+		}
+	}
+
+	#select-price{
+		.btn-group, .selector{
+			width: 120px !important;
+		}
+	}
+
+	#select-cities{
+		.btn-group, .selector{
+			width: 160px !important;
+		}
+	}
+}
+
+#properties{
+	margin-top: $gutter;
+	margin-bottom: $gutter;
+}
+
+@import '_property.scss';
+
+#pagination{
+	margin:0;
+	padding: 0;
+	list-style-type: none;
+	li{
+		float: left;
+		@include no-select;
+		&:not(:first-child){margin-left: 10px;}
+		&.selected, &.dots{
+			font-size: rem-calc(14);
+			line-height: rem-calc(38);
+			padding: 0 14px;
+			background: $blue;
+			color: $white;
+		}
+		&.selected{
+    		color: $white;
+    		background: $yellow;
+		}
+		@include below(599px){
+    		&:not(.pagination-arrow){display: none;}
+		}
+	}
+	li, a{
+		text-decoration: none;
+		font-size: rem-calc(14);
+		line-height: rem-calc(38);
+		color: $white;
+		display: block;
+		background: $blue;
+	}
+	a{
+		padding: 0 14px;
+		@include transition(0.15s ease-in-out);
+		&:hover{
+			background: $yellow;
+			color:$white;
+		}
+	}
+	.arrow{padding: 0 20px;}
+}

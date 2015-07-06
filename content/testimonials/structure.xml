@@ -1,0 +1,9 @@
+<page name="testimonials" label="Getuigenissen">
+	<object name="testimonial" label="Getuigenis" archived="archived">
+		<text name="content" label="Getuigenis" controls="simple" />
+		<image name="image" />
+	</object>
+	<header>SEO</header>
+	<string name="seo_title" label="Titel" />
+	<string name="seo_content" label="Beschrijving" wide="true" length="155" />
+</page>

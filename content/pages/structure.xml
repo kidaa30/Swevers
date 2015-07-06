@@ -1,0 +1,24 @@
+<page name="pages" label="Vrije pagina's" section="3">
+	<object name="page" label="Pagina" order="title">
+		<string name="title" label="Paginatitel" required="true" />
+		<slug source="title" />
+		<text name="text" label="Pagina-inhoud" />
+		<link name="link" label="Webadres" />
+		<header>SEO</header>
+		<string name="seo_title" label="Titel" />
+		<string name="seo_content" label="Beschrijving" wide="true" length="155" />
+	</object>
+</page>
+
+<page name="pagesf" label="Vaste pagina's" section="0">
+	<object name="pagef" label="Pagina" order="title" creation_disabled="true" delete_disabled="true">
+		<string name="slug" label="Url" readonly="true" hidden="true" />
+		<slug source="slug" />
+		<string name="title" label="Paginatitel" required="true" />
+		<text name="text" label="Pagina-inhoud" />
+		<link name="link" label="Webadres" />
+		<header>SEO</header>
+		<string name="seo_title" label="Titel" />
+		<string name="seo_content" label="Beschrijving" wide="true" length="155" />
+	</object>
+</page>

@@ -1,0 +1,10 @@
+<page name="home" label="Home" section="0">
+	<string name="title" />
+	<text name="content" />
+	<video name="video" label="Video" />
+	<header>Slideshow</header>
+	<images name="images" label="Slideshow" />
+	<header>SEO</header>
+	<string name="seo_title" label="Titel" />
+	<string name="seo_content" label="Beschrijving" wide="true" length="155" />
+</page>

@@ -1,6 +1,7 @@
-<?=view('head',array('title'=>l(array('nl'=>'Interne fout','fr'=>'Erreur interne','en'=>'Internal error'))))?>
-
-<h2><?=l(array('nl'=>'Er is een fout opgetreden tijdens het laden van deze pagina.','fr'=>'Une erreur s\'est produite lors du chargement de ce contenu.','en'=>'An error occurred while loading the page.'))?></h2>
+<?=view('head',array('title'=>l(array('nl'=>'Interne fout','fr'=>'Erreur interne','en'=>'Internal error')),'class' => 'content'))?>
+<div id="content-wrapper">
+	<div class="container">
+<h1><?=l(array('nl'=>'Er is een fout opgetreden tijdens het laden van deze pagina.','fr'=>'Une erreur s\'est produite lors du chargement de ce contenu.','en'=>'An error occurred while loading the page.'))?></h1>
 <p>
 	<?=l(array(
 		'nl' => 'We konden de door u gevraagde pagina niet laden. Er is langs onze kant een fout opgetreden. Onze ontwikkelaars werden hiervan verwittigd. We verontschuldigen ons voor het ongemak.',
@@ -11,5 +12,5 @@
 <p><a href="<?=url('')?>"><?=l(array('nl'=>'Ga naar de startpagina','fr'=>'Aller &agrave; la page d\'accueil','en'=>'Go to the homepage'))?></a></p>
 
 <!--<?=$debug_info?>-->
-
+</div></div>
 <?=view('foot')?>

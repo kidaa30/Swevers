@@ -73,13 +73,20 @@ header[role="property"]{
 	position: relative;
 	z-index: 400;
 	background: rgba($white, 0.9);
-	opacity: 0;
 	padding-bottom: 60px + $gutter;
-	@include transform(translateY(-100%));
-	@include transition(0.3s ease-in-out);
+	// opacity: 0;
+	// @include transform(translateY(-100%));
+	// @include transition(0.3s ease-in-out);
 	@include flex-grow(2);
-	&.open{
-		opacity: 1;
-		@include transform(translateY(0));
+	// &.open{
+	// 	opacity: 1;
+	// 	@include transform(translateY(0));
+	// }
+	.container{
+		padding-top: $gutter;
 	}
+}
+
+#description{
+	text-align: justify;
 }

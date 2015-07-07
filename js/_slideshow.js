@@ -8,6 +8,11 @@ $(document).ready(function() {
 		showCarouselItem($(this).index());
 		pause = true; // pause when user clicks a button
 	});
+	$('#more-info').click(function(event) {
+		if(pause == true) pause = false;
+		else pause = true;
+		return false;
+	});
 });
 
 function showCarouselItem(i) {
@@ -38,4 +43,5 @@ function showCarouselItem(i) {
 $(window).load(function() {
 	showCarouselItem(0);
 	$("#slideshow").mouseenter(function () { pause = true; });
+	$("#slideshow").mouseleave(function () { pause = false; });
 });

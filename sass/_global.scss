@@ -44,7 +44,7 @@ small{font-size: rem-calc(14)}
 	padding-top: 80px;
 	min-height: 100vh;
 	@include box-sizing(border-box);
-	body.offer &{
+	body.content &{
 		background-color: rgba($white, 0.9);
 		.container{
 			padding-top: $gutter;

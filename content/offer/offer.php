@@ -130,7 +130,7 @@ class Offer extends Controller {
 		$offer = where('slug = %s', $purpose)->get_row('offer/purpose');
 		
 		echo view('head',array(
-			'class' => 'offer',
+			'class' => 'offer content',
 			'css' => 'offer',
 			'title' => $offer && $offer->seo_title ? $offer->seo_title : 'Aanbod '.$purpose_titles[$purpose],
 			'description' => $offer && $offer->seo_content ? $offer->seo_content : ''

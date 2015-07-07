@@ -27,7 +27,8 @@
 			</h2>
 		</div>
 	</header>
-	<a href="#" id="more-info">Meer info</a>
+	<a href="#" id="more-info"><span>Meer info</span></a>
+	<div id="detail-wrapper">
 	<section id="detail">
 		<div class="container">
 			<div class="grid">
@@ -37,55 +38,102 @@
 					<? endif; ?>
 					<div class="grid">
 						<div class="col-1-2">
-							<? if(isset($property->details['algemeen'])): ?>
+							<? if(isset($property->details['algemeen']) && count($property->details['algemeen'])): ?>
 								<div class="detail">
 									<h3>algemeen</h3>
+									<dl>
+										<? foreach ($property->details['algemeen'] as $name => $detail) :?>
+											<div><dt><?= $name ?></dt><dd><?= $detail ?></dd></div>
+										<? endforeach; ?>
+									</dl>
 								</div>
 							<? endif; ?>
 
-							<? if(isset($property->details['financieel'])): ?>
+							<? if(isset($property->details['financieel']) && count($property->details['financieel'])): ?>
 								<div class="detail">
 									<h3>financiëel</h3>
+									<dl>
+										<? foreach ($property->details['financieel'] as $name => $detail) :?>
+											<div><dt><?= $name ?></dt><dd><?= $detail ?></dd></div>
+										<? endforeach; ?>
+									</dl>
 								</div>
 							<? endif; ?>
 
-							<? if(isset($property->details['energie'])): ?>
+							<? if(isset($property->details['energie']) && count($property->details['energie'])): ?>
 								<div class="detail">
 									<h3>energie</h3>
+									<?if(isset($property->details['energie'][l(array('nl' => 'EPC', 'fr' => 'PEB', 'en' => 'EPC', 'de' => 'EPC'))])):?>
+									<?
+										$epc = $property->details['energie'][l(array('nl' => 'EPC', 'fr' => 'PEB', 'en' => 'EPC', 'de' => 'EPC'))];
+										$max = 700;
+										$percentage = 0.753;
+									?>
+									<div class="epc-slider print-hider">
+										<div class="epc-slider-nonblur" style="width:<?=round(100 - (min($max,$epc)/$max)*100)?>%"></div>
+										<div class="epc-number" style="left:<?=round((min($max,$epc)/$max)*100)?>%"><?=substr($property->details['energie'][l(array('nl' => 'EPC', 'fr' => 'PEB', 'en' => 'EPC', 'de' => 'EPC'))], 0, strpos($property->details['energie'][l(array('nl' => 'EPC', 'fr' => 'PEB', 'en' => 'EPC', 'de' => 'EPC'))], ' ')) ?></div>
+									</div>
+								   <?endif;?>
+									<dl>
+										<? foreach ($property->details['energie'] as $name => $detail) :?>
+											<div><dt><?= $name ?></dt><dd><?= $detail ?></dd></div>
+										<? endforeach; ?>
+									</dl>
 								</div>
 							<? endif; ?>
 
-							<? if(isset($property->details['algemeen'])): ?>
-								<div class="detail">
-									<h3>algemeen</h3>
-								</div>
-							<? endif; ?>
-
-							<? if(isset($property->details['stedenbouw'])): ?>
+							<? if(isset($property->details['stedenbouw']) && count($property->details['stedenbouw'])): ?>
 								<div class="detail">
 									<h3>stedenbouwkundige info</h3>
+									<dl>
+										<? foreach ($property->details['stedenbouw'] as $name => $detail) :?>
+											<div><dt><?= $name ?></dt><dd><?= $detail ?></dd></div>
+										<? endforeach; ?>
+									</dl>
 								</div>
 							<? endif; ?>
 						</div>
 						<div class="col-1-2">
 							<div class="detail">
 								<h3>geografische ligging</h3>
+								<? if (isset($property->details['ligging']) && count($property->details['ligging'])): ?>
+									<dl>
+										<? foreach ($property->details['ligging'] as $name => $detail) :?>
+											<div><dt><?= $name ?></dt><dd><?= $detail ?></dd></div>
+										<? endforeach; ?>
+									</dl>
+								<? endif; ?>
 							</div>
-							<? if(isset($property->details['indeling'])): ?>
+							<? if(isset($property->details['indeling']) && count($property->details['indeling'])): ?>
 								<div class="detail">
 									<h3>indeling</h3>
+									<dl>
+										<? foreach ($property->details['indeling'] as $name => $detail) :?>
+											<div><dt><?= $name ?></dt><dd><?= $detail ?></dd></div>
+										<? endforeach; ?>
+									</dl>
 								</div>
 							<? endif; ?>
 
-							<? if(isset($property->details['grond'])): ?>
+							<? if(isset($property->details['grond']) && count($property->details['grond'])): ?>
 								<div class="detail">
 									<h3>grond</h3>
+									<dl>
+										<? foreach ($property->details['grond'] as $name => $detail) :?>
+											<div><dt><?= $name ?></dt><dd><?= $detail ?></dd></div>
+										<? endforeach; ?>
+									</dl>
 								</div>
 							<? endif; ?>
 
-							<? if(isset($property->details['comfort'])): ?>
+							<? if(isset($property->details['comfort']) && count($property->details['comfort'])): ?>
 								<div class="detail">
 									<h3>comfort</h3>
+									<dl>
+										<? foreach ($property->details['comfort'] as $name => $detail) :?>
+											<div><dt><?= $name ?></dt><dd><?= $detail ?></dd></div>
+										<? endforeach; ?>
+									</dl>
 								</div>
 							<? endif; ?>
 						</div>
@@ -95,4 +143,5 @@
 			</div>
 		</div>
 	</section>
+	</div>
 </div>

@@ -5,7 +5,7 @@
 		<text name="text" label="Pagina-inhoud" />
 		<link name="link" label="Webadres" />
 		<header>SEO</header>
-		<string name="seo_title" label="Titel" />
+		<string name="seo_title" label="Titel" summary="false" />
 		<string name="seo_content" label="Beschrijving" wide="true" length="155" />
 	</object>
 </page>

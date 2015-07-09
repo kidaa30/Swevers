@@ -1,0 +1,34 @@
+@import "_settings.scss";
+@import "_mixins.scss";
+
+.col-3-3{
+	margin-top: $gutter;
+	@include clearfix;
+	& + .col-3-3{margin-top: $half-gutter;}
+	&:not(:last-child) .testimonial{
+		padding-bottom: $half-gutter;
+		border-bottom: 1px solid $blue;
+	}
+}
+.testimonial{
+	text-align: justify;
+	@include clearfix;
+	.testimonial-image{
+		float: left;
+		width: 240px;
+		img{
+			max-width: 100%;
+			height: auto;
+		}
+	}
+	.testimonial-content{
+		&.with-image{padding-left: $gutter + 240px;}
+		h2{margin-bottom: 15px;}
+		.city{
+			font-size: rem-calc(14);
+			color: $gray;
+			font-style: italic;
+			text-align: right;
+		}
+	}
+}

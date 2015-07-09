@@ -1,6 +1,8 @@
 <page name="testimonials" label="Getuigenissen">
 	<object name="testimonial" label="Getuigenis" archived="archived">
-		<text name="content" label="Getuigenis" controls="simple" />
+		<string name="name" label="Naam" required="true" />
+		<string name="city" label="Gemeente" summary="false" />
+		<text name="content" label="Getuigenis" controls="simple" summary='excerpt' />
 		<image name="image" />
 	</object>
 	<header>SEO</header>

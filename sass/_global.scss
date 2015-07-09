@@ -1,6 +1,8 @@
 html{
 	height: 100%;
 	position: relative;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 
 body{
@@ -34,10 +36,12 @@ small{font-size: rem-calc(14)}
 .container{
 	position: relative;
 	margin: 0 auto;
-	max-width: 1180px;
+	max-width: 1280px;
 	width: 100%;
 	padding: 0 $gutter;
 	@include clearfix;
+	@include box-sizing(border-box);
+	@include below(768px){padding: 0 $half-gutter;}
 }
 
 #content-wrapper{
@@ -69,11 +73,23 @@ header[role="banner"]{
 	z-index: 1000;
 	border-bottom:1px solid transparent;
 	@include transition(0.3s ease-in-out);
+	@include below(950px){
+		height: auto;
+	}
 	&.scrolling, &.other-page{
 		background: $blue;
 		nav[role="navigation"]{
-			a{ color: $white; }
+			a{ 
+				color: $white; 
+				&:hover{color: $yellow;}
+			}
 			li:not(:last-child){border-right-color: $white;}
+			@include above(1281px){
+				ul:last-child li:first-child{border-left-color: $white;}
+			}
+			@include between(720px,950px){
+				ul:last-child li:first-child{border-left-color: $white;}
+			}
 			li.selected a{color: $yellow; }
 		}
 		#phone{color: $white;}
@@ -81,11 +97,14 @@ header[role="banner"]{
 			a .vertical{ 
 				opacity: 0; 
 				height: 50px;
+				pointer-events: none;
 				@include transform(scale(2));
 			}
 			a .horizontal{ 
 				opacity: 1; 
 				width: 294px;
+				pointer-events: auto;
+				@include below(500px){width: 200px;height: 60px;}
 			}
 		}
 	}
@@ -93,6 +112,16 @@ header[role="banner"]{
 		position: absolute;
 		top: 0;
 		left: $gutter;
+		@include below(950px){
+			position: relative;
+			display: block;
+			margin: 0 auto;
+			left: auto;
+			top: auto;
+			height: 80px;
+			width: 294px;
+		}
+		@include below(500px){width: 200px;height: 60px;}
 		a{
 			display: block;
 			height:100%;
@@ -110,6 +139,8 @@ header[role="banner"]{
 				@include transition(0.3s ease-in-out);
 			}
 			& .vertical{
+				pointer-events: auto;
+				display: block;
 				background-color: $blue;
 				width: 80px;
 				height: 100px;
@@ -117,12 +148,18 @@ header[role="banner"]{
 				@include transform-origin(center 0px);
 			}
 			& .horizontal{
+				pointer-events: none;
+				display: block;
 				opacity: 0;
 				height: 80px;
 				width: 0;
 				background-position: left center;
 				@include background-retina('/images/logo-hor.png', 294px, 60px);
 				@include background-size(auto 75%);
+				@include below(500px){
+					height: 60px;
+					@include background-size(200px auto);
+				}
 			}
 		}
 	}
@@ -136,17 +173,60 @@ header[role="banner"]{
 		background-repeat: no-repeat;
 		background-position: left center;
 		@include background-retina('/images/icon-phone.png', 17px, 17px);
+		@include below(950px){
+			position: absolute;
+			float: none;
+			margin-top: 0;
+			top: 20px;
+			right: $gutter;
+		}
+		@include below(768px){right: $half-gutter;}
+		@include below(720px){
+			position: relative;
+			top: auto;
+			right: auto;
+			margin: 0 auto 10px;
+			display: table;
+		}
 	}
 }
 
 nav[role="navigation"]{
 	float: right;
 	margin-top: $gutter;
+	@include below(1280px){
+		margin-top: 20px;
+	}
+	@include below(950px){
+		float: none;
+		display: table;
+		margin: 0 auto;
+		padding-bottom: 10px;
+	}
+	@include below(500px){
+		display: none;
+		&.active{display:block;}
+	}
 	ul{
 		@include clearfix;
 		margin: 0;
 		padding: 0;
 		list-style-type: none;
+		float: left;
+		@include between(950px, 1280px){
+			float: none;
+			&:first-child{margin-bottom: 10px;}
+		}
+		@include below(720px){
+			float: none;
+			display: table;
+			margin: 0 auto;
+			&:first-child{margin-bottom: 10px;}
+		}
+		@include below(500px){
+			display: block;
+			width: 100%;
+		}
 		li{
 			float: left;
 			&:not(:first-child){margin-left: 17px;}
@@ -155,8 +235,102 @@ nav[role="navigation"]{
 				padding-right: 17px;
 			}
 			&.selected a{color: $yellow;}
+			@include below(500px){
+				width: 50%;
+				padding: 0 !important;
+				margin: 0 !important;
+				border: 0 !important;
+				text-align: center;
+			}
 		}
-		a{text-decoration:none;}
+		@include above(1281px){
+			&:last-child{
+				li:first-child{
+					border-left: 1px solid $blue;
+					margin-left: 17px;
+					padding-left: 17px;
+				}
+			}
+		}
+		@include between(720px,950px){
+			&:last-child{
+				li:first-child{
+					border-left: 1px solid $blue;
+					margin-left: 17px;
+					padding-left: 17px;
+				}
+			}
+		}
+		a{
+			text-decoration:none;
+		}
+	}
+}
+
+.mobile-menu {
+	background: transparent;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: 20px;
+	height: 20px;
+	display: block;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	box-shadow: none;
+	border: none;
+	cursor: pointer;
+	display: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	&:focus{outline: none;}
+	@include appearance(none);
+	@include below(500px){
+		display: block;	
+	}
+	span {
+		display: block;
+		position: absolute;
+		width: 20px;
+		height: 1px;
+		background: $white;
+		font-size: 0;
+		@include transition(background 0 0.3s);
+		&:after, &:before{
+			position: absolute;
+			display: block;
+			left: 0;
+			width: 100%;
+			height: 1px;
+			background-color: $white;
+			content: "";
+			@include transition-duration(0.3s, 0.3s);
+			@include transition-delay(0.3s, 0);
+		}
+		&:before{
+			top: -5px;
+			-webkit-transition-property: top, -webkit-transform;
+        	transition-property: top, transform;
+		}
+		&:after{
+			bottom: -5px;
+			-webkit-transition-property: bottom, -webkit-transform;
+        	transition-property: bottom, transform;
+		}
+	}
+	&.active{
+		span{
+			background: transparent;
+			&:before, &:after{@include transition-delay(0, 0.3s);}
+			&:before{
+				top: 0;
+				@include transform(rotate(45deg));
+			}
+			&:after{
+				bottom: 0;
+				@include transform(rotate(-45deg));
+			}
+		}
 	}
 }
 

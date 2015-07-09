@@ -55,6 +55,12 @@ $(function(){
 			return false;
 		}
 	});
+
+	$('.mobile-menu').fastClick(function(){
+		$(this).toggleClass('active');
+		$('nav[role="navigation"]').toggleClass('active');
+		return false;
+	});
 	
 });
 

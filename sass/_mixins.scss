@@ -41,6 +41,21 @@ $retina: "(-webkit-min-device-pixel-ratio: 1.5), (-moz-min-device-pixel-ratio: 1
 			box-shadow: $shadow;
 }
 
+@mixin transition-duration($duration...){
+	-webkit-transition-duration:$duration;
+	transition-duration: $duration;
+}
+
+@mixin transition-delay($duration...){
+	-webkit-transition-delay:$duration;
+	transition-delay: $duration;
+}
+
+@mixin transition-property($property...){
+	-webkit-transition-property:$property;
+	transition-property: $property;
+}
+
 @mixin transition($transition...) {
 	$transition: str-replace(#{$transition},'transform','xransform');
 	-webkit-transition: str-replace(#{$transition},'xransform','-webkit-transform');

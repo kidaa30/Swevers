@@ -101,6 +101,7 @@ header[role="property"]{
 
 #description{
 	text-align: justify;
+	margin-bottom: $gutter;
 }
 
 .detail{
@@ -123,6 +124,7 @@ header[role="property"]{
 		    font-weight: 700;
 		    text-align: right;
 		    color: $blue;
+		    word-break: break-all;
    		}
 	}
 

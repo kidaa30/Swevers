@@ -50,11 +50,16 @@
 					<a href="<?= url('') ?>"><span class="vertical"></span><span class="horizontal"></span>Swevers Vastgoed</a>
 				</h1>
 				<a href="tel:<?= str_replace(' ', '', PHONE); ?>" id="phone"><?= PHONE ?></a>
+				<button class="mobile-menu">
+					<span>toggle menu</span>
+				</button>
 				<nav role="navigation">
 					<ul>
 						<li class="<?= segment(0) == 'offer' && in_array('te-koop', segments()) ? 'selected' : '' ?>"><a href="<?= url('te-koop') ?>">te koop</a></li>
 						<li class="<?= segment(0) == 'offer' && in_array('te-huur', segments()) ? 'selected' : '' ?>"><a href="<?= url('te-huur') ?>">te huur</a></li>
 						<li class="<?= segment(0) == 'projects' ? 'selected' : '' ?>"><a href="<?= url('nieuwbouw') ?>">nieuwbouw</a></li>
+					</ul>
+					<ul>
 						<li class="<?= segment(0) == 'services' ? 'selected' : '' ?>"><a href="<?= url('diensten') ?>">diensten</a></li>
 						<li class="<?= segment(0) == 'news' ? 'selected' : '' ?>"><a href="<?= url('nieuws') ?>">nieuws</a></li>
 						<li class="<?= segment(0) == 'testimonials' ? 'selected' : '' ?>"><a href="<?= url('getuigenissen') ?>">getuigenissen</a></li>

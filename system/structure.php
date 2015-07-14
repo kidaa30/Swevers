@@ -762,6 +762,15 @@ class FW4_Structure {
 		    	if ($first_child) $node->insertBefore($child->cloneNode(true),$first_child);
 		    	else $node->appendChild($child->cloneNode(true));
 	    	}
+			
+			$first_child = $node->firstChild;
+	    	
+	    	foreach ($node->childNodes as $child) {
+		    	if ($child->hasAttributes() && $child->getAttribute('before_implementation')) {
+			    	$node->insertBefore($child,$first_child);
+		    	}
+	    	}
+	    	
 		}
 		
     	foreach ($node->childNodes as $child) {

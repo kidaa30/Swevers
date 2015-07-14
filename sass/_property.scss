@@ -4,7 +4,7 @@
 	position: relative;
 	img{
 		display:block;
-		min-width: 100%;
+		max-width: 100%;
 		height: auto;
 	}
 	.video{
@@ -54,6 +54,10 @@
 	font-size: rem-calc(21);
 	.city{color: $gray;}
 	.price{color: $dark-gray;}
+}
+
+.property-content{
+	overflow: hidden;
 }
 
 @import '_property-grid.scss';

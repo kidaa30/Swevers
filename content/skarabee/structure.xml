@@ -6,39 +6,14 @@
 </object>
 
 <page name="skarabee" label="Panden" section="1">
-	<object name="property" creation_disabled="true" delete_disabled="true" editing_disabled="true" label="Pand" model="skarabeeproperty">
+	
+	<protocol name="skarabeetype">
 		
 		<number name="software_id" length="10" summary="false" hidden="true" index="index"/>
 		<number name="publication_id" length="10" summary="false" hidden="true"/>
 		<date name="create_date" hidden="true" index="index"/>
 		<date name="update_date" hidden="true" index="index"/>
 		
-		<choice name="type" hidden="true" allownull="true" index="index">
-			<option value="1">Pand</option>
-			<option value="2">Grond</option>
-			<option value="3">Project</option>
-			<option value="4">Model</option>
-		</choice>
-		<choice name="category" hidden="true" allownull="true" index="index">
-			<option value="1">Huis</option>
-			<option value="2">Appartement</option>
-			<option value="3">Grond</option>
-			<option value="4">Service flat</option>
-			<option value="5">Kamer</option>
-			<option value="6">Parking</option>
-			<option value="7">Andere</option>
-			<option value="8">Horeca</option>
-			<option value="9">Kantoor</option>
-			<option value="10">Industrie</option>
-			<option value="11">Winkel</option>
-			<option value="12">Andere (pro)</option>
-			<option value="13">Grond (pro)</option>
-		</choice>
-		<number name="subcategory_id" hidden="true"/>
-		<string name="subcategory" label="Categorie" translatable="true" length="25"/>
-		<string name="subcategory_slug" hidden="true" translatable="true" length="25" index="index"/>
-		<string name="slug" hidden="true" translatable="true" index="index" length="70"/>
-		<string name="style" hidden="true" translatable="true" length="25"/>
 		<choice name="purpose" hidden="true" index="index">
 			<option value="1">Te koop</option>
 			<option value="2">Te huur</option>
@@ -87,7 +62,6 @@
 			<option value="4">Op datum</option>
 		</choice>
 		<date name="availability_date" hidden="true" allownull="true"/>
-		<bool name="service_charges_included" hidden="true" allownull="true"/>
 		
 		<string name="flash1_title" length="120" translatable="true" hidden="true"/>
 		<text name="flash1_content" translatable="true" hidden="true"/>
@@ -101,8 +75,130 @@
 		<text name="flash5_content" translatable="true" hidden="true"/>
 		<number name="selected_flash" hidden="true"/>
 		
+		<bool name="show_address" hidden="true"/>
+		<bool name="show_number" hidden="true"/>
+		<string name="reference" length="75" label="Referentie" readonly="true"/>
+		<string name="address_name" length="120" label="Naam" hidden="true"/>
+		<string name="address" length="70" label="Adres" summary="false" readonly="true"/>
+		<string name="postal" length="10" label="Postcode" summary="false" readonly="true"/>
+		<string name="city" length="50" label="Gemeente" readonly="true"/>
+		<string name="country" length="2" hidden="true"/>
+		<float name="coord_lat" summary="false" hidden="true" allownull="allownull"/>
+		<float name="coord_lon" summary="false" hidden="true" allownull="allownull"/>
+		<bool name="nearby_public_transport" hidden="true" allownull="allownull"/>
+		<bool name="nearby_shops" hidden="true" allownull="allownull"/>
+		<bool name="nearby_school" hidden="true" allownull="allownull"/>
+		<bool name="nearby_highway" hidden="true" allownull="allownull"/>
+		<choice name="shop_location" hidden="true" allownull="allownull">
+			<option value="1">Shopping center</option>
+			<option value="2">Gallerij</option>
+			<option value="3">Winkelstraat</option>
+			<option value="4">Andere</option>
+		</choice>
+		
+		<bool name="newly_constructed" hidden="true" allownull="true"/>
+		<bool name="under_construction" hidden="true" allownull="true"/>
+		<number name="construction_year" hidden="true" allownull="true"/>
+		<number name="renovation_year" hidden="true" allownull="true"/>
+		<bool name="in_production" hidden="true" allownull="true"/>
+		<choice name="state" hidden="true" allownull="true">
+			<option value="1">Normaal</option>
+			<option value="2">Af te breken</option>
+			<option value="3">Op te frissen</option>
+			<option value="4">Te renoveren</option>
+			<option value="5">Instapklaar</option>
+			<option value="6">Luxueus afgewerkt</option>
+		</choice>
+		<number name="floors" hidden="true" allownull="true"/>
+		
+		<string name="youtube_code" hidden="true"/>
+		
+		<object name="file" hidden="true" order="name">
+			<string name="name"/>
+			<string name="filename"/>
+			<string name="filetype" length="4" allownull="allownull"/>
+			<url name="url"/>
+		</object>
+		
+		<header>Foto's</header>
+		<images name="photo" sortable="true" label="" readonly="true" translatable="true">
+			<choice name="image_type" hidden="true" allownull="true">
+				<option value="1">Buitenkant</option>
+				<option value="2">Tuin</option>
+				<option value="3">Binnenkant</option>
+				<option value="4">Map gelijkvloers</option>
+				<option value="5">Map</option>
+				<option value="6">Map bovenverdieping</option>
+			</choice>
+		</images>
+		
+		<object name="open_house" hidden="true" order="fromdate">
+			<string name="comment" length="250"/>
+			<timedate name="fromdate"/>
+			<timedate name="todate"/>
+		</object>
+		
+	</protocol>
+
+	<object name="project" implements="skarabeetype" creation_disabled="true" delete_disabled="true" editing_disabled="true" label="Project" title="Projecten" model="skarabeeproject" order="name">
+		
+		<string name="name" label="Naam" before_implementation="true" length="70"/>
+		<date name="construction_start_date" hidden="true"/>
+		<date name="construction_end_date" hidden="true"/>
+		<date name="acceptance_date" hidden="true"/>
+		<text name="construction_start_comment" hidden="true"/>
+		<text name="construction_end_comment" hidden="true"/>
+		<text name="acceptance_comment" hidden="true"/>
+		<text name="consumer_info" hidden="true"/>
+		<string name="contractor" hidden="true"/>
+		
+		<string name="slug" hidden="true" index="index" length="70"/>
+
+		<header>Minisites</header>
+		<object name="minisite" label="Minisite">
+			<domain label="Domeinnaam" required="required" index="index" handler="minisites"/>
+		</object>
+		
+	</object>
+	
+	<object name="property" implements="skarabeetype" creation_disabled="true" delete_disabled="true" label="Pand" model="skarabeeproperty">
+		
+		<choice name="project" source="skarabee>project" hidden="true"/>
+		
+		<choice name="type" hidden="true" allownull="true" index="index">
+			<option value="1">Pand</option>
+			<option value="2">Grond</option>
+			<option value="3">Project</option>
+			<option value="4">Model</option>
+		</choice>
+		
+		<choice name="category" hidden="true" allownull="true" index="index">
+			<option value="1">Huis</option>
+			<option value="2">Appartement</option>
+			<option value="3">Grond</option>
+			<option value="4">Service flat</option>
+			<option value="5">Kamer</option>
+			<option value="6">Parking</option>
+			<option value="7">Andere</option>
+			<option value="8">Horeca</option>
+			<option value="9">Kantoor</option>
+			<option value="10">Industrie</option>
+			<option value="11">Winkel</option>
+			<option value="12">Andere (pro)</option>
+			<option value="13">Grond (pro)</option>
+		</choice>
+		
+		<string name="slug" hidden="true" translatable="true" index="index" length="70" />
+		
+		<number name="subcategory_id" hidden="true" readonly="true" />
+		<string name="subcategory" label="Categorie" translatable="true" length="25" before_implementation="true" readonly="true" />
+		<string name="subcategory_slug" hidden="true" translatable="true" length="25" index="index" />
+		<string name="style" hidden="true" translatable="true" length="25"/>
+		<bool name="service_charges_included" hidden="true" allownull="true"/>
+		
 		<bool name="show_price" hidden="true"/>
-		<price name="price" label="Prijs"/>
+		
+		<price name="price" label="Prijs" before_implementation="true" readonly="true" />
 		<choice name="price_type" hidden="true">
 			<option value="1">Aankoopprijs</option>
 			<option value="2">Per maand</option>
@@ -124,27 +220,6 @@
 		<price name="heating_costs" label="Verwarming kosten" allownull="true" hidden="true"/>
 		<price name="garage_costs" label="Garage kosten" allownull="true" hidden="true"/>
 		
-		<bool name="show_address" hidden="true"/>
-		<bool name="show_number" hidden="true"/>
-		<string name="reference" length="75" label="Referentie"/>
-		<string name="address_name" length="120" label="Naam" hidden="true"/>
-		<string name="address" length="70" label="Adres" summary="false"/>
-		<string name="postal" length="10" label="Postcode" summary="false"/>
-		<string name="city" length="50" label="Gemeente"/>
-		<string name="country" length="2" hidden="true"/>
-		<float name="coord_lat" summary="false" hidden="true" allownull="allownull"/>
-		<float name="coord_lon" summary="false" hidden="true" allownull="allownull"/>
-		<bool name="nearby_public_transport" hidden="true" allownull="allownull"/>
-		<bool name="nearby_shops" hidden="true" allownull="allownull"/>
-		<bool name="nearby_school" hidden="true" allownull="allownull"/>
-		<bool name="nearby_highway" hidden="true" allownull="allownull"/>
-		<choice name="shop_location" hidden="true" allownull="allownull">
-			<option value="1">Shopping center</option>
-			<option value="2">Gallerij</option>
-			<option value="3">Winkelstraat</option>
-			<option value="4">Andere</option>
-		</choice>
-		
 		<number name="surface" hidden="true" allownull="true"/>
 		<number name="surface_terrain" hidden="true" allownull="true"/>
 		<float name="surface_livable" hidden="true" allownull="true"/>
@@ -152,24 +227,10 @@
 		<float name="surface_terrace" hidden="true" allownull="true"/>
 		<float name="surface_garden" hidden="true" allownull="true"/>
 		<float name="surface_balcony" hidden="true" allownull="true"/>
-		<number name="construction_year" hidden="true" allownull="true"/>
-		<number name="renovation_year" hidden="true" allownull="true"/>
-		<bool name="newly_constructed" hidden="true" allownull="true"/>
-		<bool name="under_construction" hidden="true" allownull="true"/>
-		<bool name="in_production" hidden="true" allownull="true"/>
-		<choice name="state" hidden="true" allownull="true">
-			<option value="1">Normaal</option>
-			<option value="2">Af te breken</option>
-			<option value="3">Op te frissen</option>
-			<option value="4">Te renoveren</option>
-			<option value="5">Instapklaar</option>
-			<option value="6">Luxueus afgewerkt</option>
-		</choice>
 		<float name="terrain_width" hidden="true" allownull="true"/>
 		<float name="terrain_depth" hidden="true" allownull="true"/>
 		<float name="terrain_width_front" hidden="true" allownull="true"/>
 		<number name="floor_number" hidden="true" allownull="true"/>
-		<number name="floors" hidden="true" allownull="true"/>
 		<number name="parkings" hidden="true" allownull="true"/>
 		<bool name="has_parking" hidden="true" allownull="true"/>
 		<bool name="has_garden" hidden="true" allownull="true"/>
@@ -661,14 +722,6 @@
 		<date name="smoke_detection_certificate_date" hidden="true"/>
 		<date name="soil_certificate_date" hidden="true"/>
 		
-		<string name="youtube_code" hidden="true"/>
-		
-		<object name="open_house" hidden="true" order="fromdate">
-			<string name="comment" length="250"/>
-			<timedate name="fromdate"/>
-			<timedate name="todate"/>
-		</object>
-		
 		<object name="floor" hidden="true" order="level">
 			<number name="level" index="index"/>
 			<string name="description" length="250"/>
@@ -725,28 +778,10 @@
 			<bool name="bathroom2_toilet"/>
 		</object>
 		
-		<object name="file" hidden="true" order="name">
-			<string name="name"/>
-			<string name="filename"/>
-			<string name="filetype" length="4" allownull="allownull"/>
-			<url name="url"/>
-		</object>
-		
 		<text name="features" hidden="true" translatable="true"/>
-				
-		<header>Functies</header>
-		<function name="refresh">Data vernieuwen</function>
-		
-		<header>Foto's</header>
-		<images name="photo" sortable="true" label="" readonly="true" translatable="true">
-			<choice name="image_type" hidden="true" allownull="true">
-				<option value="1">Buitenkant</option>
-				<option value="2">Tuin</option>
-				<option value="3">Binnenkant</option>
-				<option value="4">Map gelijkvloers</option>
-				<option value="5">Map</option>
-				<option value="6">Map bovenverdieping</option>
-			</choice>
-		</images>
+
+		<header>Virtueel bezoek</header>
+		<bool name="virtual_active" label="Toon virtueel bezoek op hoofdwebsite" summary="false" />
+		<virtualvisit name="virtual" source="photo"/>
 	</object>
 </page>

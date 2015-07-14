@@ -54,7 +54,7 @@ function use_library($name) {
 
 function cron_allowed() {
 	$user = FW4_User::get_user();
-    return ($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR'] || $user['id'] === 0);
+    return ($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR'] || ($user && $user['id'] === 0));
 }
 
 function load_controller($name) {

@@ -118,6 +118,21 @@ class Skarabeeproperty extends Model {
 			16 => l(array('nl' => 'Woonuitbreidingsgebied', 'fr' => '', 'en' => '', 'de' => 'Wohnerweiterungsgebiet')),
 		);
 
+		$roof_types = array(
+			1 => l(array('nl' => 'Composiet', 'fr' => '', 'en' => 'Composite roof', 'de' => '')),
+			2 => l(array('nl' => 'Gekruisd puntdak', 'fr' => '', 'en' => 'Cross gable roof', 'de' => '')),
+			3 => l(array('nl' => 'Koepeldak', 'fr' => '', 'en' => 'Dome roof', 'de' => '')),
+			4 => l(array('nl' => 'Plat betonnen dak', 'fr' => '', 'en' => 'Flat concrete roof', 'de' => '')),
+			5 => l(array('nl' => 'Plat dakleer dak', 'fr' => '', 'en' => 'Flat felt roof', 'de' => '')),
+			6 => l(array('nl' => 'Plat dak', 'fr' => '', 'en' => 'Flat roof', 'de' => '')),
+			7 => l(array('nl' => 'Plat houten dak', 'fr' => '', 'en' => 'Flat wooden roof', 'de' => '')),
+			8 => l(array('nl' => 'Hellend dak', 'fr' => '', 'en' => 'Lean to roof', 'de' => '')),
+			9 => l(array('nl' => 'Mansardedak', 'fr' => '', 'en' => 'Mansard roof', 'de' => '')),
+			10 => l(array('nl' => 'Zadeldak', 'fr' => '', 'en' => 'Pitched roof', 'de' => '')),
+			11 => l(array('nl' => 'Schilddak', 'fr' => '', 'en' => 'Shield roof', 'de' => '')),
+			12 => l(array('nl' => 'Tentdak', 'fr' => '', 'en' => 'Tent roof', 'de' => ''))
+		);
+
 		$marketing_types = json_decode($this->features);
 
 		// FINANCIEEL
@@ -125,16 +140,17 @@ class Skarabeeproperty extends Model {
 		if(intval($this->cadastrall_income)) $details['financieel'][l(array('nl'=>'Kadastraal inkomen','fr'=>'Revenu Rcadastral','en' => 'Land registry income', 'de'=>'Kataster Wert'))] = '&euro; '.number_format($this->cadastrall_income, 0, ',', '.');
 		if(intval($this->cadastrall_income_indexed)) $details['financieel'][l(array('nl'=>'Ge&iuml;ndexeerd kad.&nbsp;inkomen','fr'=>'Revenu cadastral index&eacute;','en' => 'Indexed land registry income', 'de'=>'Indiziertes Kataster Wert'))] = '&euro; '.number_format($this->cadastrall_income_indexed, 0, ',', '.');
 		if(intval($this->communal_expenses)) $details['financieel'][l(array('nl'=>'Kosten','fr'=>'Charges','en' => 'Costs', 'de'=>'Kosten'))] = '&euro; '.number_format($this->communal_expenses, 0, ',', '.');
+		// Onroerende voorheffing $details['financieel'][l(array('nl'=>'Onroerende voorheffing','fr'=>"Pr&eacute;compte immobilier",'en'=>'Land tax'))] = '&euro; '.number_format(str_replace(',','.',$whise_details[297]),0,',','.');
+		if($this->availability) $details['financieel'][l(array('nl'=>'Ter beschikking stelling','fr'=>'Disponible','en' => 'Available', 'de'=>'Zu Verfügung stellen'))] = $availability_types[$this->availability];
+		if($this->availability && $this->availability_date) $details['financieel'][l(array('nl'=>'Ter beschikking stelling','fr'=>'Disponible','en' => 'Available', 'de'=>''))] = $availability_types[$this->availability].'<br />'.strftime('%d %B %Y',$this->availability_date);
 
 		// LIGGING
-		if(in_array('Met zeezicht', $marketing_types)) $details['ligging'][l(array('nl' => 'Zeezicht', 'fr' => 'Avec vue sur mer', 'en' => 'Seascape', 'de' => 'Mit Meerblick'))] = l(array('nl' => 'Ja', 'fr' => 'Oui', 'en' => 'Yes', 'de' => 'Ja'));
 
 		// ALGEMEEN
+		$details['algemeen'][l(array('nl' => 'Nieuwbouw', 'fr' => 'New immobilier', 'en' => 'New estate', 'de' => 'Neue Immobilien'))] = $this->newly_constructed ? l(array('nl' => 'Ja', 'fr' => 'Oui', 'en' => 'Yes', 'de' => 'Ja')) : l(array('nl' => 'Nee', 'fr' => 'Non', 'en' => 'No', 'de' => 'Nein')) ;
 		$details['algemeen'][l(array('nl'=>'Bebouwing','fr'=>'D&eacuteveloppement','en' => 'Development', 'de'=>'Bebauung'))] = $this->style;
 		if(intval($this->surface_livable)) $details['algemeen'][l(array('nl'=>'Bewoonbare oppervlakte','fr'=>'Surface habitable','en' => 'Habitable surface', 'de'=>'Bewohnbare Oberfläche'))] = number_format($this->surface_livable,0,',','.').' m&sup2;';
 		$details['algemeen'][l(array('nl'=>'Verdieping','fr'=>'&Eacute;tage','en' => 'Floor', 'de'=>'Etage'))] = $this->floors;
-		if($this->availability) $details['algemeen'][l(array('nl'=>'Ter beschikking stelling','fr'=>'Disponible','en' => 'Available', 'de'=>'Zu Verfügung stellen'))] = $availability_types[$this->availability];
-		if($this->availability && $this->availability_date) $details['algemeen'][l(array('nl'=>'Ter beschikking stelling','fr'=>'Disponible','en' => 'Available', 'de'=>''))] = $availability_types[$this->availability].'<br />'.strftime('%d %B %Y',$this->availability_date);
 		$details['algemeen'][l(array('nl'=>'Bouwjaar','fr'=>'Ann&eacute;e de construction','en' => 'Construction year', 'de'=>'Baujahr'))] = $this->construction_year;
 		$details['algemeen'][l(array('nl'=>'Renovatiejaar','fr'=>'R&eacute;novation','en' => 'Renovation', 'de'=>'Renovierungjahr'))] = $this->renovation_year;
 		if($this->has_terrace) $details['algemeen'][l(array('nl'=>'Terras','fr'=>'Terrace','en' => 'Terrace', 'de'=>''))] = l(array('nl' => 'Ja', 'fr' => 'Oui', 'en' => 'Yes', 'de' => 'Ja'));
@@ -145,7 +161,7 @@ class Skarabeeproperty extends Model {
 		if($this->has_garage && $this->garages)$details['algemeen'][l(array('nl'=>'Garages','fr'=>'Garages','en' => 'Garages', 'de'=>'Garages'))] = $this->garages;
 		if($this->has_parking) $details['algemeen'][l(array('nl'=>'Parkings','fr'=>'Parkings','en' => 'Parkings', 'de'=>'Parkplatz'))] = l(array('nl' => 'Ja', 'fr' => 'Oui', 'en' => 'Yes', 'de' => 'Ja'));
 		if($this->has_parking && $this->parkings)$details['algemeen'][l(array('nl'=>'Parkings','fr'=>'Parkings','en' => 'Parkings', 'de'=>'Parkplatz'))] = $this->parkings;
-		// fietsenberging
+		if($this->roof_type) $details['algemeen'][l(array('nl' => 'Daksoort', 'fr' => 'Type de toit', 'en' => 'Roof type', 'de' => 'Dachtyp'))] = $roof_types[$this->roof_type];
 
 		// GROND
 		if(intval($this->surface_terrain)) $details['grond'][l(array('nl'=>'Grondoppervlakte','fr'=>'Superficie terrain','en' => '', 'de'=>'Grundoberfläche'))] = number_format($this->surface_terrain,0,',','.').' m&sup2;';
@@ -153,7 +169,8 @@ class Skarabeeproperty extends Model {
 		if($this->has_garden && intval($this->surface_garden)) $details['grond'][l(array('nl'=>'Tuin','fr'=>'Jardin','en' => 'Garden', 'de'=>'Garten'))] = number_format($this->surface_garden,0,',','.').' m&sup2;';
 		if($this->orientation) $details['grond'][l(array('nl'=>'Ori&euml;ntatie tuin','fr'=>'Orientation du jardin','en' => 'Orientation of the garden', 'de'=>'Orientierung Garten'))] = $orientation_types[$this->orientation];
 		if(intval($this->terrain_width_front)) $details['grond'][l(array('nl'=>'Breedte aan straatkant','fr'=>'Largeur à la rue','en' => 'Width at the street', 'de'=>'Breite Strassenseite'))] = number_format($this->terrain_width_front,0,',','.').' m&sup2;';
-		if(intval($this->terrain_depth)) $details['grond'][l(array('nl'=>'Terreindiepte','fr'=>'Profondeur terrain','en' => 'Ground depth', 'de'=>'Terraintiefe'))] = number_format($this->terrain_depth,0,',','.').' m&sup2;';
+		if(intval($this->terrain_width)) $details['grond'][l(array('nl'=>'Terrein breedte','fr'=>'Largeur du terrain','en' => 'Land width', 'de'=>'Stegbreite'))] = number_format($this->terrain_width,0,',','.').' m&sup2;';
+		if(intval($this->terrain_depth)) $details['grond'][l(array('nl'=>'Terrein diepte','fr'=>'Profondeur terrain','en' => 'Ground depth', 'de'=>'Terraintiefe'))] = number_format($this->terrain_depth,0,',','.').' m&sup2;';
 
 		// INDELING
 		if($this->has_bedrooms) $details['indeling'][l(array('nl'=>'Slaapkamers','fr'=>'Chambres','en' => 'Bedrooms', 'de'=>'Schlafzimmer'))] = l(array('nl' => 'Ja', 'fr' => 'Oui', 'en' => 'Yes', 'de' => 'Ja'));
@@ -222,11 +239,13 @@ class Skarabeeproperty extends Model {
 		$details['stedenbouw'][l(array('nl'=>'Voorkooprecht','fr'=>'Droit de pr&eacute;emption','en'=>'Right of pre-emption', 'de'=>''))] = l(array('nl' => 'Niet meedegedeeld', 'fr' => 'Non communiqué', 'en' => 'Not disclosed', 'de' => 'Vorkaufrecht'));
 		if($this->preemption_right) $details['stedenbouw'][l(array('nl'=>'Voorkooprecht','fr'=>'Droit de pr&eacute;emption','en'=>'Right of pre-emption', 'de'=>'Vorkaufrecht'))] = $this->preemption_right ? l(array('nl' => 'Ja', 'fr' => 'Oui', 'en' => 'Yes', 'de' => 'Ja')) : l(array('nl' => 'Nee', 'fr' => 'Non', 'en' => 'No', 'de' => 'Nein'));
 		$details['stedenbouw'][l(array('nl'=>'Dagvaarging','fr'=>'Intimation en justice','en'=>'Intimation', 'de'=>''))] = l(array('nl' => 'Niet meedegedeeld', 'fr' => 'Non communiqué', 'en' => 'Not disclosed', 'de' => 'Vorladung'));
-		if($this->judicial_decision) $details['stedenbouw'][l(array('nl'=>'Dagvaarging','fr'=>'Intimation en justice','en'=>'Intimation', 'de'=>'Vorladung'))] = $this->judicial_decision ? l(array('nl' => 'Ja', 'fr' => 'Oui', 'en' => 'Yes', 'de' => 'Ja')) : l(array('nl' => 'Nee', 'fr' => 'Non', 'en' => 'No', 'de' => 'Nein'));
+		if($this->urbanism_citation) $details['stedenbouw'][l(array('nl'=>'Dagvaarging','fr'=>'Intimation en justice','en'=>'Intimation', 'de'=>'Vorladung'))] = $this->urbanism_citation ? l(array('nl' => 'Ja', 'fr' => 'Oui', 'en' => 'Yes', 'de' => 'Ja')) : l(array('nl' => 'Nee', 'fr' => 'Non', 'en' => 'No', 'de' => 'Nein'));
+		if($this->judicial_decision) $details['stedenbouw'][l(array('nl'=>'Rechterlijke beslissing','fr'=>'D&eacute;cision judiciaire','en'=>'Judicial decision', 'de'=>'Gerichtsentscheidung'))] = $this->judicial_decision ? l(array('nl' => 'Ja', 'fr' => 'Oui', 'en' => 'Yes', 'de' => 'Ja')) : l(array('nl' => 'Nee', 'fr' => 'Non', 'en' => 'No', 'de' => 'Nein'));
 		// Overstroming
 		// Afgebakend
 		if($this->is_protected) $details['stedenbouw'][l(array('nl'=>'Beschermd erfgoed','fr'=>'Patrimoine prot&eacute;g&eacute;','en'=>'Protected heritage', 'de'=>'Geschütztes Erbe'))] = l(array('nl' => 'Ja', 'fr' => 'Oui', 'en' => 'Yes', 'de' => 'Ja'));
-		
+
+
 		$this->details = $this->details_array_filter($details);
 	}
 

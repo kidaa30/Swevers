@@ -4,11 +4,24 @@
 		padding-left: $gutter;
 		width: 33.3333%;
 		@include box-sizing(border-box);
-		&:nth-child(n+4){margin-top: $gutter;}
+		@include above(1001px){&:nth-child(n+4){margin-top: $gutter;}}
+		@include below(1000px){
+			width: 50%;
+			&:nth-child(n+3){margin-top: $gutter;}
+		}
+		@include below(768px){padding-left: $half-gutter;}
+		@include below(500px){
+			width: 100%;
+			& + .property-wrapper{margin-top: $half-gutter;}
+		}
 	}
 
 	.property-image{
 		margin-bottom: 15px;
+		img{
+			display:block;
+			max-width: 100%;
+		}
 	}
 
 	.property-title{
@@ -19,4 +32,29 @@
 	}
 
 	.property-detail, .property-content{display:none;}
+
+	@include between(1001px, 1150px){
+		.city{margin-bottom: 5px;}
+		.price.right{
+			clear: both;
+			float: none;
+			display:block;
+		}
+	}
+	@include between(501px, 768px){
+		.city{margin-bottom: 5px;}
+		.price.right{
+			clear: both;
+			float: none;
+			display:block;
+		}
+	}
+	@include below(350px){
+		.city{margin-bottom: 5px;}
+		.price.right{
+			clear: both;
+			float: none;
+			display:block;
+		}
+	}
 }

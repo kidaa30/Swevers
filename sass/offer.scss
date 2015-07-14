@@ -13,7 +13,16 @@
 	background: rgba($gray, 0.2);
 	padding: 8px 20px;
 	margin-top: 30px;
+	position: relative;
 	@include clearfix;
+	#input-fields{
+		position: relative;
+		padding-right: 132px;
+		@include clearfix;
+		@include below(600px){
+			padding-right: 0;
+		}
+	}
 	.input{
 		&:not(:first-child){margin-left: 45px}
 		& > label{
@@ -22,34 +31,68 @@
 			float: left;
 			line-height: rem-calc(37);
 			margin-right: 15px;
+			@include below(768px){
+				float:none;
+				display: block;
+			}
 		}
 		&.select{
 			.btn-group, .selector{
 				float: left;
 			}
 		}
+		@include below(1170px){
+			width: 50%;
+			&:not(:first-child){margin-left: 0px}
+			&:nth-child(n+3){margin-top: 10px;}
+		}
+		@include below(450px){
+			width: 100%;
+			&:nth-child(n+3){margin-top: 0px;}
+			.btn-group, .selector{width: 100% !important;}
+		}
 	}
 	#select-types{
 		.btn-group, .selector{
 			width: 115px !important;
+			@include below(450px){width: 100% !important;}
 		}
 	}
 
 	#select-rooms{
 		.btn-group, .selector{
 			width: 75px !important;
+			@include below(450px){width: 100% !important;}
 		}
 	}
 
 	#select-price{
 		.btn-group, .selector{
 			width: 120px !important;
+			@include below(450px){width: 100% !important;}
 		}
 	}
 
 	#select-cities{
 		.btn-group, .selector{
 			width: 160px !important;
+			@include below(450px){width: 100% !important;}
+		}
+	}
+	#input-submit{
+		position: absolute;
+		right: 20px;
+		top: 8px;
+		@include below(1170px){
+			top: 50%;
+			margin-top: -18px;
+		}
+		@include below(600px){
+			position: relative;
+			right: auto;
+			top: auto;
+			margin-top: 10px;
+			text-align: center;
 		}
 	}
 }
@@ -57,6 +100,10 @@
 #properties{
 	margin-top: $gutter;
 	margin-bottom: $gutter;
+	@include below(768px){
+		margin-top: $half-gutter;
+		margin-bottom: $half-gutter;
+	}
 }
 
 @import '_property.scss';

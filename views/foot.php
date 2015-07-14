@@ -1,7 +1,7 @@
         </div>
         <footer>
             <div class="container">
-                <div class="left">marcswevers.be vastgoedmakelaar  |  <?= STREET ?>, <?= POSTAL.' '.CITY ?>  |  T: <a href="tel:<?= str_replace(' ', '', PHONE); ?>" id="phone"><?= PHONE ?></a>  |  E: <a href="<?= email_encode('mailto:'.EMAIL); ?>"><?= email_encode(EMAIL); ?></a>
+                <div class="left"><span><strong>marcswevers.be vastgoedmakelaar  |</strong>  <?= STREET ?>, <?= POSTAL.' '.CITY ?>  |  </span>T: <a href="tel:<?= str_replace(' ', '', PHONE); ?>" id="phone"><?= PHONE ?></a>  |  E: <a href="<?= email_encode('mailto:'.EMAIL); ?>"><?= email_encode(EMAIL); ?></a>
                 </div>
                 <div class="right">
                     <a href="https://www.facebook.com/sweversvastgoed?sk=wall" rel="nofollow" target="_blank" class="icon left facebook">Facebook</a>

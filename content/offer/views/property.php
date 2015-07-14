@@ -3,7 +3,7 @@
 		<div class="property-image">
 			<a href="<?= url($purpose_slugs[$property->purpose].'/'.$property->slug.'/'.$property->id) ?>">
 				<? if($property->photo->count()): ?>
-					<img src="<?= $property->photo->first()->cover(360,240) ?>" srcset="<?= $property->photo->first()->cover(360,240) ?> 1x, <?= $property->photo->first()->cover(720,480) ?> 2x" alt="<?= $property->flash1_title ?>" />
+					<img src="<?= $property->photo->first()->cover(758,505) ?>" srcset="<?= $property->photo->first()->cover(758,505) ?> 1x, <?= $property->photo->first()->cover(1516,1010) ?> 2x" alt="<?= $property->flash1_title ?>" />
 				<? else: ?>
 					<img src="/images/property-placeholder.jpg" srcset="/images/property-placeholder.jpg 1x, /images/property-placeholder@2x.jpg 2x" alt="<?= $property->flash1_title ?>" />
 				<? endif; ?>

@@ -25,5 +25,7 @@ $config['buttoncolors'] = array(
 
 // $config['skarabee_username'] = 'skarabee12MTM';
 // $config['skarabee_password'] = 'skarabee';
-$config['skarabee_username'] = 'BE0015718';
-$config['skarabee_password'] = 'test12x';
+// $config['skarabee_username'] = 'BE0015718';
+// $config['skarabee_password'] = 'test12x';
+$config['skarabee_username'] = 'BE00129185';
+$config['skarabee_password'] = 'gegaNom6xx';

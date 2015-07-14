@@ -698,7 +698,7 @@ class Skarabee extends Controller {
 							$from = date_parse_from_format('Y-m-d H:i:s', $fromtodate->From);
 							$to = date_parse_from_format('Y-m-d H:i:s', $fromtodate->To);
 						    $openhouse[] = array(
-							    'comment' => $publication->Property->OpenHouse->Comment,
+							    'comment' => isset($publication->Property->OpenHouse->Comment) ? $publication->Property->OpenHouse->Comment : null,
 							    'from' => mktime($from['hour'],$from['minute'],$from['second'],$from['month'],$from['day'],$from['year']),
 								'to' => mktime($to['hour'],$to['minute'],$to['second'],$to['month'],$to['day'],$to['year'])
 						    );
@@ -822,8 +822,6 @@ class Skarabee extends Controller {
 						'create_date' => strtotime($publication->Property->Created),
 						'update_date' => strtotime($publication->Property->Modified),
 						
-						'type' => isset($types[$publication->Property->PropertyType]) ? $types[$publication->Property->PropertyType] : 1,
-						'category' => isset($categories[$publication->Property->Typo->Sort]) ? $categories[$publication->Property->Typo->Sort] : 1,
 						'purpose' => isset($purposes[$publication->Property->Status]) ? $purposes[$publication->Property->Status] : 3,
 						'purpose_status' => isset($purpose_statuses[$publication->Property->Status]) ? $purpose_statuses[$publication->Property->Status] : 1,
 						'rent_type' => isset($rent_types[$publication->Property->RentType]) ? $rent_types[$publication->Property->RentType] : null,
@@ -836,20 +834,8 @@ class Skarabee extends Controller {
 						'exclusive' => ($publication->Property->IsExclusive == '1'),
 						'availability' => isset($availabilities[$publication->Property->Acception]) ? $availabilities[$publication->Property->Acception] : null,
 						'availability_date' => null,
-						'service_charges_included' => $publication->Property->ServiceCharges == 'UNDEFINED' ? null : ($publication->Property->ServiceCharges == 'COSTS_INCLUSIVE') ,
 						
 						'selected_flash' => intval(preg_replace('/\D/','',$publication->Info->FlashID)),
-						
-						'show_price' => !$publication->Info->HidePrice,
-						'price' => floatval($publication->Property->Price),
-						'price_type' => isset($price_types[$publication->Property->PriceType]) ? $price_types[$publication->Property->PriceType] : 1,
-						'price_indication' => isset($price_types[$publication->Property->PriceIndication]) ? $price_types[$publication->Property->PriceIndication] : null,
-						'vat_included' => !($publication->Property->IsVATInclusive == 'FALSE' || $publication->Property->IsVATExclusive == 'TRUE'),
-						'charges' => floatval($publication->Property->ChargesAndProvisions) >= 0 ? floatval($publication->Property->ChargesAndProvisions) : null,
-						'communal_expenses' => floatval($publication->Property->CommunalExpenses) >= 0 ? floatval($publication->Property->CommunalExpenses) : null,
-						'heating_water_costs' => floatval($publication->Property->HeatingWaterCosts) >= 0 ? floatval($publication->Property->HeatingWaterCosts) : null,
-						'heating_costs' => floatval($publication->Property->HeatingCosts) >= 0 ? floatval($publication->Property->HeatingCosts) : null,
-						'garage_costs' => floatval($publication->Property->CostsGarage) >= 0 ? floatval($publication->Property->CostsGarage) : null,
 						
 						'show_address' => !$publication->Info->HideAddress,
 						'show_number' => !$publication->Info->HideHouseNumber,
@@ -865,202 +851,13 @@ class Skarabee extends Controller {
 						'nearby_highway' => ($publication->Property->NearbyHighway == 'UNDEFINED' ? null : ($publication->Property->NearbyHighway == 'TRUE')),
 						'shop_location' => isset($shop_locations[$publication->Property->ShopLocation]) ? $shop_locations[$publication->Property->ShopLocation] : null,
 						
-						'surface' => $publication->Property->Area < 0 ? null : $publication->Property->Area,
-						'surface_terrain' => $publication->Property->LandArea < 0 ? null : $publication->Property->LandArea,
-						'surface_livable' => floatval($publication->Property->SurfaceLivable) < 0 ? null : floatval($publication->Property->SurfaceLivable),
-						'surface_buildable' => isset($publication->Property->Dimensions->ConstructionSurface->_) && floatval($publication->Property->Dimensions->ConstructionSurface->_) >= 0 ? floatval($publication->Property->Dimensions->ConstructionSurface->_) : null,
-						'surface_terrace' => isset($publication->Property->SurfaceTerrace) && floatval($publication->Property->SurfaceTerrace) >= 0 ? floatval($publication->Property->SurfaceTerrace) : null,
-						'surface_garden' => isset($publication->Property->SurfaceGarden) && floatval($publication->Property->SurfaceGarden) >= 0 ? floatval($publication->Property->SurfaceGarden) : null,
-						'surface_balcony' => isset($publication->Property->Dimensions->BalconySurface->_) && floatval($publication->Property->Dimensions->BalconySurface->_) >= 0 ? floatval($publication->Property->Dimensions->BalconySurface->_) : null,
 						'construction_year' => $publication->Property->ConstructionYear < 0 ? null : $publication->Property->ConstructionYear,
 						'renovation_year' => $publication->Property->RenovationYear < 0 ? null : $publication->Property->RenovationYear,
 						'newly_constructed' => ($publication->Property->NewEstate == 'UNDEFINED' ? null : ($publication->Property->NewEstate == 'TRUE')),
 						'under_construction' => ($publication->Property->UnderConstruction == 'UNDEFINED' ? null : ($publication->Property->UnderConstruction == 'TRUE')),
 						'in_production' => ($publication->Property->IsInProduction == 'UNDEFINED' ? null : ($publication->Property->IsInProduction == 'TRUE')),
 						'state' => isset($states[$publication->Property->GeneralState]) ? $states[$publication->Property->GeneralState] : null,
-						'terrain_width' => floatval($publication->Property->Width) < 0 ? null : floatval($publication->Property->Width),
-						'terrain_depth' => floatval($publication->Property->Depth) < 0 ? null : floatval($publication->Property->Depth),
-						'terrain_width_front' => floatval($publication->Property->FrontWidth) < 0 ? null : floatval($publication->Property->FrontWidth),
-						'floor_number' => is_numeric($publication->Property->FloorLevelNL) ? intval($publication->Property->FloorLevelNL) : null,
 						'floors' => $publication->Property->NumberOfFloors < 0 ? null : $publication->Property->NumberOfFloors,
-						'parkings' => $publication->Property->NumberOfParkingPlaces < 0 ? null : $publication->Property->NumberOfParkingPlaces,
-						'has_parking' => ($publication->Property->NumberOfParkingPlaces < 0 && $publication->Property->HasParkingPlace == 'UNDEFINED') ? null : ($publication->Property->NumberOfParkingPlaces > 0 || $publication->Property->HasParkingPlace == 'TRUE'),
-						'has_garden' => ($publication->Property->SurfaceGarden < 1 && $publication->Property->HasBackYard == 'UNDEFINED') ? null : ($publication->Property->SurfaceGarden > 0 || $publication->Property->HasBackYard == 'TRUE'),
-						'has_balcony' => ($publication->Property->HasBalcony == 'UNDEFINED' ? null : ($publication->Property->HasBalcony == 'TRUE')),
-						'garden_width' => floatval($publication->Property->BackYardWidth) < 0 ? null : floatval($publication->Property->BackYardWidth),
-						'garden_depth' => floatval($publication->Property->BackYardDepth) < 0 ? null : floatval($publication->Property->BackYardDepth),
-						'garden_quality' => isset($garden_qualities[$publication->Property->GardenQuality]) ? $garden_qualities[$publication->Property->GardenQuality] : null,
-						'roof_type' => isset($roof_types[$publication->Property->RoofType]) ? $roof_types[$publication->Property->RoofType] : null,
-						'roof_evaluation' => isset($evaluations[$publication->Property->RoofEvaluation]) ? $evaluations[$publication->Property->RoofEvaluation] : null,
-						'roof_comment' => $publication->Property->RoofComment,
-						'roof_cover' => isset($roof_covers[$publication->Property->RoofCoverType]) ? $roof_covers[$publication->Property->RoofCoverType] : null,
-						'roof_cover_evaluation' => isset($evaluations[$publication->Property->RoofCoverEvaluation]) ? $evaluations[$publication->Property->RoofCoverEvaluation] : null,
-						'roof_cover_comment' => isset($publication->Property->RoofCoverComment) ? $publication->Property->RoofCoverComment : '',
-						'window_type' => isset($window_types[$publication->Property->WindowType]) ? $window_types[$publication->Property->WindowType] : null,
-						'window_evaluation' => isset($evaluations[$publication->Property->WindowEvaluation]) ? $evaluations[$publication->Property->WindowEvaluation] : null,
-						'window_comment' => $publication->Property->WindowComment,
-						'glazing_evaluation' => isset($evaluations[$publication->Property->GlazingEvaluation]) ? $evaluations[$publication->Property->GlazingEvaluation] : null,
-						'glazing_comment' => $publication->Property->GlazingComment,
-						'electricity_evaluation' => isset($evaluations[$publication->Property->ElectricityEvaluation]) ? $evaluations[$publication->Property->ElectricityEvaluation] : null,
-						'electricity_comment' => $publication->Property->ElectricityComment,
-						'plumbing_evaluation' => isset($evaluations[$publication->Property->PlumbingEvaluation]) ? $evaluations[$publication->Property->PlumbingEvaluation] : null,
-						'plumbing_comment' => $publication->Property->PlumbingComment,
-						'sanitary_evaluation' => isset($evaluations[$publication->Property->SanitaryEvaluation]) ? $evaluations[$publication->Property->SanitaryEvaluation] : null,
-						'sanitary_comment' => $publication->Property->SanitaryComment,
-						'modification_allowed' => ($publication->Property->Modification == 'UNDEFINED' ? null : ($publication->Property->Modification == 'ALLOWED')),
-						'common_walls' => isset($common_walls[$publication->Property->CommonWalls]) ? $common_walls[$publication->Property->CommonWalls] : null,
-						'orientation' => isset($orientations[$publication->Property->Orientation]) ? $orientations[$publication->Property->Orientation] : null,
-						'maintenance_inside' => isset($maintenance[$publication->Property->MaintenanceInside]) ? $maintenance[$publication->Property->MaintenanceInside] : null,
-						'maintenance_outside' => isset($maintenance[$publication->Property->MaintenanceOutside]) ? $maintenance[$publication->Property->MaintenanceOutside] : null,
-						'construction_type' => isset($construction_types[$publication->Property->ConstructionType]) ? $construction_types[$publication->Property->ConstructionType] : null,
-						'construction_evaluation' => isset($evaluations[$publication->Property->ConstructionEvaluation]) ? $evaluations[$publication->Property->ConstructionEvaluation] : null,
-						'frontage_type' => isset($frontage_types[$publication->Property->FrontageType]) ? $frontage_types[$publication->Property->FrontageType] : null,
-						'frontage_evaluation' => isset($evaluations[$publication->Property->FrontageEvaluation]) ? $evaluations[$publication->Property->FrontageEvaluation] : null,
-						
-						'rooms' => $publication->Property->NumberOfRooms < 0 ? null : $publication->Property->NumberOfRooms,
-						'bedrooms' => $publication->Property->NumberOfBedrooms < 0 ? null : $publication->Property->NumberOfBedrooms,
-						'bathrooms' => $publication->Property->NumberOfBathrooms < 0 ? null : $publication->Property->NumberOfBathrooms,
-						'offices' => $publication->Property->NumberOfOffices < 0 ? null : $publication->Property->NumberOfOffices,
-						'garages' => $publication->Property->NumberOfGarages < 0 ? null : $publication->Property->NumberOfGarages,
-						'garage_size' => $publication->Property->NumberOfPlacesInGarage < 0 ? null : $publication->Property->NumberOfPlacesInGarage,
-						'toilets' => $publication->Property->NumberOfToilets < 0 ? null : $publication->Property->NumberOfToilets,
-						'has_garage' => ($publication->Property->NumberOfGarages < 0 && $publication->Property->HasGarage == 'UNDEFINED') ? null : ($publication->Property->NumberOfGarages > 0 || $publication->Property->HasGarage == 'TRUE'),
-						'has_terrace' => ($publication->Property->SurfaceTerrace < 1 && $publication->Property->HasTerrace == 'UNDEFINED') ? null : ($publication->Property->SurfaceTerrace > 0 || $publication->Property->HasTerrace == 'TRUE'),
-						'has_cellar' => ($publication->Property->SurfaceBasement < 1 && $publication->Property->HasCellar == 'UNDEFINED') ? null : ($publication->Property->SurfaceBasement > 0 || $publication->Property->HasCellar == 'TRUE'),
-						'has_attic' => ($publication->Property->SurfaceAttick < 1 && $publication->Property->HasAttick == 'UNDEFINED') ? null : ($publication->Property->SurfaceAttick > 0 || $publication->Property->HasAttick == 'TRUE'),
-						'has_showroom' => ($publication->Property->SurfaceShowroom < 1 && $publication->Property->HasShowroom == 'UNDEFINED') ? null : ($publication->Property->SurfaceShowroom > 0 || $publication->Property->HasShowroom == 'TRUE'),
-						'has_office' => $publication->Property->HasOffice == 'UNDEFINED' ? null : $publication->Property->HasOffice == 'TRUE',
-						'has_greenhouse' => $publication->Property->HasGreenHouse == 'UNDEFINED' ? null : $publication->Property->HasGreenHouse == 'TRUE',
-						'has_profession_room' => ($publication->Property->SurfaceProfessionRoom < 1 && $publication->Property->HasProfessionRoom == 'UNDEFINED') ? null : ($publication->Property->SurfaceProfessionRoom > 0 || $publication->Property->HasProfessionRoom == 'TRUE'),
-						'has_living' => ($publication->Property->SurfaceLiving < 1 && $publication->Property->HasLivingRoom == 'UNDEFINED') ? null : ($publication->Property->SurfaceLiving > 0 || $publication->Property->HasLivingRoom == 'TRUE'),
-						'has_kitchen' => ($publication->Property->SurfaceKitchen < 1 && $publication->Property->HasKitchen == 'UNDEFINED') ? null : ($publication->Property->SurfaceKitchen > 0 || $publication->Property->HasKitchen == 'TRUE'),
-						'has_utility_room' => ($publication->Property->SurfaceUtilityRoom < 1 && $publication->Property->HasUtilityRoom == 'UNDEFINED') ? null : ($publication->Property->SurfaceUtilityRoom > 0 || $publication->Property->HasUtilityRoom == 'TRUE'),
-						'has_bedrooms' => ($publication->Property->NumberOfBedrooms < 1 && $publication->Property->HasBedrooms == 'UNDEFINED') ? null : ($publication->Property->NumberOfBedrooms > 0 || $publication->Property->HasBedrooms == 'TRUE'),
-						'has_bathroom' => ($publication->Property->NumberOfBathrooms < 1 && $publication->Property->HasBathroom == 'UNDEFINED') ? null : ($publication->Property->NumberOfBathrooms > 0 || $publication->Property->HasBathroom == 'TRUE'),
-						'has_toilet' => ($publication->Property->NumberOfToilets < 1 && $publication->Property->HasToilet == 'UNDEFINED') ? null : ($publication->Property->NumberOfToilets > 0 || $publication->Property->HasToilet == 'TRUE'),
-						'has_storage' => ((!isset($publication->Property->SurfaceStock) || $publication->Property->SurfaceStock < 1) && $publication->Property->HasStock == 'UNDEFINED') ? null : ((isset($publication->Property->SurfaceStock) && $publication->Property->SurfaceStock > 0) || $publication->Property->HasStock == 'TRUE'),
-						'has_wash_place' => $publication->Property->HasWashPlace == 'UNDEFINED' ? null : $publication->Property->HasWashPlace == 'TRUE',
-						'has_dinging_room' => ($publication->Property->SurfaceDiningRoom < 1 && $publication->Property->HasDiningRoom == 'UNDEFINED') ? null : ($publication->Property->SurfaceDiningRoom > 0 || $publication->Property->HasDiningRoom == 'TRUE'),
-						'surface_kitchen' => isset($publication->Property->SurfaceKitchen) && floatval($publication->Property->SurfaceKitchen) >= 0 ? floatval($publication->Property->SurfaceKitchen) : null,
-						'surface_living' => isset($publication->Property->SurfaceLiving) && floatval($publication->Property->SurfaceLiving) >= 0 ? floatval($publication->Property->SurfaceLiving) : null,
-						'surface_storage' => isset($publication->Property->SurfaceStock) && floatval($publication->Property->SurfaceStock) >= 0 ? floatval($publication->Property->SurfaceStock) : null,
-						'surface_utility_room' => isset($publication->Property->SurfaceUtilityRoom) && floatval($publication->Property->SurfaceUtilityRoom) >= 0 ? floatval($publication->Property->SurfaceUtilityRoom) : null,
-						'surface_showroom' => isset($publication->Property->SurfaceShowroom) && floatval($publication->Property->SurfaceShowroom) >= 0 ? floatval($publication->Property->SurfaceShowroom) : null,
-						'surface_profession_room' => isset($publication->Property->SurfaceProfessionRoom) && floatval($publication->Property->SurfaceProfessionRoom) >= 0 ? floatval($publication->Property->SurfaceProfessionRoom) : null,
-						'surface_attic' => isset($publication->Property->SurfaceAttick) && floatval($publication->Property->SurfaceAttick) >= 0 ? floatval($publication->Property->SurfaceAttick) : null,
-						'surface_cellar' => isset($publication->Property->SurfaceBasement) && floatval($publication->Property->SurfaceBasement) >= 0 ? floatval($publication->Property->SurfaceBasement) : null,
-						'surface_dining_room' => isset($publication->Property->SurfaceDiningRoom) && floatval($publication->Property->SurfaceDiningRoom) >= 0 ? floatval($publication->Property->SurfaceDiningRoom) : null,
-						'surface_cantine' => isset($publication->Property->Dimensions->CantineSurface) && floatval($publication->Property->Dimensions->CantineSurface) >= 0 ? floatval($publication->Property->Dimensions->CantineSurface) : null,
-						'surface_horeca' => isset($publication->Property->Dimensions->CateringSurface) && floatval($publication->Property->Dimensions->CateringSurface) >= 0 ? floatval($publication->Property->Dimensions->CateringSurface) : null,
-						'surface_industry' => isset($publication->Property->Dimensions->IndustrySurface) && floatval($publication->Property->Dimensions->IndustrySurface) >= 0 ? floatval($publication->Property->Dimensions->IndustrySurface) : null,
-						'surface_industry_land' => isset($publication->Property->Dimensions->IndustryLandSurface) && floatval($publication->Property->Dimensions->IndustryLandSurface) >= 0 ? floatval($publication->Property->Dimensions->IndustryLandSurface) : null,
-						'surface_industry_office' => isset($publication->Property->Dimensions->IndustryOfficeSurface) && floatval($publication->Property->Dimensions->IndustryOfficeSurface) >= 0 ? floatval($publication->Property->Dimensions->IndustryOfficeSurface) : null,
-						'surface_industry_hall' => isset($publication->Property->Dimensions->IndustryHallSurface) && floatval($publication->Property->Dimensions->IndustryHallSurface) >= 0 ? floatval($publication->Property->Dimensions->IndustryHallSurface) : null,
-						'surface_office' => isset($publication->Property->Dimensions->OfficeSurface) && floatval($publication->Property->Dimensions->OfficeSurface) >= 0 ? floatval($publication->Property->Dimensions->OfficeSurface) : null,
-						'surface_production' => isset($publication->Property->Dimensions->ProductionHallSurface) && floatval($publication->Property->Dimensions->ProductionHallSurface) >= 0 ? floatval($publication->Property->Dimensions->ProductionHallSurface) : null,
-						'surface_rentable' => isset($publication->Property->Dimensions->RentableSurface) && floatval($publication->Property->Dimensions->RentableSurface) >= 0 ? floatval($publication->Property->Dimensions->RentableSurface) : null,
-						'surface_sales_room' => isset($publication->Property->Dimensions->SalesRoomSurface) && floatval($publication->Property->Dimensions->SalesRoomSurface) >= 0 ? floatval($publication->Property->Dimensions->SalesRoomSurface) : null,
-						'surface_shop' => isset($publication->Property->Dimensions->ShopSurface) && floatval($publication->Property->Dimensions->ShopSurface) >= 0 ? floatval($publication->Property->Dimensions->ShopSurface) : null,
-						'living_type' => isset($living_types[$publication->Property->LivingRoomType]) ? $living_types[$publication->Property->LivingRoomType] : null,
-						'garage_type' => isset($garage_types[$publication->Property->GarageType]) ? $garage_types[$publication->Property->GarageType] : null,
-						'profession_room_type' => isset($profession_room_types[$publication->Property->ProfessionRoomType]) ? $profession_room_types[$publication->Property->ProfessionRoomType] : null,
-						'office_type' => isset($office_types[$publication->Property->OfficeType]) ? $office_types[$publication->Property->OfficeType] : null,
-						'storage_type' => isset($storage_types[$publication->Property->StorageRoom]) ? $storage_types[$publication->Property->StorageRoom] : null,
-						'kitchen_type' => isset($kitchen_types[$publication->Property->KitchenGenre]) ? $kitchen_types[$publication->Property->KitchenGenre] : null,
-						'cellar_type' => isset($cellar_types[$publication->Property->BasesType]) ? $cellar_types[$publication->Property->BasesType] : null,
-						'cellar_evaluation' => isset($evaluations[$publication->Property->BasesEvaluation]) ? $evaluations[$publication->Property->BasesEvaluation] : null,
-						'cellar_comment' => isset($publication->Property->BasesComment) ? $publication->Property->BasesComment : null,
-						
-						'has_elevator' => ($publication->Property->HasElevator == 'UNDEFINED' ? null : ($publication->Property->HasElevator == 'TRUE')),
-						'has_alarm' => ($publication->Property->HasAlarm == 'UNDEFINED' ? null : ($publication->Property->HasAlarm == 'TRUE')),
-						'furnished' => ($publication->Property->HasFurniture == 'UNDEFINED' ? null : ($publication->Property->HasFurniture == 'TRUE')),
-						'kitchen_equipped' => $publication->Property->KitchenType == 'UNDEFINED' ? null : $publication->Property->KitchenType == 'BUILD_WITH_APPLIANCES',
-						'pets_allowed' => ($publication->Property->PetsAllowed == 'UNDEFINED' ? null : ($publication->Property->PetsAllowed == 'TRUE')),
-						'child_friendly' => ($publication->Property->IsChildFriendly == 'UNDEFINED' ? null : ($publication->Property->IsChildFriendly == 'TRUE')),
-						'has_roller_blinds' => ($publication->Property->HasRollerBlinds == 'UNDEFINED' ? null : ($publication->Property->HasRollerBlinds == 'TRUE')),
-						'has_heating' => ($publication->Property->HasHeating == 'UNDEFINED' ? null : ($publication->Property->HasHeating == 'TRUE')),
-						'has_electricity' => ($publication->Property->HasElectricity == 'UNDEFINED' ? null : ($publication->Property->HasElectricity == 'TRUE')),
-						'has_sanitary' => ($publication->Property->HasSanitary == 'UNDEFINED' ? null : ($publication->Property->HasSanitary == 'TRUE')),
-						'has_external_solar_blinds' => ($publication->Property->ExternalSolarBlinds == 'UNDEFINED' ? null : ($publication->Property->ExternalSolarBlinds == 'TRUE')),
-						'has_ventilation' => ($publication->Property->HasVentilation == 'UNDEFINED' ? null : ($publication->Property->HasVentilation == 'TRUE')),
-						'garnished' => ($publication->Property->Garnished == 'UNDEFINED' ? null : !($publication->Property->Garnished == 'NO')),
-						'has_cable_tv' => ($publication->Property->HasCable_TV == 'UNDEFINED' ? null : ($publication->Property->HasCable_TV == 'TRUE')),
-						'has_cai_tv' => ($publication->Property->HasCAI_TV == 'UNDEFINED' ? null : ($publication->Property->HasCAI_TV == 'TRUE')),
-						'has_pool' => ($publication->Property->HasPool == 'UNDEFINED' ? null : ($publication->Property->HasPool == 'TRUE')),
-						'has_airco' => ($publication->Property->HasAirco == 'UNDEFINED' ? null : ($publication->Property->HasAirco == 'TRUE')),
-						'has_jacuzzi' => ($publication->Property->HasJacuzzi == 'UNDEFINED' ? null : ($publication->Property->HasJacuzzi == 'TRUE')),
-						'has_intercom' => ($publication->Property->HasIntercom == 'UNDEFINED' ? null : ($publication->Property->HasIntercom == 'TRUE')),
-						'has_electricity_connection' => ($publication->Property->HasElectricityConnect == 'UNDEFINED' ? null : ($publication->Property->HasElectricityConnect == 'TRUE')),
-						'has_gas_connection' => ($publication->Property->HasGasConnect == 'UNDEFINED' ? null : ($publication->Property->HasGasConnect == 'TRUE')),
-						'has_water_connection' => ($publication->Property->HasWaterConnect == 'UNDEFINED' ? null : ($publication->Property->HasWaterConnect == 'TRUE')),
-						'has_sewer_connection' => ($publication->Property->HasSewerConnect == 'UNDEFINED' ? null : ($publication->Property->HasSewerConnect == 'TRUE')),
-						'has_internet_connection' => ($publication->Property->HasInternetConnect == 'UNDEFINED' ? null : ($publication->Property->HasInternetConnect == 'TRUE')),
-						'has_fireplace' => ($publication->Property->HasFirePlace == 'UNDEFINED' ? null : ($publication->Property->HasFirePlace == 'TRUE')),
-						'external_solar_blinds_comment' => $publication->Property->ExternalSolarBlindsComment,
-						'ventilation_comment' => $publication->Property->VentilationComment,
-						'cable_tv_comment' => $publication->Property->Cable_TVComment,
-						'pool_comment' => $publication->Property->PoolComment,
-						'elevator_evaluation' => isset($evaluations[$publication->Property->ElevatorEvaluation]) ? $evaluations[$publication->Property->ElevatorEvaluation] : null,
-						'elevator_comment' => $publication->Property->ElevatorComment,
-						'alarm_evaluation' => isset($evaluations[$publication->Property->AlarmEvaluation]) ? $evaluations[$publication->Property->AlarmEvaluation] : null,
-						'alarm_comment' => $publication->Property->AlarmComment,
-						'roller_blinds_evaluation' => isset($evaluations[$publication->Property->RollerBlindsEvaluation]) ? $evaluations[$publication->Property->RollerBlindsEvaluation] : null,
-						'roller_blinds_comment' => $publication->Property->RollerBlindsComment,
-						'isolation_evaluation' => isset($evaluations[$publication->Property->IsolationEvaluation]) ? $evaluations[$publication->Property->IsolationEvaluation] : null,
-						'isolation_comment' => $publication->Property->IsolationComment,
-						'isolation_type' => null,
-						'klevel' => !isset($publication->Property->Energy->KLevel) || is_null($publication->Property->Energy->KLevel) ? null : intval($publication->Property->Energy->KLevel),
-						'elevel' => !isset($publication->Property->Energy->EnergyLevel) || is_null($publication->Property->Energy->EnergyLevel) ? null : intval($publication->Property->Energy->EnergyLevel),
-						'epc' => !isset($publication->Property->Energy->Index) || is_null($publication->Property->Energy->Index) || $publication->Property->Energy->Index == 0 ? null : intval($publication->Property->Energy->Index),
-						'epc_certificate' => !isset($publication->Property->Energy->EnergyCertificateNr) || is_null($publication->Property->Energy->EnergyCertificateNr) ? null : $publication->Property->Energy->EnergyCertificateNr,
-						'heating_type' => null,
-						'heating_source' => null,
-						'heating_evaluation' => isset($evaluations[$publication->Property->HeatingEvaluation]) ? $evaluations[$publication->Property->HeatingEvaluation] : null,
-						'heating_comment' => $publication->Property->HeatingComment,
-						'water_heating_type' => null,
-						'water_heating_source' => null,
-						'water_heating_evaluation' => isset($evaluations[$publication->Property->WarmWaterEvaluation]) ? $evaluations[$publication->Property->WarmWaterEvaluation] : null,
-						
-						'cadastrall_numbers' => $publication->Property->CadastrallNumbers,
-						'cadastrall_area' => $publication->Property->CadastrallArea < 0 ? null : $publication->Property->CadastrallArea,
-						'cadastrall_income' => floatval($publication->Property->CadastrallIncome) >= 0 ? floatval($publication->Property->CadastrallIncome) : null,
-						'cadastrall_income_indexed' => floatval($publication->Property->CadastrallIncomeIndexed) >= 0 ? floatval($publication->Property->CadastrallIncomeIndexed) : null,
-						'cadastrall_description' => $publication->Property->CadastrallDescription,
-						'percent_private_usage' => ($publication->Property->UsagePrivatePercent <= 0 && $publication->Property->UsageProfessionalPercent <= 0) ? null : $publication->Property->UsagePrivatePercent,
-						'percent_professional_usage' => ($publication->Property->UsagePrivatePercent <= 0 && $publication->Property->UsageProfessionalPercent <= 0) ? null : $publication->Property->UsageProfessionalPercent,
-						
-						'easement' => isset($easements[$publication->Property->Easement]) ? $easements[$publication->Property->Easement] : null,
-						'restriction_comment' => $publication->Property->RestrictionComment,
-						'environmental_planning_type' => isset($environmental_planning_types[$publication->Property->EnvironmentalPlanning]) ? $environmental_planning_types[$publication->Property->EnvironmentalPlanning] : null,
-						'clauses' => $publication->Property->Clauses,
-						'is_monument' => ($publication->Property->IsMonumentsAct == 'UNDEFINED' ? null : ($publication->Property->IsMonumentsAct == 'TRUE')),
-						'is_protected' => ($publication->Property->IsProtected == 'UNDEFINED' ? null : ($publication->Property->IsProtected == 'TRUE')),
-						'has_asbestus' => ($publication->Property->HasAsbestus == 'UNDEFINED' ? null : ($publication->Property->HasAsbestus == 'TRUE')),
-						'has_ground_pollution' => ($publication->Property->HasGroundPollution == 'UNDEFINED' ? null : ($publication->Property->HasGroundPollution == 'TRUE')),
-						'planning_permission' => ($publication->Property->UrbanDevelopment->Permit == 'UNDEFINED' ? null : ($publication->Property->UrbanDevelopment->Permit == 'TRUE')),
-						'subdivision_permit' => ($publication->Property->UrbanDevelopment->AllotmentPermit == 'UNDEFINED' ? null : ($publication->Property->UrbanDevelopment->AllotmentPermit == 'TRUE')),
-						'preemption_right' => ($publication->Property->UrbanDevelopment->PreemptiveRights == 'UNDEFINED' ? null : ($publication->Property->UrbanDevelopment->PreemptiveRights == 'TRUE')),
-						'urbanism_citation' => ($publication->Property->UrbanDevelopment->Summons == 'UNDEFINED' ? null : ($publication->Property->UrbanDevelopment->Summons == 'TRUE')),
-						'judicial_decision' => ($publication->Property->UrbanDevelopment->JudicialDecision == 'UNDEFINED' ? null : ($publication->Property->UrbanDevelopment->JudicialDecision == 'TRUE')),
-						'land_use_designation' => isset($land_use_designations[$publication->Property->UrbanDevelopment->AreaApplication->Code]) ? $land_use_designations[$publication->Property->UrbanDevelopment->AreaApplication->Code] : null,
-						//'flood_risk' => TODO
-						//'flood_risk_type' => TODO
-						
-						'as_built_certificate_date' => null,
-						'diagnostics_certificate_date' => null,
-						'electricity_certificate_date' => null,
-						'energy_consumption_certificate_date' => null,
-						'energy_performance_certificate_date' => null,
-						'gas_certificate_date' => null,
-						'polution_certificate_date' => null,
-						'accessibility_certificate_date' => null,
-						'lead_certificate_date' => null,
-						'nature_risk_certificate_date' => null,
-						'oil_tank_certificate_date' => null,
-						'planning_certificate_date' => null,
-						'private_area_certificate_date' => null,
-						'smoke_detection_certificate_date' => null,
-						'soil_certificate_date' => null,
 						
 						'youtube_code' => null
 				    );
@@ -1072,108 +869,370 @@ class Skarabee extends Controller {
 					    $data['youtube_code'] = $match[1];
 				    }
 				    
-				    $data['sold'] = ($data['purpose_status'] == 2);
-				    
 				    if (preg_match('/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/s', $publication->Property->Dates->AvailableFromText, $match)) {
 					    $data['availability_date'] = mktime(0,0,0,$match[2],$match[3],$match[1]);
 				    }
 				    
-				    $glazing_types_array = array();
-				    if (isset($publication->Property->GlazingTypes->GlazingType)) {
-					    if (!is_array($publication->Property->GlazingTypes->GlazingType)) $publication->Property->GlazingTypes->GlazingType = array($publication->Property->GlazingTypes->GlazingType);
-					    foreach ($publication->Property->GlazingTypes->GlazingType as $glazing_type) {
-						    if (isset($glazing_types[$glazing_type])) {
-								$glazing_types_array[] = $glazing_types[$glazing_type];
-						    }
-					    }
-				    }
-				    $data['glazing_type'] = implode(',',$glazing_types_array);
-				    
-				    $heating_sources_array = array();
-				    if (isset($publication->Property->HeatingTypes->HeatingType)) {
-					    if (!is_array($publication->Property->HeatingTypes->HeatingType)) $publication->Property->HeatingTypes->HeatingType = array($publication->Property->HeatingTypes->HeatingType);
-					    foreach ($publication->Property->HeatingTypes->HeatingType as $heating_type) {
-						    if (isset($heating_types[$heating_type])) {
-								$data['heating_type'] = $heating_types[$heating_type];
-						    } else if (isset($heating_sources[$heating_type])) {
-							    $heating_sources_array[] = $heating_sources[$heating_type];
-							}
-					    }
-				    }
-				    $data['heating_source'] = implode(',',$heating_sources_array);
-				    
-				    if (isset($publication->Property->WarmWaterTypes->WarmWaterType)) {
-					    if (!is_array($publication->Property->WarmWaterTypes->WarmWaterType)) $publication->Property->WarmWaterTypes->WarmWaterType = array($publication->Property->WarmWaterTypes->WarmWaterType);
-					    foreach ($publication->Property->WarmWaterTypes->WarmWaterType as $warm_water_type) {
-						    if (isset($heating_types[$warm_water_type])) {
-								$data['water_heating_type'] = $heating_types[$warm_water_type];
-						    } else if (isset($water_heating_sources[$warm_water_type])) {
-							    $data['water_heating_source'] = $water_heating_sources[$warm_water_type];
-							}
-					    }
-				    }
-				    
-				    $plumbing_types_array = array();
-				    if (isset($publication->Property->PlumbingTypes->PlumbingType)) {
-					    if (!is_array($publication->Property->PlumbingTypes->PlumbingType)) $publication->Property->PlumbingTypes->PlumbingType = array($publication->Property->PlumbingTypes->PlumbingType);
-					    foreach ($publication->Property->PlumbingTypes->PlumbingType as $plumbing_type) {
-						    if (isset($plumbing_types[$plumbing_type])) {
-							    $plumbing_types_array[] = $plumbing_types[$plumbing_type];
-						    }
-					    }
-				    }
-				    $data['plumbing_type'] = implode(',',$plumbing_types_array);
-				    
-				    if (isset($publication->Property->IsolationTypes->IsolationType)) {
-					    if (!is_array($publication->Property->IsolationTypes->IsolationType)) $publication->Property->IsolationTypes->IsolationType = array($publication->Property->IsolationTypes->IsolationType);
-					    foreach ($publication->Property->IsolationTypes->IsolationType as $isolation_type) {
-						    if (isset($isolation_types[$isolation_type])) {
-							    $data['isolation_type'] = $isolation_types[$isolation_type];
-							    break;
-						    }
-					    }
-				    }
-				    
-				    if (isset($publication->Property->Certifications->Certification)) {
-					    if (!is_array($publication->Property->Certifications->Certification)) $publication->Property->Certifications->Certification = array($publication->Property->Certifications->Certification);
-					    foreach ($publication->Property->Certifications->Certification as $certification) {
-						    if (isset($certificate_fields[$certification->Type]) && isset($certification->Date) && preg_match('/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/s', $certification->Date, $match)) {
-							    $data[$certificate_fields[$certification->Type]] = mktime(0,0,0,$match[2],$match[3],$match[1]);
-						    }
-					    }
-				    }
-				    
-				    if (isset($subcategory_ids[$publication->Property->Typo->Genre])) {
-					    $data['subcategory_id'] = $subcategory_ids[$publication->Property->Typo->Genre];
-				    } else {
-					    $data['subcategory_id'] = $subcategory_ids[$publication->Property->Typo->Sort];
-					}
-				    
 				    foreach (array_keys(languages()) as $language) {
-					    if (!isset($subcategories[$publication->Property->Typo->Genre][$language]) && !isset($subcategories[$publication->Property->Typo->Sort][$language])) continue;
-					    if (isset($subcategories[$publication->Property->Typo->Genre][$language])) {
-						    $data['subcategory_'.$language] = $subcategories[$publication->Property->Typo->Genre][$language];
-					    } else {
-						    $data['subcategory_'.$language] = $subcategories[$publication->Property->Typo->Sort][$language];
-						}
-						$data['subcategory_slug_'.$language] = slug_format($data['subcategory_'.$language]);
-						$data['slug_'.$language] = slug_format($data['subcategory_slug_'.$language].'-'.l(array('nl'=>'in','fr'=>'a','en'=>'in'),$language).'-'.$data['city']);
-						if (isset($styles[$publication->Property->Typo->Characterisation][$language])) {
-							$data['style_'.$language] = $styles[$publication->Property->Typo->Characterisation][$language];
-						}
-						
-						for ($i = 1; $i <= 5; $i++) {
+					    for ($i = 1; $i <= 5; $i++) {
 							if (isset($flashes[$i][$language])) {
 								$flash = $flashes[$i][$language];
 								$data['flash'.$i.'_title_'.$language] = $flash->Title;
 								$data['flash'.$i.'_content_'.$language] = $flash->Text;
 							}
 						}
+					}
+					
+					$is_project = isset($types[$publication->Property->PropertyType]) && $types[$publication->Property->PropertyType] == 3;
+					$stack = $is_project ? 'skarabee>project' : 'skarabee>property';
+					
+					if ($is_project) {
 						
-						$data['features_'.$language] = isset($features[$language]) ? json_encode($features[$language]) : '[]';
-				    }
+						if (isset($publication->Property->Project->Name)) {
+							$data['name'] = ucfirst($publication->Property->Project->Name);
+							$data['slug'] = slug_format($data['name']);
+						}
+						    
+					    $data = array_merge($data, array(
+						    'construction_start_date' => null,
+						    'construction_end_date' => null,
+						    'acceptance_date' => null,
+						    'construction_start_comment' => isset($publication->Property->Project->StartBuildingComment) && $publication->Property->Project->StartBuildingComment ? $publication->Property->Project->StartBuildingComment : null,
+						    'construction_end_comment' => isset($publication->Property->Project->StopBuildingComment) && $publication->Property->Project->StopBuildingComment ? $publication->Property->Project->StopBuildingComment : null,
+						    'acceptance_comment' => isset($publication->Property->Project->AcceptanceComment) && $publication->Property->Project->AcceptanceComment ? $publication->Property->Project->AcceptanceComment : null,
+						    'consumer_info' => isset($publication->Property->Project->ConsumerInfo) && $publication->Property->Project->ConsumerInfo ? $publication->Property->Project->ConsumerInfo : null,
+						    'contractor' => isset($publication->Property->Project->BuildingCompany) && $publication->Property->Project->BuildingCompany ? $publication->Property->Project->BuildingCompany : null,
+						));
+										    
+					    if (isset($publication->Property->Project->StartBuilding) && preg_match('/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/s', $publication->Property->Project->StartBuilding, $match)) {
+						    $data['construction_start_date'] = mktime(0,0,0,$match[2],$match[3],$match[1]);
+					    }
+										    
+					    if (isset($publication->Property->Project->StopBuilding) && preg_match('/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/s', $publication->Property->Project->StopBuilding, $match)) {
+						    $data['construction_end_date'] = mktime(0,0,0,$match[2],$match[3],$match[1]);
+					    }
+										    
+					    if (isset($publication->Property->Project->Acceptance) && preg_match('/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/s', $publication->Property->Project->Acceptance, $match)) {
+						    $data['acceptance_date'] = mktime(0,0,0,$match[2],$match[3],$match[1]);
+					    }
+						
+				    } else {
+						    
+					    $data = array_merge($data, array(
+						    
+						    'project_id' => null,
+						    
+							'type' => isset($types[$publication->Property->PropertyType]) ? $types[$publication->Property->PropertyType] : 1,
+							'category' => isset($categories[$publication->Property->Typo->Sort]) ? $categories[$publication->Property->Typo->Sort] : 1,
+							'service_charges_included' => $publication->Property->ServiceCharges == 'UNDEFINED' ? null : ($publication->Property->ServiceCharges == 'COSTS_INCLUSIVE') ,
+							
+							'show_price' => !$publication->Info->HidePrice,
+							'price' => floatval($publication->Property->Price),
+							'price_type' => isset($price_types[$publication->Property->PriceType]) ? $price_types[$publication->Property->PriceType] : 1,
+							'price_indication' => isset($price_types[$publication->Property->PriceIndication]) ? $price_types[$publication->Property->PriceIndication] : null,
+							'vat_included' => !($publication->Property->IsVATInclusive == 'FALSE' || $publication->Property->IsVATExclusive == 'TRUE'),
+							'charges' => floatval($publication->Property->ChargesAndProvisions) >= 0 ? floatval($publication->Property->ChargesAndProvisions) : null,
+							'communal_expenses' => floatval($publication->Property->CommunalExpenses) >= 0 ? floatval($publication->Property->CommunalExpenses) : null,
+							'heating_water_costs' => floatval($publication->Property->HeatingWaterCosts) >= 0 ? floatval($publication->Property->HeatingWaterCosts) : null,
+							'heating_costs' => floatval($publication->Property->HeatingCosts) >= 0 ? floatval($publication->Property->HeatingCosts) : null,
+							'garage_costs' => floatval($publication->Property->CostsGarage) >= 0 ? floatval($publication->Property->CostsGarage) : null,
+							
+							'surface' => $publication->Property->Area < 0 ? null : $publication->Property->Area,
+							'surface_terrain' => $publication->Property->LandArea < 0 ? null : $publication->Property->LandArea,
+							'surface_livable' => floatval($publication->Property->SurfaceLivable) < 0 ? null : floatval($publication->Property->SurfaceLivable),
+							'surface_buildable' => isset($publication->Property->Dimensions->ConstructionSurface->_) && floatval($publication->Property->Dimensions->ConstructionSurface->_) >= 0 ? floatval($publication->Property->Dimensions->ConstructionSurface->_) : null,
+							'surface_terrace' => isset($publication->Property->SurfaceTerrace) && floatval($publication->Property->SurfaceTerrace) >= 0 ? floatval($publication->Property->SurfaceTerrace) : null,
+							'surface_garden' => isset($publication->Property->SurfaceGarden) && floatval($publication->Property->SurfaceGarden) >= 0 ? floatval($publication->Property->SurfaceGarden) : null,
+							'surface_balcony' => isset($publication->Property->Dimensions->BalconySurface->_) && floatval($publication->Property->Dimensions->BalconySurface->_) >= 0 ? floatval($publication->Property->Dimensions->BalconySurface->_) : null,
+							'terrain_width' => floatval($publication->Property->Width) < 0 ? null : floatval($publication->Property->Width),
+							'terrain_depth' => floatval($publication->Property->Depth) < 0 ? null : floatval($publication->Property->Depth),
+							'terrain_width_front' => floatval($publication->Property->FrontWidth) < 0 ? null : floatval($publication->Property->FrontWidth),
+							'floor_number' => is_numeric($publication->Property->FloorLevelNL) ? intval($publication->Property->FloorLevelNL) : null,
+							'parkings' => $publication->Property->NumberOfParkingPlaces < 0 ? null : $publication->Property->NumberOfParkingPlaces,
+							'has_parking' => ($publication->Property->NumberOfParkingPlaces < 0 && $publication->Property->HasParkingPlace == 'UNDEFINED') ? null : ($publication->Property->NumberOfParkingPlaces > 0 || $publication->Property->HasParkingPlace == 'TRUE'),
+							'has_garden' => ($publication->Property->SurfaceGarden < 1 && $publication->Property->HasBackYard == 'UNDEFINED') ? null : ($publication->Property->SurfaceGarden > 0 || $publication->Property->HasBackYard == 'TRUE'),
+							'has_balcony' => ($publication->Property->HasBalcony == 'UNDEFINED' ? null : ($publication->Property->HasBalcony == 'TRUE')),
+							'garden_width' => floatval($publication->Property->BackYardWidth) < 0 ? null : floatval($publication->Property->BackYardWidth),
+							'garden_depth' => floatval($publication->Property->BackYardDepth) < 0 ? null : floatval($publication->Property->BackYardDepth),
+							'garden_quality' => isset($garden_qualities[$publication->Property->GardenQuality]) ? $garden_qualities[$publication->Property->GardenQuality] : null,
+							'roof_type' => isset($roof_types[$publication->Property->RoofType]) ? $roof_types[$publication->Property->RoofType] : null,
+							'roof_evaluation' => isset($evaluations[$publication->Property->RoofEvaluation]) ? $evaluations[$publication->Property->RoofEvaluation] : null,
+							'roof_comment' => $publication->Property->RoofComment,
+							'roof_cover' => isset($roof_covers[$publication->Property->RoofCoverType]) ? $roof_covers[$publication->Property->RoofCoverType] : null,
+							'roof_cover_evaluation' => isset($evaluations[$publication->Property->RoofCoverEvaluation]) ? $evaluations[$publication->Property->RoofCoverEvaluation] : null,
+							'roof_cover_comment' => isset($publication->Property->RoofCoverComment) ? $publication->Property->RoofCoverComment : '',
+							'window_type' => isset($window_types[$publication->Property->WindowType]) ? $window_types[$publication->Property->WindowType] : null,
+							'window_evaluation' => isset($evaluations[$publication->Property->WindowEvaluation]) ? $evaluations[$publication->Property->WindowEvaluation] : null,
+							'window_comment' => $publication->Property->WindowComment,
+							'glazing_evaluation' => isset($evaluations[$publication->Property->GlazingEvaluation]) ? $evaluations[$publication->Property->GlazingEvaluation] : null,
+							'glazing_comment' => $publication->Property->GlazingComment,
+							'electricity_evaluation' => isset($evaluations[$publication->Property->ElectricityEvaluation]) ? $evaluations[$publication->Property->ElectricityEvaluation] : null,
+							'electricity_comment' => $publication->Property->ElectricityComment,
+							'plumbing_evaluation' => isset($evaluations[$publication->Property->PlumbingEvaluation]) ? $evaluations[$publication->Property->PlumbingEvaluation] : null,
+							'plumbing_comment' => $publication->Property->PlumbingComment,
+							'sanitary_evaluation' => isset($evaluations[$publication->Property->SanitaryEvaluation]) ? $evaluations[$publication->Property->SanitaryEvaluation] : null,
+							'sanitary_comment' => $publication->Property->SanitaryComment,
+							'modification_allowed' => ($publication->Property->Modification == 'UNDEFINED' ? null : ($publication->Property->Modification == 'ALLOWED')),
+							'common_walls' => isset($common_walls[$publication->Property->CommonWalls]) ? $common_walls[$publication->Property->CommonWalls] : null,
+							'orientation' => isset($orientations[$publication->Property->Orientation]) ? $orientations[$publication->Property->Orientation] : null,
+							'maintenance_inside' => isset($maintenance[$publication->Property->MaintenanceInside]) ? $maintenance[$publication->Property->MaintenanceInside] : null,
+							'maintenance_outside' => isset($maintenance[$publication->Property->MaintenanceOutside]) ? $maintenance[$publication->Property->MaintenanceOutside] : null,
+							'construction_type' => isset($construction_types[$publication->Property->ConstructionType]) ? $construction_types[$publication->Property->ConstructionType] : null,
+							'construction_evaluation' => isset($evaluations[$publication->Property->ConstructionEvaluation]) ? $evaluations[$publication->Property->ConstructionEvaluation] : null,
+							'frontage_type' => isset($frontage_types[$publication->Property->FrontageType]) ? $frontage_types[$publication->Property->FrontageType] : null,
+							'frontage_evaluation' => isset($evaluations[$publication->Property->FrontageEvaluation]) ? $evaluations[$publication->Property->FrontageEvaluation] : null,
+							
+							'rooms' => $publication->Property->NumberOfRooms < 0 ? null : $publication->Property->NumberOfRooms,
+							'bedrooms' => $publication->Property->NumberOfBedrooms < 0 ? null : $publication->Property->NumberOfBedrooms,
+							'bathrooms' => $publication->Property->NumberOfBathrooms < 0 ? null : $publication->Property->NumberOfBathrooms,
+							'offices' => $publication->Property->NumberOfOffices < 0 ? null : $publication->Property->NumberOfOffices,
+							'garages' => $publication->Property->NumberOfGarages < 0 ? null : $publication->Property->NumberOfGarages,
+							'garage_size' => $publication->Property->NumberOfPlacesInGarage < 0 ? null : $publication->Property->NumberOfPlacesInGarage,
+							'toilets' => $publication->Property->NumberOfToilets < 0 ? null : $publication->Property->NumberOfToilets,
+							'has_garage' => ($publication->Property->NumberOfGarages < 0 && $publication->Property->HasGarage == 'UNDEFINED') ? null : ($publication->Property->NumberOfGarages > 0 || $publication->Property->HasGarage == 'TRUE'),
+							'has_terrace' => ($publication->Property->SurfaceTerrace < 1 && $publication->Property->HasTerrace == 'UNDEFINED') ? null : ($publication->Property->SurfaceTerrace > 0 || $publication->Property->HasTerrace == 'TRUE'),
+							'has_cellar' => ($publication->Property->SurfaceBasement < 1 && $publication->Property->HasCellar == 'UNDEFINED') ? null : ($publication->Property->SurfaceBasement > 0 || $publication->Property->HasCellar == 'TRUE'),
+							'has_attic' => ($publication->Property->SurfaceAttick < 1 && $publication->Property->HasAttick == 'UNDEFINED') ? null : ($publication->Property->SurfaceAttick > 0 || $publication->Property->HasAttick == 'TRUE'),
+							'has_showroom' => ($publication->Property->SurfaceShowroom < 1 && $publication->Property->HasShowroom == 'UNDEFINED') ? null : ($publication->Property->SurfaceShowroom > 0 || $publication->Property->HasShowroom == 'TRUE'),
+							'has_office' => $publication->Property->HasOffice == 'UNDEFINED' ? null : $publication->Property->HasOffice == 'TRUE',
+							'has_greenhouse' => $publication->Property->HasGreenHouse == 'UNDEFINED' ? null : $publication->Property->HasGreenHouse == 'TRUE',
+							'has_profession_room' => ($publication->Property->SurfaceProfessionRoom < 1 && $publication->Property->HasProfessionRoom == 'UNDEFINED') ? null : ($publication->Property->SurfaceProfessionRoom > 0 || $publication->Property->HasProfessionRoom == 'TRUE'),
+							'has_living' => ($publication->Property->SurfaceLiving < 1 && $publication->Property->HasLivingRoom == 'UNDEFINED') ? null : ($publication->Property->SurfaceLiving > 0 || $publication->Property->HasLivingRoom == 'TRUE'),
+							'has_kitchen' => ($publication->Property->SurfaceKitchen < 1 && $publication->Property->HasKitchen == 'UNDEFINED') ? null : ($publication->Property->SurfaceKitchen > 0 || $publication->Property->HasKitchen == 'TRUE'),
+							'has_utility_room' => ($publication->Property->SurfaceUtilityRoom < 1 && $publication->Property->HasUtilityRoom == 'UNDEFINED') ? null : ($publication->Property->SurfaceUtilityRoom > 0 || $publication->Property->HasUtilityRoom == 'TRUE'),
+							'has_bedrooms' => ($publication->Property->NumberOfBedrooms < 1 && $publication->Property->HasBedrooms == 'UNDEFINED') ? null : ($publication->Property->NumberOfBedrooms > 0 || $publication->Property->HasBedrooms == 'TRUE'),
+							'has_bathroom' => ($publication->Property->NumberOfBathrooms < 1 && $publication->Property->HasBathroom == 'UNDEFINED') ? null : ($publication->Property->NumberOfBathrooms > 0 || $publication->Property->HasBathroom == 'TRUE'),
+							'has_toilet' => ($publication->Property->NumberOfToilets < 1 && $publication->Property->HasToilet == 'UNDEFINED') ? null : ($publication->Property->NumberOfToilets > 0 || $publication->Property->HasToilet == 'TRUE'),
+							'has_storage' => ((!isset($publication->Property->SurfaceStock) || $publication->Property->SurfaceStock < 1) && $publication->Property->HasStock == 'UNDEFINED') ? null : ((isset($publication->Property->SurfaceStock) && $publication->Property->SurfaceStock > 0) || $publication->Property->HasStock == 'TRUE'),
+							'has_wash_place' => $publication->Property->HasWashPlace == 'UNDEFINED' ? null : $publication->Property->HasWashPlace == 'TRUE',
+							'has_dinging_room' => ($publication->Property->SurfaceDiningRoom < 1 && $publication->Property->HasDiningRoom == 'UNDEFINED') ? null : ($publication->Property->SurfaceDiningRoom > 0 || $publication->Property->HasDiningRoom == 'TRUE'),
+							'surface_kitchen' => isset($publication->Property->SurfaceKitchen) && floatval($publication->Property->SurfaceKitchen) >= 0 ? floatval($publication->Property->SurfaceKitchen) : null,
+							'surface_living' => isset($publication->Property->SurfaceLiving) && floatval($publication->Property->SurfaceLiving) >= 0 ? floatval($publication->Property->SurfaceLiving) : null,
+							'surface_storage' => isset($publication->Property->SurfaceStock) && floatval($publication->Property->SurfaceStock) >= 0 ? floatval($publication->Property->SurfaceStock) : null,
+							'surface_utility_room' => isset($publication->Property->SurfaceUtilityRoom) && floatval($publication->Property->SurfaceUtilityRoom) >= 0 ? floatval($publication->Property->SurfaceUtilityRoom) : null,
+							'surface_showroom' => isset($publication->Property->SurfaceShowroom) && floatval($publication->Property->SurfaceShowroom) >= 0 ? floatval($publication->Property->SurfaceShowroom) : null,
+							'surface_profession_room' => isset($publication->Property->SurfaceProfessionRoom) && floatval($publication->Property->SurfaceProfessionRoom) >= 0 ? floatval($publication->Property->SurfaceProfessionRoom) : null,
+							'surface_attic' => isset($publication->Property->SurfaceAttick) && floatval($publication->Property->SurfaceAttick) >= 0 ? floatval($publication->Property->SurfaceAttick) : null,
+							'surface_cellar' => isset($publication->Property->SurfaceBasement) && floatval($publication->Property->SurfaceBasement) >= 0 ? floatval($publication->Property->SurfaceBasement) : null,
+							'surface_dining_room' => isset($publication->Property->SurfaceDiningRoom) && floatval($publication->Property->SurfaceDiningRoom) >= 0 ? floatval($publication->Property->SurfaceDiningRoom) : null,
+							'surface_cantine' => isset($publication->Property->Dimensions->CantineSurface) && floatval($publication->Property->Dimensions->CantineSurface) >= 0 ? floatval($publication->Property->Dimensions->CantineSurface) : null,
+							'surface_horeca' => isset($publication->Property->Dimensions->CateringSurface) && floatval($publication->Property->Dimensions->CateringSurface) >= 0 ? floatval($publication->Property->Dimensions->CateringSurface) : null,
+							'surface_industry' => isset($publication->Property->Dimensions->IndustrySurface) && floatval($publication->Property->Dimensions->IndustrySurface) >= 0 ? floatval($publication->Property->Dimensions->IndustrySurface) : null,
+							'surface_industry_land' => isset($publication->Property->Dimensions->IndustryLandSurface) && floatval($publication->Property->Dimensions->IndustryLandSurface) >= 0 ? floatval($publication->Property->Dimensions->IndustryLandSurface) : null,
+							'surface_industry_office' => isset($publication->Property->Dimensions->IndustryOfficeSurface) && floatval($publication->Property->Dimensions->IndustryOfficeSurface) >= 0 ? floatval($publication->Property->Dimensions->IndustryOfficeSurface) : null,
+							'surface_industry_hall' => isset($publication->Property->Dimensions->IndustryHallSurface) && floatval($publication->Property->Dimensions->IndustryHallSurface) >= 0 ? floatval($publication->Property->Dimensions->IndustryHallSurface) : null,
+							'surface_office' => isset($publication->Property->Dimensions->OfficeSurface) && floatval($publication->Property->Dimensions->OfficeSurface) >= 0 ? floatval($publication->Property->Dimensions->OfficeSurface) : null,
+							'surface_production' => isset($publication->Property->Dimensions->ProductionHallSurface) && floatval($publication->Property->Dimensions->ProductionHallSurface) >= 0 ? floatval($publication->Property->Dimensions->ProductionHallSurface) : null,
+							'surface_rentable' => isset($publication->Property->Dimensions->RentableSurface) && floatval($publication->Property->Dimensions->RentableSurface) >= 0 ? floatval($publication->Property->Dimensions->RentableSurface) : null,
+							'surface_sales_room' => isset($publication->Property->Dimensions->SalesRoomSurface) && floatval($publication->Property->Dimensions->SalesRoomSurface) >= 0 ? floatval($publication->Property->Dimensions->SalesRoomSurface) : null,
+							'surface_shop' => isset($publication->Property->Dimensions->ShopSurface) && floatval($publication->Property->Dimensions->ShopSurface) >= 0 ? floatval($publication->Property->Dimensions->ShopSurface) : null,
+							'living_type' => isset($living_types[$publication->Property->LivingRoomType]) ? $living_types[$publication->Property->LivingRoomType] : null,
+							'garage_type' => isset($garage_types[$publication->Property->GarageType]) ? $garage_types[$publication->Property->GarageType] : null,
+							'profession_room_type' => isset($profession_room_types[$publication->Property->ProfessionRoomType]) ? $profession_room_types[$publication->Property->ProfessionRoomType] : null,
+							'office_type' => isset($office_types[$publication->Property->OfficeType]) ? $office_types[$publication->Property->OfficeType] : null,
+							'storage_type' => isset($storage_types[$publication->Property->StorageRoom]) ? $storage_types[$publication->Property->StorageRoom] : null,
+							'kitchen_type' => isset($kitchen_types[$publication->Property->KitchenGenre]) ? $kitchen_types[$publication->Property->KitchenGenre] : null,
+							'cellar_type' => isset($cellar_types[$publication->Property->BasesType]) ? $cellar_types[$publication->Property->BasesType] : null,
+							'cellar_evaluation' => isset($evaluations[$publication->Property->BasesEvaluation]) ? $evaluations[$publication->Property->BasesEvaluation] : null,
+							'cellar_comment' => isset($publication->Property->BasesComment) ? $publication->Property->BasesComment : null,
+							
+							'has_elevator' => ($publication->Property->HasElevator == 'UNDEFINED' ? null : ($publication->Property->HasElevator == 'TRUE')),
+							'has_alarm' => ($publication->Property->HasAlarm == 'UNDEFINED' ? null : ($publication->Property->HasAlarm == 'TRUE')),
+							'furnished' => ($publication->Property->HasFurniture == 'UNDEFINED' ? null : ($publication->Property->HasFurniture == 'TRUE')),
+							'kitchen_equipped' => $publication->Property->KitchenType == 'UNDEFINED' ? null : $publication->Property->KitchenType == 'BUILD_WITH_APPLIANCES',
+							'pets_allowed' => ($publication->Property->PetsAllowed == 'UNDEFINED' ? null : ($publication->Property->PetsAllowed == 'TRUE')),
+							'child_friendly' => ($publication->Property->IsChildFriendly == 'UNDEFINED' ? null : ($publication->Property->IsChildFriendly == 'TRUE')),
+							'has_roller_blinds' => ($publication->Property->HasRollerBlinds == 'UNDEFINED' ? null : ($publication->Property->HasRollerBlinds == 'TRUE')),
+							'has_heating' => ($publication->Property->HasHeating == 'UNDEFINED' ? null : ($publication->Property->HasHeating == 'TRUE')),
+							'has_electricity' => ($publication->Property->HasElectricity == 'UNDEFINED' ? null : ($publication->Property->HasElectricity == 'TRUE')),
+							'has_sanitary' => ($publication->Property->HasSanitary == 'UNDEFINED' ? null : ($publication->Property->HasSanitary == 'TRUE')),
+							'has_external_solar_blinds' => ($publication->Property->ExternalSolarBlinds == 'UNDEFINED' ? null : ($publication->Property->ExternalSolarBlinds == 'TRUE')),
+							'has_ventilation' => ($publication->Property->HasVentilation == 'UNDEFINED' ? null : ($publication->Property->HasVentilation == 'TRUE')),
+							'garnished' => ($publication->Property->Garnished == 'UNDEFINED' ? null : !($publication->Property->Garnished == 'NO')),
+							'has_cable_tv' => ($publication->Property->HasCable_TV == 'UNDEFINED' ? null : ($publication->Property->HasCable_TV == 'TRUE')),
+							'has_cai_tv' => ($publication->Property->HasCAI_TV == 'UNDEFINED' ? null : ($publication->Property->HasCAI_TV == 'TRUE')),
+							'has_pool' => ($publication->Property->HasPool == 'UNDEFINED' ? null : ($publication->Property->HasPool == 'TRUE')),
+							'has_airco' => ($publication->Property->HasAirco == 'UNDEFINED' ? null : ($publication->Property->HasAirco == 'TRUE')),
+							'has_jacuzzi' => ($publication->Property->HasJacuzzi == 'UNDEFINED' ? null : ($publication->Property->HasJacuzzi == 'TRUE')),
+							'has_intercom' => ($publication->Property->HasIntercom == 'UNDEFINED' ? null : ($publication->Property->HasIntercom == 'TRUE')),
+							'has_electricity_connection' => ($publication->Property->HasElectricityConnect == 'UNDEFINED' ? null : ($publication->Property->HasElectricityConnect == 'TRUE')),
+							'has_gas_connection' => ($publication->Property->HasGasConnect == 'UNDEFINED' ? null : ($publication->Property->HasGasConnect == 'TRUE')),
+							'has_water_connection' => ($publication->Property->HasWaterConnect == 'UNDEFINED' ? null : ($publication->Property->HasWaterConnect == 'TRUE')),
+							'has_sewer_connection' => ($publication->Property->HasSewerConnect == 'UNDEFINED' ? null : ($publication->Property->HasSewerConnect == 'TRUE')),
+							'has_internet_connection' => ($publication->Property->HasInternetConnect == 'UNDEFINED' ? null : ($publication->Property->HasInternetConnect == 'TRUE')),
+							'has_fireplace' => ($publication->Property->HasFirePlace == 'UNDEFINED' ? null : ($publication->Property->HasFirePlace == 'TRUE')),
+							'external_solar_blinds_comment' => $publication->Property->ExternalSolarBlindsComment,
+							'ventilation_comment' => $publication->Property->VentilationComment,
+							'cable_tv_comment' => $publication->Property->Cable_TVComment,
+							'pool_comment' => $publication->Property->PoolComment,
+							'elevator_evaluation' => isset($evaluations[$publication->Property->ElevatorEvaluation]) ? $evaluations[$publication->Property->ElevatorEvaluation] : null,
+							'elevator_comment' => $publication->Property->ElevatorComment,
+							'alarm_evaluation' => isset($evaluations[$publication->Property->AlarmEvaluation]) ? $evaluations[$publication->Property->AlarmEvaluation] : null,
+							'alarm_comment' => $publication->Property->AlarmComment,
+							'roller_blinds_evaluation' => isset($evaluations[$publication->Property->RollerBlindsEvaluation]) ? $evaluations[$publication->Property->RollerBlindsEvaluation] : null,
+							'roller_blinds_comment' => $publication->Property->RollerBlindsComment,
+							'isolation_evaluation' => isset($evaluations[$publication->Property->IsolationEvaluation]) ? $evaluations[$publication->Property->IsolationEvaluation] : null,
+							'isolation_comment' => $publication->Property->IsolationComment,
+							'isolation_type' => null,
+							'klevel' => !isset($publication->Property->Energy->KLevel) || is_null($publication->Property->Energy->KLevel) ? null : intval($publication->Property->Energy->KLevel),
+							'elevel' => !isset($publication->Property->Energy->EnergyLevel) || is_null($publication->Property->Energy->EnergyLevel) ? null : intval($publication->Property->Energy->EnergyLevel),
+							'epc' => !isset($publication->Property->Energy->Index) || is_null($publication->Property->Energy->Index) || $publication->Property->Energy->Index == 0 ? null : intval($publication->Property->Energy->Index),
+							'epc_certificate' => !isset($publication->Property->Energy->EnergyCertificateNr) || is_null($publication->Property->Energy->EnergyCertificateNr) ? null : $publication->Property->Energy->EnergyCertificateNr,
+							'heating_type' => null,
+							'heating_source' => null,
+							'heating_evaluation' => isset($evaluations[$publication->Property->HeatingEvaluation]) ? $evaluations[$publication->Property->HeatingEvaluation] : null,
+							'heating_comment' => $publication->Property->HeatingComment,
+							'water_heating_type' => null,
+							'water_heating_source' => null,
+							'water_heating_evaluation' => isset($evaluations[$publication->Property->WarmWaterEvaluation]) ? $evaluations[$publication->Property->WarmWaterEvaluation] : null,
+							
+							'cadastrall_numbers' => $publication->Property->CadastrallNumbers,
+							'cadastrall_area' => $publication->Property->CadastrallArea < 0 ? null : $publication->Property->CadastrallArea,
+							'cadastrall_income' => floatval($publication->Property->CadastrallIncome) >= 0 ? floatval($publication->Property->CadastrallIncome) : null,
+							'cadastrall_income_indexed' => floatval($publication->Property->CadastrallIncomeIndexed) >= 0 ? floatval($publication->Property->CadastrallIncomeIndexed) : null,
+							'cadastrall_description' => $publication->Property->CadastrallDescription,
+							'percent_private_usage' => ($publication->Property->UsagePrivatePercent <= 0 && $publication->Property->UsageProfessionalPercent <= 0) ? null : $publication->Property->UsagePrivatePercent,
+							'percent_professional_usage' => ($publication->Property->UsagePrivatePercent <= 0 && $publication->Property->UsageProfessionalPercent <= 0) ? null : $publication->Property->UsageProfessionalPercent,
+							
+							'easement' => isset($easements[$publication->Property->Easement]) ? $easements[$publication->Property->Easement] : null,
+							'restriction_comment' => $publication->Property->RestrictionComment,
+							'environmental_planning_type' => isset($environmental_planning_types[$publication->Property->EnvironmentalPlanning]) ? $environmental_planning_types[$publication->Property->EnvironmentalPlanning] : null,
+							'clauses' => $publication->Property->Clauses,
+							'is_monument' => ($publication->Property->IsMonumentsAct == 'UNDEFINED' ? null : ($publication->Property->IsMonumentsAct == 'TRUE')),
+							'is_protected' => ($publication->Property->IsProtected == 'UNDEFINED' ? null : ($publication->Property->IsProtected == 'TRUE')),
+							'has_asbestus' => ($publication->Property->HasAsbestus == 'UNDEFINED' ? null : ($publication->Property->HasAsbestus == 'TRUE')),
+							'has_ground_pollution' => ($publication->Property->HasGroundPollution == 'UNDEFINED' ? null : ($publication->Property->HasGroundPollution == 'TRUE')),
+							'planning_permission' => ($publication->Property->UrbanDevelopment->Permit == 'UNDEFINED' ? null : ($publication->Property->UrbanDevelopment->Permit == 'TRUE')),
+							'subdivision_permit' => ($publication->Property->UrbanDevelopment->AllotmentPermit == 'UNDEFINED' ? null : ($publication->Property->UrbanDevelopment->AllotmentPermit == 'TRUE')),
+							'preemption_right' => ($publication->Property->UrbanDevelopment->PreemptiveRights == 'UNDEFINED' ? null : ($publication->Property->UrbanDevelopment->PreemptiveRights == 'TRUE')),
+							'urbanism_citation' => ($publication->Property->UrbanDevelopment->Summons == 'UNDEFINED' ? null : ($publication->Property->UrbanDevelopment->Summons == 'TRUE')),
+							'judicial_decision' => ($publication->Property->UrbanDevelopment->JudicialDecision == 'UNDEFINED' ? null : ($publication->Property->UrbanDevelopment->JudicialDecision == 'TRUE')),
+							'land_use_designation' => isset($land_use_designations[$publication->Property->UrbanDevelopment->AreaApplication->Code]) ? $land_use_designations[$publication->Property->UrbanDevelopment->AreaApplication->Code] : null,
+							//'flood_risk' => TODO
+							//'flood_risk_type' => TODO
+							
+							'as_built_certificate_date' => null,
+							'diagnostics_certificate_date' => null,
+							'electricity_certificate_date' => null,
+							'energy_consumption_certificate_date' => null,
+							'energy_performance_certificate_date' => null,
+							'gas_certificate_date' => null,
+							'polution_certificate_date' => null,
+							'accessibility_certificate_date' => null,
+							'lead_certificate_date' => null,
+							'nature_risk_certificate_date' => null,
+							'oil_tank_certificate_date' => null,
+							'planning_certificate_date' => null,
+							'private_area_certificate_date' => null,
+							'smoke_detection_certificate_date' => null,
+							'soil_certificate_date' => null
+					    ));
+					    
+					    if (isset($publication->Property->Project->PublicationID) && $publication->Property->Project->PublicationID > 0) {
+						    if ($project = where('publication_id = %d',$publication->Property->Project->PublicationID)->get_row('skarabee>project')) {
+							    $data['project_id'] = $project->id;
+						    }
+					    }
+					    
+					    if ( (!isset($data['coord_lat']) || !$data['coord_lat']) && (!isset($data['coord_lon']) || !$data['coord_lat']) ) {
+						    if ($geocode = self::geocode($data['address'].', '.$data['postal'].' '.$data['city'])) {
+						    	$data['coord_lat'] = number_format($geocode['lat'],10,'.','');
+						    	$data['coord_lon'] = number_format($geocode['lon'],10,'.','');
+					    	}
+					    }
+					    
+					    $data['sold'] = ($data['purpose_status'] == 2);
+					    
+					    $glazing_types_array = array();
+					    if (isset($publication->Property->GlazingTypes->GlazingType)) {
+						    if (!is_array($publication->Property->GlazingTypes->GlazingType)) $publication->Property->GlazingTypes->GlazingType = array($publication->Property->GlazingTypes->GlazingType);
+						    foreach ($publication->Property->GlazingTypes->GlazingType as $glazing_type) {
+							    if (isset($glazing_types[$glazing_type])) {
+									$glazing_types_array[] = $glazing_types[$glazing_type];
+							    }
+						    }
+					    }
+					    $data['glazing_type'] = implode(',',$glazing_types_array);
+					    
+					    $heating_sources_array = array();
+					    if (isset($publication->Property->HeatingTypes->HeatingType)) {
+						    if (!is_array($publication->Property->HeatingTypes->HeatingType)) $publication->Property->HeatingTypes->HeatingType = array($publication->Property->HeatingTypes->HeatingType);
+						    foreach ($publication->Property->HeatingTypes->HeatingType as $heating_type) {
+							    if (isset($heating_types[$heating_type])) {
+									$data['heating_type'] = $heating_types[$heating_type];
+							    } else if (isset($heating_sources[$heating_type])) {
+								    $heating_sources_array[] = $heating_sources[$heating_type];
+								}
+						    }
+					    }
+					    $data['heating_source'] = implode(',',$heating_sources_array);
+					    
+					    if (isset($publication->Property->WarmWaterTypes->WarmWaterType)) {
+						    if (!is_array($publication->Property->WarmWaterTypes->WarmWaterType)) $publication->Property->WarmWaterTypes->WarmWaterType = array($publication->Property->WarmWaterTypes->WarmWaterType);
+						    foreach ($publication->Property->WarmWaterTypes->WarmWaterType as $warm_water_type) {
+							    if (isset($heating_types[$warm_water_type])) {
+									$data['water_heating_type'] = $heating_types[$warm_water_type];
+							    } else if (isset($water_heating_sources[$warm_water_type])) {
+								    $data['water_heating_source'] = $water_heating_sources[$warm_water_type];
+								}
+						    }
+					    }
+					    
+					    $plumbing_types_array = array();
+					    if (isset($publication->Property->PlumbingTypes->PlumbingType)) {
+						    if (!is_array($publication->Property->PlumbingTypes->PlumbingType)) $publication->Property->PlumbingTypes->PlumbingType = array($publication->Property->PlumbingTypes->PlumbingType);
+						    foreach ($publication->Property->PlumbingTypes->PlumbingType as $plumbing_type) {
+							    if (isset($plumbing_types[$plumbing_type])) {
+								    $plumbing_types_array[] = $plumbing_types[$plumbing_type];
+							    }
+						    }
+					    }
+					    $data['plumbing_type'] = implode(',',$plumbing_types_array);
+					    
+					    if (isset($publication->Property->IsolationTypes->IsolationType)) {
+						    if (!is_array($publication->Property->IsolationTypes->IsolationType)) $publication->Property->IsolationTypes->IsolationType = array($publication->Property->IsolationTypes->IsolationType);
+						    foreach ($publication->Property->IsolationTypes->IsolationType as $isolation_type) {
+							    if (isset($isolation_types[$isolation_type])) {
+								    $data['isolation_type'] = $isolation_types[$isolation_type];
+								    break;
+							    }
+						    }
+					    }
+					    
+					    if (isset($publication->Property->Certifications->Certification)) {
+						    if (!is_array($publication->Property->Certifications->Certification)) $publication->Property->Certifications->Certification = array($publication->Property->Certifications->Certification);
+						    foreach ($publication->Property->Certifications->Certification as $certification) {
+							    if (isset($certificate_fields[$certification->Type]) && isset($certification->Date) && preg_match('/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/s', $certification->Date, $match)) {
+								    $data[$certificate_fields[$certification->Type]] = mktime(0,0,0,$match[2],$match[3],$match[1]);
+							    }
+						    }
+					    }
+					    
+					    if (isset($subcategory_ids[$publication->Property->Typo->Genre])) {
+						    $data['subcategory_id'] = $subcategory_ids[$publication->Property->Typo->Genre];
+					    } else {
+						    $data['subcategory_id'] = $subcategory_ids[$publication->Property->Typo->Sort];
+						}
+					    
+					    foreach (array_keys(languages()) as $language) {
+						    if (!isset($subcategories[$publication->Property->Typo->Genre][$language]) && !isset($subcategories[$publication->Property->Typo->Sort][$language])) continue;
+						    if (isset($subcategories[$publication->Property->Typo->Genre][$language])) {
+							    $data['subcategory_'.$language] = $subcategories[$publication->Property->Typo->Genre][$language];
+						    } else {
+							    $data['subcategory_'.$language] = $subcategories[$publication->Property->Typo->Sort][$language];
+							}
+							$data['subcategory_slug_'.$language] = slug_format($data['subcategory_'.$language]);
+							$data['slug_'.$language] = slug_format($data['subcategory_slug_'.$language].'-'.l(array('nl'=>'in','fr'=>'a','en'=>'in'),$language).'-'.$data['city']);
+							if (isset($styles[$publication->Property->Typo->Characterisation][$language])) {
+								$data['style_'.$language] = $styles[$publication->Property->Typo->Characterisation][$language];
+							}
+							
+							$data['features_'.$language] = isset($features[$language]) ? json_encode($features[$language]) : '[]';
+					    }
+
+					}
 				    
-					if ($existing = where('software_id = %d',$data['software_id'])->get_row('skarabee>property')) {
+					if ($existing = where('software_id = %d',$data['software_id'])->get_row($stack)) {
 						
 						// Update existing photos
 						$existing_photos = array();
@@ -1182,7 +1241,7 @@ class Skarabee extends Controller {
 					    	foreach ($photos as $key => $photo) {
 						    	if ($photo['orig_filename'] == $current_photo->orig_filename) {
 						    		if ($key != $current_photo->_sort_order || $photo['type'] != $current_photo->image_type) {
-						    			where('id = %d',$current_photo->id)->update('skarabee>property>photo',array(
+						    			where('id = %d',$current_photo->id)->update($stack.'>photo',array(
 							    			'_sort_order' => $key,
 							    			'image_type' => $photo['type']
 						    			));
@@ -1192,7 +1251,7 @@ class Skarabee extends Controller {
 						    	}
 					    	}
 					    	if (!$found) {
-						    	where('id = %d',$current_photo->id)->delete('skarabee>property>photo');
+						    	where('id = %d',$current_photo->id)->delete($stack.'>photo');
 						    }
 						}
 						$photos = array_diff_key($photos,array_flip($existing_photos));
@@ -1204,14 +1263,14 @@ class Skarabee extends Controller {
 					    	foreach ($documents as $key => $document) {
 						    	if ($document['url'] == $current_file->url) {
 						    		if ($document['name'] != $current_file->name || $document['filename'] != $current_file->filename) {
-						    			where('id = %d',$current_file->id)->update('skarabee>property>file',$document);
+						    			where('id = %d',$current_file->id)->update($stack.'>file',$document);
 						    		}
 						    		$existing_documents[] = $key;
 						    		$found = true;
 						    	}
 					    	}
 					    	if (!$found) {
-						    	where('id = %d',$current_file->id)->delete('skarabee>property>file');
+						    	where('id = %d',$current_file->id)->delete($stack.'>file');
 						    }
 						}
 						$documents = array_diff_key($documents,array_flip($existing_documents));
@@ -1223,7 +1282,7 @@ class Skarabee extends Controller {
 					    	foreach ($openhouse as $key => $record) {
 						    	if ($record['from'] == $current_record->fromdate && $record['to'] == $current_record->todate) {
 						    		if ($record['comment'] != $current_record->comment) {
-						    			where('id = %d',$current_record->id)->update('skarabee>property>open_house',array(
+						    			where('id = %d',$current_record->id)->update($stack.'>open_house',array(
 							    			'comment' => $record['comment']
 						    			));
 						    		}
@@ -1232,45 +1291,47 @@ class Skarabee extends Controller {
 						    	}
 					    	}
 					    	if (!$found) {
-						    	where('id = %d',$current_record->id)->delete('skarabee>property>open_house');
+						    	where('id = %d',$current_record->id)->delete($stack.'>open_house');
 						    }
 						}
 						$openhouse = array_diff_key($openhouse,array_flip($existing_records));
 						
 						// Update existing floors
-						$existing_floors = array();
-						foreach ($existing->floor as $current_floor) {
-							if (isset($floors[$current_floor->level])) {
-								if (count(array_diff_assoc($floors[$current_floor->level],$current_floor->to_array()))) {
-									foreach ($floors[$current_floor->level] as $key => $value) {
-										if ($value != $current_floor->$key) {
-											where('id = %d',$current_floor->id)->update('skarabee>property>floor',$floors[$current_floor->level]);
-											break;
+						if (!$is_project) {
+							$existing_floors = array();
+							foreach ($existing->floor as $current_floor) {
+								if (isset($floors[$current_floor->level])) {
+									if (count(array_diff_assoc($floors[$current_floor->level],$current_floor->to_array()))) {
+										foreach ($floors[$current_floor->level] as $key => $value) {
+											if ($value != $current_floor->$key) {
+												where('id = %d',$current_floor->id)->update($stack.'>floor',$floors[$current_floor->level]);
+												break;
+											}
 										}
 									}
+									$existing_floors[] = $current_floor->level;
+								} else {
+									where('id = %d',$current_record->id)->delete($stack.'>floor');
 								}
-								$existing_floors[] = $current_floor->level;
-							} else {
-								where('id = %d',$current_record->id)->delete('skarabee>property>floor');
 							}
+							$floors = array_diff_key($floors,array_flip($existing_floors));
 						}
-						$floors = array_diff_key($floors,array_flip($existing_floors));
 						
 						// Update data
-						where('id = %d',$existing->id)->update('skarabee>property',$data);
+						where('id = %d',$existing->id)->update($stack,$data);
 						
 						$id = $existing->id;
 						
 					} else {
 				    	
-						$id = insert('skarabee>property',$data);
+						$id = insert($stack,$data);
 						
 					}
 					
 					// Create new photos
 					foreach ($photos as $key => $photo) {
 						$newphoto = array(
-				    		'property_id' => $id,
+				    		( $is_project ? 'project_id' : 'property_id' ) => $id,
 				    		'orig_filename' => $photo['orig_filename'],
 				    		'filename' => 'properties/'.$id.'/'.md5($photo['orig_filename']).'.jpg',
 				    		'upload_date' => time(),
@@ -1278,7 +1339,7 @@ class Skarabee extends Controller {
 			    			'image_type' => $photo['type']
 				    	);
 						foreach (array_keys(languages()) as $language) {
-							$newphoto['alt_'.$language] = $data['subcategory_'.$language].' '.l(array('nl'=>'in','fr'=>'a','en'=>'in'),$language).' '.$data['city'];
+							$newphoto['alt_'.$language] = $is_project ? $data['name'] : $data['subcategory_'.$language].' '.l(array('nl'=>'in','fr'=>'a','en'=>'in'),$language).' '.$data['city'];
 							$newphoto['slug_'.$language] = slug_format($newphoto['alt_'.$language]);
 						}
 						
@@ -1286,20 +1347,20 @@ class Skarabee extends Controller {
 						if (!file_exists(FILESPATH.'properties/'.$id)) mkdir(FILESPATH.'properties/'.$id);
 				    	
 				    	if (self::download_remote_file($photo['url'], FILESPATH.$newphoto['filename'])) {
-				    		insert('skarabee>property>photo',$newphoto);
+				    		insert($stack.'>photo',$newphoto);
 				    	}
 					}
 					
 					// Add new documents
 					foreach ($documents as $key => $document) {
-						$document['property_id'] = $id;
-				    	insert('skarabee>property>file',$document);
+						$document[ $is_project ? 'project_id' : 'property_id' ] = $id;
+				    	insert($stack.'>file',$document);
 					}
 					
 					// Add new open house
 					foreach ($openhouse as $key => $record) {
-						insert('skarabee>property>open_house',array(
-				    		'property_id' => $id,
+						insert($stack.'>open_house',array(
+				    		( $is_project ? 'project_id' : 'property_id' ) => $id,
 				    		'comment' => $record['comment'],
 				    		'fromdate' => $record['from'],
 				    		'todate' => $record['to']
@@ -1307,14 +1368,16 @@ class Skarabee extends Controller {
 					}
 					
 					// Add new floors
-					foreach ($floors as $level => $floor) {
-						$floor['property_id'] = $id;
-						insert('skarabee>property>floor',$floor);
+					if (!$is_project) {
+						foreach ($floors as $level => $floor) {
+							$floor[ $is_project ? 'project_id' : 'property_id' ] = $id;
+							insert($stack.'>floor',$floor);
+						}
 					}
 					
 					$present_properties[] = $data['software_id'];
 					
-					$current = where('id = %d',$id)->get_row('skarabee>property');
+					$current = where('id = %d',$id)->get_row($stack);
 					
 					$feedbacks[] = array(
 						'PublicationID' => $data['publication_id'],
@@ -1339,6 +1402,17 @@ class Skarabee extends Controller {
 					);
 			    }
 			    where('software_id NOT IN %$',$present_properties)->delete('skarabee>property');
+			    
+			    foreach (where('software_id NOT IN %$',$present_properties)->get('skarabee>project') as $todelete) {
+				    $feedbacks[] = array(
+						'PublicationID' => $todelete->publication_id,
+						'Status' => 'DELETED',
+						'StatusDescription' => 'Property was deleted',
+						'ExternalID' => $todelete->id,
+						'URL' => $todelete->url
+					);
+			    }
+			    where('software_id NOT IN %$',$present_properties)->delete('skarabee>project');
 		    }
 		    
 		    $site = current_site();
@@ -1465,5 +1539,34 @@ class Skarabee extends Controller {
 	    
 	    return self::$client;
 	}
+	
+	/**
+	* Geocodes an address
+	*
+	* @return Array Returns an array containing lat and lon
+	*/
+
+    private static $delay = 0;
+
+    private static function geocode($address) {
+    	$base_url = "http://maps.googleapis.com/maps/api/geocode/xml?sensor=false";
+        while (true) {
+    	    $request_url = $base_url . "&address=" . urlencode(utf8_encode($address));
+    	    $xml = @simplexml_load_file($request_url);
+
+    	    if ($xml) {
+
+    		    $status = $xml->status;
+
+    		    if (strcmp($status, "OK") == 0) {
+    		      return array('lat'=>floatval(str_replace(',','.', $xml->result->geometry->location->lat)),'lon'=>floatval(str_replace(',','.', $xml->result->geometry->location->lng)));
+    		    } else if (strcmp($status, "OVER_QUERY_LIMIT") == 0) self::$delay += 100000;
+    		    else return false;
+
+    	    } else self::$delay += 100000;
+
+    	    usleep(self::$delay);
+        }
+    }
 	
 }

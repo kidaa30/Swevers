@@ -48,11 +48,18 @@ small{font-size: rem-calc(14)}
 	padding-top: 80px;
 	min-height: 100vh;
 	@include box-sizing(border-box);
+	@include below(950px){padding-top: 110px;}
+	@include below(720px){padding-top: 170px;}
+	@include below(500px){padding-top: 90px;}
 	body.content &{
 		background-color: rgba($white, 0.9);
 		.container{
 			padding-top: $gutter;
 			padding-bottom: $gutter + 60px;
+			@include below(1170px){padding-bottom: $gutter + 121px;}
+			@include below(850px){padding-bottom: $gutter + 142px;}
+			@include below(768px){padding-top: $half-gutter;}
+			@include below(650px){padding-top: $half-gutter + 163px;}
 		}
 	}
 }
@@ -213,7 +220,7 @@ nav[role="navigation"]{
 		padding: 0;
 		list-style-type: none;
 		float: left;
-		@include between(950px, 1280px){
+		@include between(951px, 1280px){
 			float: none;
 			&:first-child{margin-bottom: 10px;}
 		}
@@ -348,5 +355,25 @@ footer{
 	a{
 		color: $white;
 		text-decoration: none;
+	}
+	@include below(1170px){
+		line-height: rem-calc(21);
+		padding: 20px 0;
+		.container > .left, & .container  > .right{
+			float: none;
+			display: table;
+			margin: 0 auto;
+			text-align: center;
+		}
+	}
+	@include below(850px){
+		.container > .left span{
+			display: block;
+		}
+	}
+	@include below(650px){
+		.container > .left strong{
+			display: block;
+		}
 	}
 }

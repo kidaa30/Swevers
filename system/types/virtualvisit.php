@@ -358,50 +358,55 @@ class Virtualvisit_type extends FW4_Type {
 						}
 					},
 					beforeShow: function() {
-						$.each(spots,function(){
-							var marker = $('<div class="marker"><div class="origin"></div><div class="target"></div><div class="arrow"></div><div class="gradient"></div></div>');
-							marker.find('.origin,.arrow,.gradient').css({
-								left: ($('.virtualvisitflooredit .content').width() / 100 * this.positionx) + 'px',
-								top: ($('.virtualvisitflooredit .content').height() / 100 * this.positiony) + 'px'
+						var i = new Image();
+						i.onload = function(){
+							$.each(spots,function(){
+								var marker = $('<div class="marker"><div class="origin"></div><div class="target"></div><div class="arrow"></div><div class="gradient"></div></div>');
+								marker.find('.origin,.arrow,.gradient').css({
+									left: ($('.virtualvisitflooredit .content').width() / 100 * this.positionx) + 'px',
+									top: ($('.virtualvisitflooredit .content').height() / 100 * this.positiony) + 'px'
+								});
+								marker.find('.target').css({
+									left: ($('.virtualvisitflooredit .content').width() / 100 * this.targetx) + 'px',
+									top: ($('.virtualvisitflooredit .content').height() / 100 * this.targety) + 'px'
+								});
+								$('.virtualvisitflooredit .content').append(marker);
+								
+								setupVirtualVisitMarker(marker);
+								
+								marker.data('type',this.type);
+								marker.data('photo',this.image_id);
+								
+								marker.toggleClass('render',this.type==2);
+								
+								var centerx = $('.virtualvisitflooredit .content').width() / 100 * this.positionx;
+								var centery = $('.virtualvisitflooredit .content').height() / 100 * this.positiony;
+								
+								var targetx = $('.virtualvisitflooredit .content').width() / 100 * this.targetx;
+								var targety = $('.virtualvisitflooredit .content').height() / 100 * this.targety;
+								
+								var radians = Math.atan2(targetx - centerx, targety - centery);
+								var degrees = (radians * (180 / Math.PI) * -1) + 45;
+								
+								var distance = Math.sqrt(Math.abs((targetx - centerx)*(targetx - centerx) + (targety - centery)*(targety - centery)));
+								
+								marker.find('.arrow').css('height',distance+'px');
+								
+								marker.find('.gradient').css('-moz-transform', 'rotate('+degrees+'deg)');
+								marker.find('.gradient').css('-webkit-transform', 'rotate('+degrees+'deg)');
+								marker.find('.gradient').css('-o-transform', 'rotate('+degrees+'deg)');
+								marker.find('.gradient').css('-ms-transform', 'rotate('+degrees+'deg)');
+								marker.find('.gradient').css('transform', 'rotate('+degrees+'deg)');
+								
+								marker.find('.arrow').css('-moz-transform', 'rotate('+(degrees-45)+'deg)');
+								marker.find('.arrow').css('-webkit-transform', 'rotate('+(degrees-45)+'deg)');
+								marker.find('.arrow').css('-o-transform', 'rotate('+(degrees-45)+'deg)');
+								marker.find('.arrow').css('-ms-transform', 'rotate('+(degrees-45)+'deg)');
+								marker.find('.arrow').css('transform', 'rotate('+(degrees-45)+'deg)');
 							});
-							marker.find('.target').css({
-								left: ($('.virtualvisitflooredit .content').width() / 100 * this.targetx) + 'px',
-								top: ($('.virtualvisitflooredit .content').height() / 100 * this.targety) + 'px'
-							});
-							$('.virtualvisitflooredit .content').append(marker);
-							
-							setupVirtualVisitMarker(marker);
-							
-							marker.data('type',this.type);
-							marker.data('photo',this.image_id);
-							
-							marker.toggleClass('render',this.type==2);
-							
-							var centerx = $('.virtualvisitflooredit .content').width() / 100 * this.positionx;
-							var centery = $('.virtualvisitflooredit .content').height() / 100 * this.positiony;
-							
-							var targetx = $('.virtualvisitflooredit .content').width() / 100 * this.targetx;
-							var targety = $('.virtualvisitflooredit .content').height() / 100 * this.targety;
-							
-							var radians = Math.atan2(targetx - centerx, targety - centery);
-							var degrees = (radians * (180 / Math.PI) * -1) + 45;
-							
-							var distance = Math.sqrt(Math.abs((targetx - centerx)*(targetx - centerx) + (targety - centery)*(targety - centery)));
-							
-							marker.find('.arrow').css('height',distance+'px');
-							
-							marker.find('.gradient').css('-moz-transform', 'rotate('+degrees+'deg)');
-							marker.find('.gradient').css('-webkit-transform', 'rotate('+degrees+'deg)');
-							marker.find('.gradient').css('-o-transform', 'rotate('+degrees+'deg)');
-							marker.find('.gradient').css('-ms-transform', 'rotate('+degrees+'deg)');
-							marker.find('.gradient').css('transform', 'rotate('+degrees+'deg)');
-							
-							marker.find('.arrow').css('-moz-transform', 'rotate('+(degrees-45)+'deg)');
-							marker.find('.arrow').css('-webkit-transform', 'rotate('+(degrees-45)+'deg)');
-							marker.find('.arrow').css('-o-transform', 'rotate('+(degrees-45)+'deg)');
-							marker.find('.arrow').css('-ms-transform', 'rotate('+(degrees-45)+'deg)');
-							marker.find('.arrow').css('transform', 'rotate('+(degrees-45)+'deg)');
-						});
+						}
+						i.src = image;
+						
 						$('.virtualvisitflooredit select[name="type"]').change(function(){
 							if (virtualVisitActiveElement) {
 								virtualVisitActiveElement.parents('.marker').data('type',$(this).val());

@@ -54,6 +54,10 @@ class Images extends FW4_Type {
 	}
     
     public function edited($field,$data,$object) {
+	    
+	    $editable = (!isset($object['editing_disabled']) || (isset($field['editing_disabled']) && $field['editing_disabled'] == 'false')) && !isset($field['readonly']);
+	    
+	    if (!$editable) return;
     
     	$fieldname = strval($field['name']);
     	
